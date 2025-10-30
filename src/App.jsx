@@ -395,7 +395,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         
         <div className="relative z-10">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
-            Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>.
+            Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>
           </h1>
           <h2 className="mt-6 mb-16 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto">
             {portfolioData.tagline}
