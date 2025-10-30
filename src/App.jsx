@@ -13,12 +13,13 @@ import {
   X,
   Send,
   User,
-  MessageSquare
+  MessageSquare,
+  Bot, // New: Added Bot icon
+  Loader2, // New: Added Loader icon
+  Menu // FIX: Added Menu icon for mobile navigation
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
-// This object holds all the text content for your portfolio.
-// Update this section to change the content across the site.
 const portfolioData = {
   name: "Muhammad Iqbal",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
@@ -142,7 +143,7 @@ const portfolioData = {
 
 // --- GEMINI API AGENT ---
 // This is the system prompt that defines your AI Agent's persona and knowledge.
-// It's pre-loaded with your CV data.
+// It will be sent to our secure backend.
 const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent representing Muhammad Iqbal Hilmy Izzulhaq. Your personality is helpful, professional, and highly knowledgeable about Iqbal's skills. Your goal is to answer questions from recruiters and visitors about Iqbal's professional background.
 
 **STRICT RULES:**
@@ -215,9 +216,11 @@ export default function App() {
       
       <Footer navigateTo={navigateTo} />
 
+      {/* The modal is now simpler and doesn't need the apiKey */}
       {isAgentModalOpen && (
         <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
       )}
+      {/* The ApiKeyManager pop-up is GONE. */}
     </div>
   );
 }
@@ -229,13 +232,22 @@ export default function App() {
  * Displays navigation links and logo.
  */
 const Header = ({ currentPage, navigateTo }) => {
-  const NavLink = ({ page, children }) => (
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const NavLink = ({ page, children, isMobile = false }) => (
     <button
-      onClick={() => navigateTo(page)}
-      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+      onClick={() => {
+        navigateTo(page);
+        setIsMobileMenuOpen(false); // Close mobile menu on click
+      }}
+      className={`transition-colors ${
+        isMobile
+          ? 'block w-full text-left px-4 py-3 rounded-lg text-lg'
+          : 'px-4 py-2 rounded-md text-sm font-medium'
+      } ${
         currentPage === page
-          ? 'bg-sky-600 text-white'
-          : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+          ? (isMobile ? 'bg-sky-900/50 text-sky-300' : 'bg-sky-600 text-white')
+          : (isMobile ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white')
       }`}
     >
       {children}
@@ -254,6 +266,7 @@ const Header = ({ currentPage, navigateTo }) => {
               {portfolioData.name}.
             </button>
           </div>
+          {/* Desktop Nav */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               <NavLink page="Hero">Home</NavLink>
@@ -264,8 +277,30 @@ const Header = ({ currentPage, navigateTo }) => {
               <NavLink page="Contact">Contact</NavLink>
             </div>
           </div>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-300 hover:text-white p-2 rounded-md"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </nav>
+
+      {/* Mobile Menu Dropdown */}
+      <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} border-t border-gray-800`}>
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <NavLink page="Hero" isMobile>Home</NavLink>
+          <NavLink page="About" isMobile>About</NavLink>
+          <NavLink page="Experience" isMobile>Experience</NavLink>
+          <NavLink page="Projects" isMobile>Projects</NavLink>
+          <NavLink page="Education" isMobile>Education</NavLink>
+          <NavLink page="Contact" isMobile>Contact</NavLink>
+        </div>
+      </div>
     </header>
   );
 };
@@ -655,6 +690,7 @@ const Contact = () => (
 /**
  * AgentChatModal Component
  * Handles the AI agent chat interface and API calls.
+ * This version calls the SECURE Vercel backend.
  */
 const AgentChatModal = ({ closeModal }) => {
   const [messages, setMessages] = useState([
@@ -662,42 +698,54 @@ const AgentChatModal = ({ closeModal }) => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null); // To display errors to the user
   const messagesEndRef = useRef(null);
 
   // Auto-scroll to bottom of chat
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isLoading]);
 
-  // Handle Gemini API Call
+  // Handle API Call to our Vercel Backend
   const askAgent = async (message) => {
     setIsLoading(true);
+    setError(null); // Clear previous errors
     setMessages(prev => [...prev, { role: 'user', text: message }]);
 
     try {
-      const resp = await fetch('/api/askAgent', {
+      // Call our NEW backend endpoint at `/api/askAgent`
+      const response = await fetch('/api/askAgent', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          message,
-          systemInstruction: AGENT_SYSTEM_PROMPT,
-        })
+          message: message,
+          systemInstruction: AGENT_SYSTEM_PROMPT // Send the prompt to the backend
+        }),
       });
 
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({}));
-        throw new Error(err.error || `API error: ${resp.statusText}`);
+      if (!response.ok) {
+        // Get error message from backend's JSON response
+        const errData = await response.json();
+        throw new Error(errData.error || `Server error: ${response.status}`);
       }
 
-      const data = await resp.json();
-      if (data?.text) {
-        setMessages(prev => [...prev, { role: 'agent', text: data.text }]);
+      const data = await response.json();
+      const agentText = data.text;
+
+      if (agentText) {
+        setMessages(prev => [...prev, { role: 'agent', text: agentText }]);
       } else {
-        throw new Error('Invalid response from server');
+        throw new Error("Invalid response structure from API.");
       }
+
     } catch (error) {
-      console.error('Agent call failed:', error);
-      setMessages(prev => [...prev, { role: 'agent', text: "My apologies, the agent is temporarily unavailable. Please try again shortly." }]);
+      console.error("Agent API call failed:", error);
+      // Display a user-friendly error in the chat
+      const errorMessage = `My apologies, the agent is temporarily unavailable. Please try again shortly. (Details: ${error.message})`;
+      setMessages(prev => [...prev, { role: 'agent', text: errorMessage }]);
+      setError(errorMessage); // Set the error state
     } finally {
       setIsLoading(false);
     }
@@ -725,7 +773,7 @@ const AgentChatModal = ({ closeModal }) => {
           <div className="flex items-center space-x-3">
             <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
               <span className="flex h-full w-full items-center justify-center rounded-full bg-sky-800 text-white font-bold">
-                <Cpu className="w-6 h-6" />
+                <Bot className="w-6 h-6" /> {/* Use Bot icon */}
               </span>
             </span>
             <div>
@@ -742,9 +790,18 @@ const AgentChatModal = ({ closeModal }) => {
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-grow p-4 space-y-4 overflow-y-auto">
+        <div className="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar"> {/* Added custom-scrollbar */}
           {messages.map((msg, index) => (
-            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              {/* Icon for agent */}
+              {msg.role === 'agent' && (
+                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-800">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
+                    <Bot className="w-5 w-5" />
+                  </span>
+                </span>
+              )}
+              
               <div
                 className={`max-w-[75%] p-3 rounded-2xl ${
                   msg.role === 'user'
@@ -754,21 +811,44 @@ const AgentChatModal = ({ closeModal }) => {
               >
                 <p className="text-base">{msg.text}</p>
               </div>
+
+              {/* Icon for user */}
+              {msg.role === 'user' && (
+                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-600">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
+                    <User className="w-5 w-5" />
+                  </span>
+                </span>
+              )}
             </div>
           ))}
+          
+          {/* Loading Indicator */}
           {isLoading && (
-            <div className="flex justify-start">
+            <div className="flex items-start gap-3 justify-start">
+               <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-800">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
+                    <Bot className="w-5 w-5" />
+                  </span>
+                </span>
               <div className="max-w-[75%] p-3 rounded-2xl bg-gray-800 text-gray-200 rounded-bl-none">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse animation-delay-200"></div>
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse animation-delay-400"></div>
+                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
+                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
                 </div>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
+        
+        {/* Error Display */}
+        {error && (
+          <div className="p-3 border-t border-gray-700 bg-red-900/50 text-red-300 text-sm">
+            <strong>Error:</strong> {error}
+          </div>
+        )}
 
         {/* Input Form */}
         <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700 flex-shrink-0">
@@ -783,8 +863,8 @@ const AgentChatModal = ({ closeModal }) => {
             />
             <button
               type="submit"
-              disabled={isLoading}
-              className="p-3 bg-sky-600 text-white rounded-full transition-colors hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading || !input.trim()}
+              className="p-3 bg-sky-600 text-white rounded-full transition-colors hover:bg-sky-500 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-6 h-6" />
             </button>
@@ -794,4 +874,5 @@ const AgentChatModal = ({ closeModal }) => {
     </div>
   );
 };
+
 
