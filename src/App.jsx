@@ -67,7 +67,7 @@ const portfolioData = {
     {
       title: "Career Digital Twin (RAG Chatbot)",
       description: "Built and deployed a personal agent to represent my skills and experience to potential employers, automating the initial stages of job applications.",
-      demoUrl: "https://huggingface.co/spaces/Shiverion/career_conversations",
+      demoUrl: "https://huggingface.co/spaces/Shiverion",
       repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG"
     },
     {
