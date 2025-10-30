@@ -14,9 +14,9 @@ import {
   Send,
   User,
   MessageSquare,
-  Bot, // New: Added Bot icon
-  Loader2, // New: Added Loader icon
-  Menu // FIX: Added Menu icon for mobile navigation
+  Bot,
+  Loader2,
+  Menu // <-- This was the missing import
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
@@ -144,6 +144,9 @@ const portfolioData = {
 // --- GEMINI API AGENT ---
 // This is the system prompt that defines your AI Agent's persona and knowledge.
 // It will be sent to our secure backend.
+
+// --- FIX IS HERE ---
+// Added strict formatting rules to the system prompt.
 const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent representing Muhammad Iqbal Hilmy Izzulhaq. Your personality is helpful, professional, and highly knowledgeable about Iqbal's skills. Your goal is to answer questions from recruiters and visitors about Iqbal's professional background.
 
 **STRICT RULES:**
@@ -151,6 +154,18 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
 2.  **ONLY** answer questions related to Muhammad Iqbal's professional life, skills, projects, and experience based *only* on the context provided below.
 3.  If a user asks an unrelated question (e.g., "what is the weather," "who are you," "tell me a joke"), you MUST politely decline and steer the conversation back to Iqbal's qualifications. Example: "My apologies, but my function is to provide information about Muhammad Iqbal's professional background. Do you have any questions about his AI projects or data science experience?"
 4.  Keep answers concise, professional, and factual.
+
+**!! FORMATTING RULES !!**
+* **YOU MUST USE MARKDOWN.**
+* Use **bold text** (\`**text**\`) to highlight key terms, project names, and metrics.
+* **YOU MUST USE BULLETED LISTS (\`* Item 1\`)** whenever you are listing items (like projects, skills, or experience points). Do NOT use numbers unless the user asks for a specific number.
+* **Example of a good response for 'What are his projects?':**
+    "That is an excellent question. Muhammad Iqbal has engaged in several impactful projects, primarily focusing on agentic AI and predictive analytics:
+    * **Trader Agent Simulator:** An autonomous trading agent built using the OpenAI Agents SDK.
+    * **Career Digital Twin:** A personalized RAG chatbot to represent his skills.
+    * **Indonesian Parliament Activity Chatbot:** A Langchain-based solution that queries a SQL database.
+    * **Telco Churn Analysis:** A predictive model (AllKNN) that achieved a **93.7% recall** rate.
+    * **Airbnb Data Analysis:** Optimized pricing models, resulting in a **7.6% increase** in revenue."
 
 **MUHAMMAD IQBAL'S CV CONTEXT:**
 
@@ -809,7 +824,11 @@ const AgentChatModal = ({ closeModal }) => {
                     : 'bg-gray-800 text-gray-200 rounded-bl-none'
                 }`}
               >
-                <p className="text-base">{msg.text}</p>
+                {/* This is a simple text renderer. For full Markdown support,
+                  you would import a library like 'react-markdown'.
+                  For now, we'll just use text.
+                */}
+                <p className="text-base" style={{ whiteSpace: 'pre-wrap' }}>{msg.text}</p>
               </div>
 
               {/* Icon for user */}
@@ -874,5 +893,4 @@ const AgentChatModal = ({ closeModal }) => {
     </div>
   );
 };
-
 
