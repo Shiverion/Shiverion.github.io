@@ -674,51 +674,30 @@ const AgentChatModal = ({ closeModal }) => {
     setIsLoading(true);
     setMessages(prev => [...prev, { role: 'user', text: message }]);
 
-    const chatHistory = messages.map(msg => ({
-      role: msg.role === 'agent' ? 'model' : 'user',
-      parts: [{ text: msg.text }]
-    }));
-    chatHistory.push({
-        role: 'user',
-        parts: [{ text: message }]
-    });
-    
-    // Construct the payload
-    const payload = {
-        contents: chatHistory,
-        systemInstruction: {
-            parts: [{ text: AGENT_SYSTEM_PROMPT }]
-        },
-    };
-
-    // FIX: Using the correct method to construct the API URL for the Canvas environment
-    // Note: The API key is implicitly provided by the environment when the API key is an empty string
-    const apiKey = "";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
     try {
-      const response = await fetch(apiUrl, {
+      const resp = await fetch('/api/askAgent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          message,
+          systemInstruction: AGENT_SYSTEM_PROMPT,
+        })
       });
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.statusText}`);
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error || `API error: ${resp.statusText}`);
       }
 
-      const result = await response.json();
-      const agentText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (agentText) {
-        setMessages(prev => [...prev, { role: 'agent', text: agentText }]);
+      const data = await resp.json();
+      if (data?.text) {
+        setMessages(prev => [...prev, { role: 'agent', text: data.text }]);
       } else {
-        throw new Error("Invalid response structure from API.");
+        throw new Error('Invalid response from server');
       }
-
     } catch (error) {
-      console.error("Gemini API call failed:", error);
-      setMessages(prev => [...prev, { role: 'agent', text: "My apologies, I seem to be experiencing a connection issue. Please try again in a moment." }]);
+      console.error('Agent call failed:', error);
+      setMessages(prev => [...prev, { role: 'agent', text: "My apologies, the agent is temporarily unavailable. Please try again shortly." }]);
     } finally {
       setIsLoading(false);
     }
