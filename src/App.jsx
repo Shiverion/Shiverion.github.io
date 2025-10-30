@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-// Import ReactMarkdown
-import ReactMarkdown from 'react-markdown';
 import {
   Briefcase,
   Lightbulb,
@@ -15,13 +13,12 @@ import {
   X,
   Send,
   User,
-  MessageSquare,
-  Bot,
-  Loader2,
-  Menu
+  MessageSquare
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
+// This object holds all the text content for your portfolio.
+// Update this section to change the content across the site.
 const portfolioData = {
   name: "Muhammad Iqbal",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
@@ -144,6 +141,8 @@ const portfolioData = {
 };
 
 // --- GEMINI API AGENT ---
+// This is the system prompt that defines your AI Agent's persona and knowledge.
+// It's pre-loaded with your CV data.
 const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent representing Muhammad Iqbal Hilmy Izzulhaq. Your personality is helpful, professional, and highly knowledgeable about Iqbal's skills. Your goal is to answer questions from recruiters and visitors about Iqbal's professional background.
 
 **STRICT RULES:**
@@ -151,18 +150,6 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
 2.  **ONLY** answer questions related to Muhammad Iqbal's professional life, skills, projects, and experience based *only* on the context provided below.
 3.  If a user asks an unrelated question (e.g., "what is the weather," "who are you," "tell me a joke"), you MUST politely decline and steer the conversation back to Iqbal's qualifications. Example: "My apologies, but my function is to provide information about Muhammad Iqbal's professional background. Do you have any questions about his AI projects or data science experience?"
 4.  Keep answers concise, professional, and factual.
-
-**!! FORMATTING RULES !!**
-* **YOU MUST USE MARKDOWN.**
-* Use **bold text** (\`**text**\`) to highlight key terms, project names, and metrics.
-* **YOU MUST USE BULLETED LISTS (\`* Item 1\`)** whenever you are listing items (like projects, skills, or experience points). Do NOT use numbers unless the user asks for a specific number.
-* **Example of a good response for 'What are his projects?':**
-    "That is an excellent question. Muhammad Iqbal has engaged in several impactful projects, primarily focusing on agentic AI and predictive analytics:
-    * **Trader Agent Simulator:** An autonomous trading agent built using the OpenAI Agents SDK.
-    * **Career Digital Twin:** A personalized RAG chatbot to represent his skills.
-    * **Indonesian Parliament Activity Chatbot:** A Langchain-based solution that queries a SQL database.
-    * **Telco Churn Analysis:** A predictive model (AllKNN) that achieved a **93.7% recall** rate.
-    * **Airbnb Data Analysis:** Optimized pricing models, resulting in a **7.6% increase** in revenue."
 
 **MUHAMMAD IQBAL'S CV CONTEXT:**
 
@@ -228,11 +215,9 @@ export default function App() {
       
       <Footer navigateTo={navigateTo} />
 
-      {/* The modal is now simpler and doesn't need the apiKey */}
       {isAgentModalOpen && (
         <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
       )}
-      {/* The ApiKeyManager pop-up is GONE. */}
     </div>
   );
 }
@@ -244,22 +229,13 @@ export default function App() {
  * Displays navigation links and logo.
  */
 const Header = ({ currentPage, navigateTo }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const NavLink = ({ page, children, isMobile = false }) => (
+  const NavLink = ({ page, children }) => (
     <button
-      onClick={() => {
-        navigateTo(page);
-        setIsMobileMenuOpen(false); // Close mobile menu on click
-      }}
-      className={`transition-colors ${
-        isMobile
-          ? 'block w-full text-left px-4 py-3 rounded-lg text-lg'
-          : 'px-4 py-2 rounded-md text-sm font-medium'
-      } ${
+      onClick={() => navigateTo(page)}
+      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
         currentPage === page
-          ? (isMobile ? 'bg-sky-900/50 text-sky-300' : 'bg-sky-600 text-white')
-          : (isMobile ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white')
+          ? 'bg-sky-600 text-white'
+          : 'text-gray-300 hover:bg-gray-800 hover:text-white'
       }`}
     >
       {children}
@@ -278,7 +254,6 @@ const Header = ({ currentPage, navigateTo }) => {
               {portfolioData.name}.
             </button>
           </div>
-          {/* Desktop Nav */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               <NavLink page="Hero">Home</NavLink>
@@ -289,30 +264,8 @@ const Header = ({ currentPage, navigateTo }) => {
               <NavLink page="Contact">Contact</NavLink>
             </div>
           </div>
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-300 hover:text-white p-2 rounded-md"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
         </div>
       </nav>
-
-      {/* Mobile Menu Dropdown */}
-      <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} border-t border-gray-800`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <NavLink page="Hero" isMobile>Home</NavLink>
-          <NavLink page="About" isMobile>About</NavLink>
-          <NavLink page="Experience" isMobile>Experience</NavLink>
-          <NavLink page="Projects" isMobile>Projects</NavLink>
-          <NavLink page="Education" isMobile>Education</NavLink>
-          <NavLink page="Contact" isMobile>Contact</NavLink>
-        </div>
-      </div>
     </header>
   );
 };
@@ -702,7 +655,6 @@ const Contact = () => (
 /**
  * AgentChatModal Component
  * Handles the AI agent chat interface and API calls.
- * This version calls the SECURE Vercel backend.
  */
 const AgentChatModal = ({ closeModal }) => {
   const [messages, setMessages] = useState([
@@ -710,41 +662,53 @@ const AgentChatModal = ({ closeModal }) => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null); // To display errors to the user
   const messagesEndRef = useRef(null);
 
   // Auto-scroll to bottom of chat
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+  }, [messages]);
 
-  // Handle API Call to our Vercel Backend
+  // Handle Gemini API Call
   const askAgent = async (message) => {
     setIsLoading(true);
-    setError(null); // Clear previous errors
     setMessages(prev => [...prev, { role: 'user', text: message }]);
 
-    try {
-      // Call our NEW backend endpoint at `/api/askAgent`
-      const response = await fetch('/api/askAgent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    const chatHistory = messages.map(msg => ({
+      role: msg.role === 'agent' ? 'model' : 'user',
+      parts: [{ text: msg.text }]
+    }));
+    chatHistory.push({
+        role: 'user',
+        parts: [{ text: message }]
+    });
+    
+    // Construct the payload
+    const payload = {
+        contents: chatHistory,
+        systemInstruction: {
+            parts: [{ text: AGENT_SYSTEM_PROMPT }]
         },
-        body: JSON.stringify({
-          message: message,
-          systemInstruction: AGENT_SYSTEM_PROMPT // Send the prompt to the backend
-        }),
+    };
+
+    // FIX: Using the correct method to construct the API URL for the Canvas environment
+    // Note: The API key is implicitly provided by the environment when the API key is an empty string
+    const apiKey = "";
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
-        // Get error message from backend's JSON response
-        const errData = await response.json();
-        throw new Error(errData.error || `Server error: ${response.status}`);
+        throw new Error(`API error: ${response.statusText}`);
       }
 
-      const data = await response.json();
-      const agentText = data.text;
+      const result = await response.json();
+      const agentText = result.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (agentText) {
         setMessages(prev => [...prev, { role: 'agent', text: agentText }]);
@@ -753,11 +717,8 @@ const AgentChatModal = ({ closeModal }) => {
       }
 
     } catch (error) {
-      console.error("Agent API call failed:", error);
-      // Display a user-friendly error in the chat
-      const errorMessage = `My apologies, the agent is temporarily unavailable. Please try again shortly. (Details: ${error.message})`;
-      setMessages(prev => [...prev, { role: 'agent', text: errorMessage }]);
-      setError(errorMessage); // Set the error state
+      console.error("Gemini API call failed:", error);
+      setMessages(prev => [...prev, { role: 'agent', text: "My apologies, I seem to be experiencing a connection issue. Please try again in a moment." }]);
     } finally {
       setIsLoading(false);
     }
@@ -785,7 +746,7 @@ const AgentChatModal = ({ closeModal }) => {
           <div className="flex items-center space-x-3">
             <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
               <span className="flex h-full w-full items-center justify-center rounded-full bg-sky-800 text-white font-bold">
-                <Bot className="w-6 h-6" /> {/* Use Bot icon */}
+                <Cpu className="w-6 h-6" />
               </span>
             </span>
             <div>
@@ -802,20 +763,9 @@ const AgentChatModal = ({ closeModal }) => {
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar"> {/* Added custom-scrollbar */}
+        <div className="flex-grow p-4 space-y-4 overflow-y-auto">
           {messages.map((msg, index) => (
-            <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              {/* Icon for agent */}
-              {msg.role === 'agent' && (
-                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-800">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
-                    <Bot className="w-5 w-5" />
-                  </span>
-                </span>
-              )}
-              
-              {/* --- THIS IS THE FIX --- */}
-              {/* We now use ReactMarkdown and the 'prose' styles from Tailwind */}
+            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
                 className={`max-w-[75%] p-3 rounded-2xl ${
                   msg.role === 'user'
@@ -823,56 +773,23 @@ const AgentChatModal = ({ closeModal }) => {
                     : 'bg-gray-800 text-gray-200 rounded-bl-none'
                 }`}
               >
-                <ReactMarkdown
-                  className="prose prose-invert prose-sm"
-                  components={{
-                    // This makes links open in a new tab
-                    a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300" />
-                  }}
-                >
-                  {msg.text}
-                </ReactMarkdown>
+                <p className="text-base">{msg.text}</p>
               </div>
-              {/* --- END FIX --- */}
-
-
-              {/* Icon for user */}
-              {msg.role === 'user' && (
-                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-600">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
-                    <User className="w-5 w-5" />
-                  </span>
-                </span>
-              )}
             </div>
           ))}
-          
-          {/* Loading Indicator */}
           {isLoading && (
-            <div className="flex items-start gap-3 justify-start">
-               <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-800">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
-                    <Bot className="w-5 w-5" />
-                  </span>
-                </span>
+            <div className="flex justify-start">
               <div className="max-w-[75%] p-3 rounded-2xl bg-gray-800 text-gray-200 rounded-bl-none">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
+                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse animation-delay-200"></div>
+                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse animation-delay-400"></div>
                 </div>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
-        
-        {/* Error Display */}
-        {error && (
-          <div className="p-3 border-t border-gray-700 bg-red-900/50 text-red-300 text-sm">
-            <strong>Error:</strong> {error}
-          </div>
-        )}
 
         {/* Input Form */}
         <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700 flex-shrink-0">
@@ -887,8 +804,8 @@ const AgentChatModal = ({ closeModal }) => {
             />
             <button
               type="submit"
-              disabled={isLoading || !input.trim()}
-              className="p-3 bg-sky-600 text-white rounded-full transition-colors hover:bg-sky-500 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading}
+              className="p-3 bg-sky-600 text-white rounded-full transition-colors hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-6 h-6" />
             </button>
