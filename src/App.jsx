@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+// Import ReactMarkdown
+import ReactMarkdown from 'react-markdown';
 import {
   Briefcase,
   Lightbulb,
@@ -16,7 +18,7 @@ import {
   MessageSquare,
   Bot,
   Loader2,
-  Menu // <-- This was the missing import
+  Menu
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
@@ -142,11 +144,6 @@ const portfolioData = {
 };
 
 // --- GEMINI API AGENT ---
-// This is the system prompt that defines your AI Agent's persona and knowledge.
-// It will be sent to our secure backend.
-
-// --- FIX IS HERE ---
-// Added strict formatting rules to the system prompt.
 const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent representing Muhammad Iqbal Hilmy Izzulhaq. Your personality is helpful, professional, and highly knowledgeable about Iqbal's skills. Your goal is to answer questions from recruiters and visitors about Iqbal's professional background.
 
 **STRICT RULES:**
@@ -817,6 +814,8 @@ const AgentChatModal = ({ closeModal }) => {
                 </span>
               )}
               
+              {/* --- THIS IS THE FIX --- */}
+              {/* We now use ReactMarkdown and the 'prose' styles from Tailwind */}
               <div
                 className={`max-w-[75%] p-3 rounded-2xl ${
                   msg.role === 'user'
@@ -824,12 +823,18 @@ const AgentChatModal = ({ closeModal }) => {
                     : 'bg-gray-800 text-gray-200 rounded-bl-none'
                 }`}
               >
-                {/* This is a simple text renderer. For full Markdown support,
-                  you would import a library like 'react-markdown'.
-                  For now, we'll just use text.
-                */}
-                <p className="text-base" style={{ whiteSpace: 'pre-wrap' }}>{msg.text}</p>
+                <ReactMarkdown
+                  className="prose prose-invert prose-sm"
+                  components={{
+                    // This makes links open in a new tab
+                    a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300" />
+                  }}
+                >
+                  {msg.text}
+                </ReactMarkdown>
               </div>
+              {/* --- END FIX --- */}
+
 
               {/* Icon for user */}
               {msg.role === 'user' && (
