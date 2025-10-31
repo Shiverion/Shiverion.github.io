@@ -48,32 +48,57 @@ const portfolioData = {
   ],
   experiences: [
     {
+      role: "AI Tech & Data for Corporate Training (Project-Based)",
+      company: "RevoU",
+      period: "Aug 2025 – Present",
+      // --- UPDATED THIS SECTION ---
+      details: "<strong>Role: Mentor / Team Lead</strong> | <strong>Clients: Bayan Resources, PT Jalin, AXA Mandiri</strong>",
+      clients: [
+        {
+          name: "1. Bayan Resources",
+          points: [
+            "Led Generative AI for Mining Industry corporate program, introducing real-world AI applications in heavy industry — including predictive maintenance, supply chain optimization, and safety monitoring.",
+            "Delivered hands-on sessions on ChatGPT features, Agent Mode, and CustomGPT, enabling participants to apply AI tools in daily operational workflows.",
+            "Taught prompt engineering techniques (zero-shot & few-shot) for efficiency tasks such as report generation, production summaries, and SOP drafting.",
+            "Advocated for responsible AI use, covering topics on bias, data privacy, and ethical application of AI to support safety and sustainability in mining operations."
+          ]
+        },
+        {
+          name: "2. PT Jalin",
+          points: [
+            "Spearheaded Jalin’s first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n).",
+            "Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization.",
+            "Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects."
+          ]
+        },
+        {
+          name: "3. AXA Mandiri",
+          points: [
+            "Delivered comprehensive Tech, Data, and AI Literacy program for non-technical professionals to foster digital transformation.",
+            "Mentored teams to identify and apply AI-driven solutions to improve business efficiency and decision-making.",
+            { 
+              intro: "Covered foundational modules:",
+              modules: [
+                "<strong>Tech Primer:</strong> Building a digital mindset, understanding cloud, APIs, and innovation enablers.",
+                "<strong>Data Primer:</strong> Data lifecycle, cleaning, and visualization using Power BI and Power Pivot.",
+                "<strong>AI Primer:</strong> Everyday GenAI applications, risk awareness, and ethical AI practices.",
+                "<strong>Copilot Primer:</strong> Productivity enhancement through AI tools for summarization, drafting, and presentations."
+              ]
+            }
+          ]
+        }
+      ]
+      // --- END OF UPDATE ---
+    },
+    {
       role: "Data Scientist Intern",
       company: "The House of Representatives, Republic of Indonesia (DPR RI)",
-      period: "April 2025 – Present",
+      period: "April 2025 – October 2025",
       points: [
         "Conducted socioeconomic analysis on <strong>SUSENAS</strong> data to support policy recommendations through Python-based data wrangling, visualization, and dashboard reporting.",
         "Performed <strong>NLP</strong> on Mahkamah Konstitusi verdicts to extract key constitutional issues and identify trends in judicial review cases.",
         "Built a <strong>Retrieval-Augmented Generation (RAG)</strong> prototype to enhance legal document search and summarization for legislative insight.",
         "Leveraged <strong>Dify.AI and n8n</strong> to build no-code RAG workflows, enabling efficient legal content retrieval and autonomous document summarization with a user-friendly UI."
-      ]
-    },
-    {
-      role: "AI Tech & Data for Corporate Training (Project-Based)",
-      company: "RevoU",
-      period: "Aug 2025 – Present",
-      points: [
-        "<strong>Role: Mentor / Team Lead</strong> | <strong>Clients: Bayan Resources, PT Jalin, AXA Mandiri</strong>",
-        "<strong><u>1. Bayan Resources</u></strong>: Led Generative AI for Mining Industry corporate program, introducing real-world AI applications in heavy industry — including predictive maintenance, supply chain optimization, and safety monitoring.",
-        "Delivered hands-on sessions on ChatGPT features, Agent Mode, and CustomGPT, enabling participants to apply AI tools in daily operational workflows.",
-        "Taught prompt engineering techniques (zero-shot & few-shot) for efficiency tasks such as report generation, production summaries, and SOP drafting.",
-        "Advocated for responsible AI use, covering topics on bias, data privacy, and ethical application of AI to support safety and sustainability in mining operations.",
-        "<strong><u>2. PT Jalin</u></strong>: Spearheaded Jalin’s first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n).",
-        "Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization.",
-        "Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects.",
-        "<strong><u>3. AXA Mandiri</u></strong>: Delivered comprehensive Tech, Data, and AI Literacy program for non-technical professionals to foster digital transformation.",
-        "Mentored teams to identify and apply AI-driven solutions to improve business efficiency and decision-making.",
-        "Covered foundational modules: <ul class='list-disc list-outside space-y-1 pl-5 mt-2'><li><strong>Tech Primer:</strong> Building a digital mindset, understanding cloud, APIs, and innovation enablers.</li><li><strong>Data Primer:</strong> Data lifecycle, cleaning, and visualization using Power BI and Power Pivot.</li><li><strong>AI Primer:</strong> Everyday GenAI applications, risk awareness, and ethical AI practices.</li><li><strong>Copilot Primer:</strong> Productivity enhancement through AI tools for summarization, drafting, and presentations.</li></ul>"
       ]
     }
   ],
@@ -188,18 +213,18 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
 * **Summary:** Highly motivated Data Scientist passionate about building intelligent, autonomous AI agents. Experienced in frameworks like OpenAI Agents SDK, CrewAI, LangGraph, and AutoGen.
 * **Core Skills:** Agentic AI, Multi-agent Systems, LangGraph, CrewAI, RAG, NLP, Predictive Analytics, Python, SQL, Data Visualization (Tableau, Power BI), Machine Learning.
 
-* **Experience 1: Data Scientist Intern @ The House of Representatives, Republic of Indonesia (DPR RI) (April 2025 – Present)**
+* **Experience 1: AI Tech & Data for Corporate Training (Project-Based) @ RevoU (Aug 2025 – Present)**
+    * Role: Mentor / Team Lead
+    * Clients: Bayan Resources, PT Jalin, AXA Mandiri
+    * 1. Bayan Resources: Led Generative AI for Mining Industry corporate program, introducing real-world AI applications in heavy industry — including predictive maintenance, supply chain optimization, and safety monitoring. Delivered hands-on sessions on ChatGPT features, Agent Mode, and CustomGPT, enabling participants to apply AI tools in daily operational workflows. Taught prompt engineering techniques (zero-shot & few-shot) for efficiency tasks such as report generation, production summaries, and SOP drafting. Advocated for responsible AI use, covering topics on bias, data privacy, and ethical application of AI to support safety and sustainability in mining operations.
+    * 2. PT Jalin: Spearheaded Jalin’s first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n). Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization. Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects.
+    * 3. AXA Mandiri: Delivered comprehensive Tech, Data, and AI Literacy program for non-technical professionals to foster digital transformation. Covered foundational modules: Tech Primer (Building a digital mindset, understanding cloud, APIs, and innovation enablers), Data Primer (Data lifecycle, cleaning, and visualization using Power BI and Power Pivot), AI Primer (Everyday GenAI applications, risk awareness, and ethical AI practices), Copilot Primer (Productivity enhancement through AI tools for summarization, drafting, and presentations). Mentored teams to identify and apply AI-driven solutions to improve business efficiency and decision-making.
+
+* **Experience 2: Data Scientist Intern @ The House of Representatives, Republic of Indonesia (DPR RI) (April 2025 – October 2025)**
     * Analyzed SUSENAS data for policy recommendations (Python, visualization, dashboards).
     * Performed NLP on Mahkamah Konstitusi verdicts to identify trends.
     * Built a RAG prototype for legal document search and summarization.
     * Used Dify.AI and n8n for no-code RAG workflows.
-
-* **Experience 2: AI Tech & Data for Corporate Training (Project-Based) @ RevoU (Aug 2025 – Present)**
-    * Role: Mentor / Team Lead
-    * Clients: Bayan Resources, PT Jalin, AXA Mandiri
-    * 1. Bayan Resources: Led Generative AI for Mining Industry program. Taught AI applications (predictive maintenance, supply chain), ChatGPT/CustomGPT, and prompt engineering for reports and SOPs. Advocated for responsible AI in mining.
-    * 2. PT Jalin: Spearheaded AI Engineering training for non-developers. Taught no-code tools (Zapier, n8n), prompt engineering, and chatbot deployment (Telegram, Slack, WhatsApp) for process optimization.
-    * 3. AXA Mandiri: Delivered Tech, Data, and AI Literacy program. Covered modules on Tech Primer (cloud, APIs), Data Primer (Power BI), AI Primer (GenAI, ethics), and Copilot Primer.
 
 * **Key Projects:**
     1.  **Career Digital Twin (RAG Chatbot):** A personal agent to represent his skills to employers.
@@ -561,6 +586,7 @@ const About = () => (
 /**
  * Experience Page
  * Displays work experience timeline.
+ * --- THIS COMPONENT HAS BEEN UPDATED ---
  */
 const Experience = () => (
   <Section title="Working Experience" icon={<Briefcase />}>
@@ -571,11 +597,44 @@ const Experience = () => (
           <h3 className="text-2xl font-semibold text-white">{job.role}</h3>
           <p className="text-lg text-sky-400 mb-2">{job.company}</p>
           <p className="text-sm text-gray-400 mb-4">{job.period}</p>
-          <ul className="list-disc list-outside space-y-3 text-gray-300 text-lg pl-5">
-            {job.points.map((point, i) => (
-              <li key={i} dangerouslySetInnerHTML={{ __html: point }} />
-            ))}
-          </ul>
+          
+          {/* Check for the new 'clients' structure */}
+          {job.clients ? (
+            <div className="space-y-6">
+              {job.details && <p className="text-lg text-gray-300" dangerouslySetInnerHTML={{ __html: job.details }} />}
+              {job.clients.map((client, i) => (
+                <div key={i} className="pl-5">
+                  <h4 className="text-xl font-semibold text-white mb-3" dangerouslySetInnerHTML={{ __html: `<strong><u>${client.name}</u></strong>` }} />
+                  <ul className="list-disc list-outside space-y-3 text-gray-300 text-lg pl-5">
+                    {client.points.map((point, j) => {
+                      // Check if the point is an object with modules
+                      if (typeof point === 'object' && point.modules) {
+                        return (
+                          <li key={j}>
+                            {point.intro}
+                            <ul className="list-disc list-outside space-y-1 pl-5 mt-2">
+                              {point.modules.map((module, k) => (
+                                <li key={k} dangerouslySetInnerHTML={{ __html: module }} />
+                              ))}
+                            </ul>
+                          </li>
+                        );
+                      }
+                      // Otherwise, it's a string
+                      return <li key={j} dangerouslySetInnerHTML={{ __html: point }} />;
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            // Fallback to the old 'points' structure
+            <ul className="list-disc list-outside space-y-3 text-gray-300 text-lg pl-5">
+              {job.points.map((point, i) => (
+                <li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+              ))}
+            </ul>
+          )}
         </div>
       ))}
     </div>
@@ -1057,4 +1116,5 @@ const AgentChatModal = ({ closeModal }) => {
     </div>
   );
 };
+
 
