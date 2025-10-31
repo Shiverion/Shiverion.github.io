@@ -694,7 +694,7 @@ const AgentChatModal = ({ closeModal }) => {
     // FIX: Using the correct method to construct the API URL for the Canvas environment
     // Note: The API key is implicitly provided by the environment when the API key is an empty string
     const apiKey = "";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     try {
       const response = await fetch(apiUrl, {
