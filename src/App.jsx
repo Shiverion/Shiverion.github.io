@@ -59,13 +59,21 @@ const portfolioData = {
       ]
     },
     {
-      role: "AI Engineering for Corporate Training (Project-Based)",
-      company: "RevoU | Client: Jalin",
+      role: "AI Tech & Data for Corporate Training (Project-Based)",
+      company: "RevoU",
       period: "Aug 2025 – Present",
       points: [
-        "Spearheaded Jalin’s first corporate <strong>AI Engineering</strong> training, guiding non-developer employees to build AI agents for their daily tasks.",
-        "Taught participants to design and automate workflows with no-code tools (Zapier, n8n), apply prompt engineering, and deploy chatbots to Telegram, Slack, and WhatsApp.",
-        "Guided participants through assignments (individual & group), led technical simulations, and facilitated discussions via online channels."
+        "<strong>Role: Mentor / Team Lead</strong> | <strong>Clients: Bayan Resources, PT Jalin, AXA Mandiri</strong>",
+        "<strong><u>1. Bayan Resources</u></strong>: Led Generative AI for Mining Industry corporate program, introducing real-world AI applications in heavy industry — including predictive maintenance, supply chain optimization, and safety monitoring.",
+        "Delivered hands-on sessions on ChatGPT features, Agent Mode, and CustomGPT, enabling participants to apply AI tools in daily operational workflows.",
+        "Taught prompt engineering techniques (zero-shot & few-shot) for efficiency tasks such as report generation, production summaries, and SOP drafting.",
+        "Advocated for responsible AI use, covering topics on bias, data privacy, and ethical application of AI to support safety and sustainability in mining operations.",
+        "<strong><u>2. PT Jalin</u></strong>: Spearheaded Jalin’s first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n).",
+        "Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization.",
+        "Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects.",
+        "<strong><u>3. AXA Mandiri</u></strong>: Delivered comprehensive Tech, Data, and AI Literacy program for non-technical professionals to foster digital transformation.",
+        "Mentored teams to identify and apply AI-driven solutions to improve business efficiency and decision-making.",
+        "Covered foundational modules: <ul class='list-disc list-outside space-y-1 pl-5 mt-2'><li><strong>Tech Primer:</strong> Building a digital mindset, understanding cloud, APIs, and innovation enablers.</li><li><strong>Data Primer:</strong> Data lifecycle, cleaning, and visualization using Power BI and Power Pivot.</li><li><strong>AI Primer:</strong> Everyday GenAI applications, risk awareness, and ethical AI practices.</li><li><strong>Copilot Primer:</strong> Productivity enhancement through AI tools for summarization, drafting, and presentations.</li></ul>"
       ]
     }
   ],
@@ -186,10 +194,12 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     * Built a RAG prototype for legal document search and summarization.
     * Used Dify.AI and n8n for no-code RAG workflows.
 
-* **Experience 2: AI Engineering for Corporate Training @ RevoU (Client: Jalin) (Aug 2025 – Present)**
-    * Led Jalin's first corporate AI Engineering training for non-developers.
-    * Taught no-code tools (Zapier, n8n), prompt engineering, and chatbot deployment (Telegram, Slack, WhatsApp).
-    * Guided assignments, led technical simulations, and reported on performance.
+* **Experience 2: AI Tech & Data for Corporate Training (Project-Based) @ RevoU (Aug 2025 – Present)**
+    * Role: Mentor / Team Lead
+    * Clients: Bayan Resources, PT Jalin, AXA Mandiri
+    * 1. Bayan Resources: Led Generative AI for Mining Industry program. Taught AI applications (predictive maintenance, supply chain), ChatGPT/CustomGPT, and prompt engineering for reports and SOPs. Advocated for responsible AI in mining.
+    * 2. PT Jalin: Spearheaded AI Engineering training for non-developers. Taught no-code tools (Zapier, n8n), prompt engineering, and chatbot deployment (Telegram, Slack, WhatsApp) for process optimization.
+    * 3. AXA Mandiri: Delivered Tech, Data, and AI Literacy program. Covered modules on Tech Primer (cloud, APIs), Data Primer (Power BI), AI Primer (GenAI, ethics), and Copilot Primer.
 
 * **Key Projects:**
     1.  **Career Digital Twin (RAG Chatbot):** A personal agent to represent his skills to employers.
@@ -1047,6 +1057,4 @@ const AgentChatModal = ({ closeModal }) => {
     </div>
   );
 };
-
-
 
