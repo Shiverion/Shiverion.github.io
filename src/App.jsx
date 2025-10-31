@@ -25,6 +25,9 @@ import {
 const portfolioData = {
   name: "Muhammad Iqbal",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
+  // --- ADDED YOUR PROFILE IMAGE URL HERE ---
+  // --- Replace this placeholder with the path to your photo in the /public folder (e.g., "/my-photo.jpg") ---
+  profileImageUrl: "\images\WhatsApp Image 2025-10-31 at 20.16.41_b46e49e8.jpg",
   bio: [
     "A highly motivated and results-oriented Data Scientist with a passion for building intelligent and autonomous AI agents. Recently completed 'The Complete Agentic AI Engineering Course,' gaining hands-on experience in designing, building, and deploying autonomous agents using cutting-edge frameworks like OpenAI Agents SDK, CrewAI, LangGraph, and AutoGen.",
     "Proven ability to apply Agentic AI to solve real-world commercial problems and architect robust and scalable AI solutions. My expertise lies in connecting LLMs with proven design patterns to solve complex problems, from RAG prototypes to multi-agent financial simulators."
@@ -71,31 +74,38 @@ const portfolioData = {
       title: "Career Digital Twin (RAG Chatbot)",
       description: "Built and deployed a personal agent to represent my skills and experience to potential employers, automating the initial stages of job applications.",
       demoUrl: "https://huggingface.co/spaces/Shiverion/career_conversations",
-      repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG"
+      repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG",
+      // --- ADDED PROJECT IMAGE URL HERE ---
+      // --- Replace this with the path to your project image (e.g., "/project-1.gif" or "/project-1.mp4") ---
+      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
     },
     {
       title: "Trader Agent Simulator – Autonomous Portfolio Management",
       description: "Built an intelligent trader agent using the <strong>OpenAI Agents SDK</strong>, capable of alternating between trading and rebalancing its portfolio using real-time insights from a researcher agent. Leveraged advanced async context management for clean multi-server handling, and integrated support for multiple LLM providers (OpenAI, DeepSeek, Google, Anthropic).",
       demoUrl: null,
-      repoUrl: null
+      repoUrl: null,
+      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
     },
     {
       title: "Indonesian Parliament Activity Chatbot",
       description: "This project implements a chatbot that can answer questions about the activities and agendas of the Indonesian Parliament members. It utilizes a SQL database containing agenda data and leverages large language models (LLMs) through the <strong>Langchain</strong> library to interact with the database and provide natural language responses.",
       demoUrl: null,
-      repoUrl: null
+      repoUrl: null,
+      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
     },
     {
       title: "Telco Churn Analysis",
       description: "Developed a churn prediction model using <strong>AllKNN</strong> with hyperparameter tuning, focused on minimizing false negatives. Achieved <strong>93.7% recall</strong>, reducing potential high-risk churn losses by $18.8K and cutting total misclassification costs by $48.5K, outperforming benchmark models like XGBoost and Random Forest.",
       demoUrl: null,
-      repoUrl: "https://github.com/Shiverion/Telcho-Churn-Analysis"
+      repoUrl: "https://github.com/Shiverion/Telcho-Churn-Analysis",
+      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
     },
     {
       title: "Airbnb Data Analysis",
       description: "Analyzed Airbnb listings in Bangkok to identify peak-season revenue opportunities for December. Implemented dynamic pricing, extended-stay discounts, and last-minute deals. These optimizations increased total December revenue by <strong>7.6%</strong>, generating an additional <strong>฿3.9 million</strong> in high-demand areas.",
       demoUrl: null,
-      repoUrl: "https://github.com/Shiverion/AirBnB-Data-Analysis"
+      repoUrl: "https://github.com/Shiverion/AirBnB-Data-Analysis",
+      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
     }
   ],
   education: [
@@ -433,35 +443,52 @@ const Footer = ({ navigateTo }) => {
 /**
  * Hero (Home) Page
  * Main landing view with tagline and photo.
+ * --- THIS COMPONENT HAS BEEN UPDATED ---
  */
 const Hero = ({ navigateTo, openAgentModal }) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center min-h-[70vh] py-20">
-      <div className="relative w-full max-w-4xl mx-auto">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] py-20">
+      <div className="relative w-full max-w-5xl mx-auto"> {/* Increased max-w for new layout */}
         {/* Background Gradient */}
         <div className="absolute -top-40 -left-40 w-72 h-72 md:w-96 md:h-96 bg-sky-700 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
         <div className="absolute -bottom-40 -right-40 w-72 h-72 md:w-96 md:h-96 bg-indigo-700 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
         
-        <div className="relative z-10">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
-            Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>.
-          </h1>
-          <h2 className="mt-6 mb-16 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto">
-            {portfolioData.tagline}
-          </h2>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button
-              onClick={() => navigateTo('About')}
-              className="px-8 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
-            >
-              View My Work
-            </button>
-            <button
-              onClick={openAgentModal}
-              className="px-8 py-3 bg-gray-800 text-sky-400 text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
-            >
-              Ask My Agent ✨
-            </button>
+        {/* --- UPDATED LAYOUT --- */}
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 text-center md:text-left">
+          
+          {/* --- NEW IMAGE --- */}
+          <div className="flex-shrink-0">
+            <img
+              src={portfolioData.profileImageUrl}
+              alt={portfolioData.name}
+              className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-gray-800 hover:border-sky-600 transition-colors"
+              onError={(e) => { e.target.src = 'https://placehold.co/256x256/030712/9ca3af?text=Image+Not+Found'; }}
+            />
+          </div>
+          {/* --- END NEW IMAGE --- */}
+
+          {/* Text Content */}
+          <div className="flex-1">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+              Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>.
+            </h1>
+            <h2 className="mt-6 mb-12 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0">
+              {portfolioData.tagline}
+            </h2>
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+              <button
+                onClick={() => navigateTo('About')}
+                className="px-8 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
+              >
+                View My Work
+              </button>
+              <button
+                onClick={openAgentModal}
+                className="px-8 py-3 bg-gray-800 text-sky-400 text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
+              >
+                Ask My Agent ✨
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -545,9 +572,54 @@ const Experience = () => (
   </Section>
 );
 
+// --- NEW HELPER COMPONENT ---
+/**
+ * ProjectMedia Component
+ * Renders a video or an image based on the file extension.
+ * Handles .mp4, .webm for video, and defaults to <img> for .gif, .png, .jpg, etc.
+ */
+const ProjectMedia = ({ src, alt }) => {
+  if (!src) return null;
+
+  const isVideo = src.endsWith('.mp4') || src.endsWith('.webm');
+  
+  // Use placeholder if src is a placeholder URL
+  const isPlaceholder = src.startsWith('https://placehold.co');
+  
+  // Treat placeholders as images, only render <video> for actual video files
+  if (isVideo && !isPlaceholder) {
+    return (
+      <video
+        src={src}
+        alt={alt}
+        className="w-full h-48 object-cover" // Same class as the image
+        autoPlay
+        loop
+        muted
+        playsInline // Important for playback on mobile devices
+      >
+        Your browser does not support the video tag.
+      </video>
+    );
+  }
+
+  // Default to image (handles .png, .jpg, .gif, and placeholders)
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="w-full h-48 object-cover"
+      onError={(e) => { e.target.src = 'https://placehold.co/600x400/1f2937/9ca3af?text=Image+Not+Found'; }}
+    />
+  );
+};
+// --- END NEW HELPER COMPONENT ---
+
+
 /**
  * Projects Page
  * Displays featured projects.
+ * --- THIS COMPONENT HAS BEEN UPDATED ---
  */
 const Projects = () => (
   <Section title="Featured Projects" icon={<Lightbulb />}>
@@ -557,42 +629,51 @@ const Projects = () => (
           key={index}
           className="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform transform hover:-translate-y-2 hover:shadow-sky-500/20"
         >
-          <div className="p-6 flex-grow">
+          {/* --- UPDATED TO USE ProjectMedia COMPONENT --- */}
+          <ProjectMedia src={project.imageUrl} alt={project.title} />
+          
+          {/* --- UPDATED CARD BODY --- */}
+          {/* Added flex-grow and flex flex-col to make footer buttons stick to the bottom */}
+          <div className="p-6 flex-grow flex flex-col">
             <h3 className="text-2xl font-semibold text-white mb-3">{project.title}</h3>
+            {/* Added flex-grow to the description */}
             <p className="text-gray-300 text-base mb-6 flex-grow" dangerouslySetInnerHTML={{ __html: project.description }} />
-          </div>
-          <div className="bg-gray-700 p-5 flex items-center justify-end space-x-4">
-            {project.demoUrl && (
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-2 bg-sky-600 text-white text-sm font-semibold rounded-lg shadow transition-transform transform hover:scale-105 hover:bg-sky-500"
-              >
-                View Demo
-              </a>
-            )}
-            {project.repoUrl && (
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow transition-transform transform hover:scale-105 hover:bg-gray-500"
-              >
-                {project.demoUrl ? "View Repo" : "Explore Project"}
-              </a>
-            )}
-            {!project.demoUrl && !project.repoUrl && (
-              <span className="px-5 py-2 text-gray-400 text-sm font-semibold">
-                Details
-              </span>
-            )}
+          
+            {/* Added mt-auto to the button container */}
+            <div className="flex items-center justify-end space-x-4 mt-auto">
+              {project.demoUrl && (
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2 bg-sky-600 text-white text-sm font-semibold rounded-lg shadow transition-transform transform hover:scale-105 hover:bg-sky-500"
+                >
+                  View Demo
+                </a>
+              )}
+              {project.repoUrl && (
+                <a
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow transition-transform transform hover:scale-105 hover:bg-gray-500"
+                >
+                  {project.demoUrl ? "View Repo" : "Explore Project"}
+                </a>
+              )}
+              {!project.demoUrl && !project.repoUrl && (
+                <span className="px-5 py-2 text-gray-400 text-sm font-semibold">
+                  Details
+                </span>
+              )}
+            </div>
           </div>
         </div>
       ))}
     </div>
   </Section>
 );
+
 
 /**
  * Education Page
@@ -905,3 +986,4 @@ const AgentChatModal = ({ closeModal }) => {
     </div>
   );
 };
+
