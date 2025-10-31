@@ -26,8 +26,8 @@ const portfolioData = {
   name: "Muhammad Iqbal",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
   // --- ADDED YOUR PROFILE IMAGE URL HERE ---
-  // --- Replace this placeholder with the path to your photo in the /public folder (e.g., "/my-photo.jpg") ---
-  profileImageUrl: "/images/profile-photo.jpg",
+  // --- This line is now fixed. Replace 'my-photo.jpg' with your actual filename ---
+  profileImageUrl: "/images/my-photo.jpg",
   bio: [
     "A highly motivated and results-oriented Data Scientist with a passion for building intelligent and autonomous AI agents. Recently completed 'The Complete Agentic AI Engineering Course,' gaining hands-on experience in designing, building, and deploying autonomous agents using cutting-edge frameworks like OpenAI Agents SDK, CrewAI, LangGraph, and AutoGen.",
     "Proven ability to apply Agentic AI to solve real-world commercial problems and architect robust and scalable AI solutions. My expertise lies in connecting LLMs with proven design patterns to solve complex problems, from RAG prototypes to multi-agent financial simulators."
@@ -461,7 +461,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
             <img
               src={portfolioData.profileImageUrl}
               alt={portfolioData.name}
-              className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-xl border-4 border-gray-800 hover:border-sky-600 transition-colors"
+              className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover object-top shadow-xl border-4 border-gray-800 hover:border-sky-600 transition-colors"
               onError={(e) => { e.target.src = 'https://placehold.co/256x256/030712/9ca3af?text=Image+Not+Found'; }}
             />
           </div>
@@ -718,67 +718,128 @@ const Education = () => (
 /**
  * Contact Page
  * Displays contact form.
+ * --- THIS COMPONENT HAS BEEN UPDATED ---
  */
-const Contact = () => (
-  <Section title="Get In Touch" icon={<Mail />}>
-    <p className="text-lg text-gray-300 mb-8 max-w-2xl">
-      I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. 
-      Feel free to reach out.
-    </p>
-    
-    <form
-      action={`mailto:${portfolioData.contactEmail}`}
-      method="POST"
-      encType="text/plain"
-      className="max-w-2xl space-y-6"
-    >
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">Your Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          required
-          className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-          placeholder="Muhammad Iqbal"
-        />
-      </div>
+const Contact = () => {
+  // Add state for form inputs and status
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState(''); // To show "Sending...", "Success", or "Error"
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Sending...');
+
+    // --- PASTE YOUR FORMSPREE URL HERE ---
+    const formUrl = 'https://formspree.io/f/xovpkbkb'; 
+
+    try {
+      const response = await fetch(formUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (response.ok) {
+        setStatus('Message sent successfully!');
+        // Clear the form
+        setName('');
+        setEmail('');
+        setMessage('');
+      } else {
+        // Handle server errors from Formspree
+        const data = await response.json();
+        if (data.errors) {
+          setStatus(data.errors.map(error => error.message).join(', '));
+        } else {
+          setStatus('Failed to send message. Please try again.');
+        }
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Form submission error:', error);
+      setStatus('Failed to send message. Please check your connection.');
+    }
+  };
+
+  return (
+    <Section title="Get In Touch" icon={<Mail />}>
+      <p className="text-lg text-gray-300 mb-8 max-w-2xl">
+        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. 
+        Feel free to reach out.
+      </p>
       
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">Your Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-          placeholder="example@email.com"
-        />
-      </div>
-      
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-200 mb-2">Message</label>
-        <textarea
-          name="message"
-          id="message"
-          rows="6"
-          required
-          className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-          placeholder="Your message..."
-        ></textarea>
-      </div>
-      
-      <div>
-        <button
-          type="submit"
-          className="px-8 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
-        >
-          Send Message
-        </button>
-      </div>
-    </form>
-  </Section>
-);
+      {/* Updated form with onSubmit handler */}
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-2xl space-y-6"
+      >
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">Your Name</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            placeholder="Muhammad Iqbal"
+          />
+        </div>
+        
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">Your Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            placeholder="example@email.com"
+          />
+        </div>
+        
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-200 mb-2">Message</label>
+          <textarea
+            name="message"
+            id="message"
+            rows="6"
+            required
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            placeholder="Your message..."
+          ></textarea>
+        </div>
+        
+        {/* Updated submit button and status message */}
+        <div className="flex items-center gap-4">
+          <button
+            type="submit"
+            disabled={status === 'Sending...'}
+            className="px-8 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950 disabled:opacity-50"
+          >
+            {status === 'Sending...' ? 'Sending...' : 'Send Message'}
+          </button>
+          {/* Status Message */}
+          {status && (
+            <p className={`text-sm ${status.includes('successfully') ? 'text-green-400' : 'text-red-400'}`}>
+              {status}
+            </p>
+          )}
+        </div>
+      </form>
+    </Section>
+  );
+};
 
 // --- GEMINI AGENT CHAT MODAL ---
 
@@ -986,4 +1047,6 @@ const AgentChatModal = ({ closeModal }) => {
     </div>
   );
 };
+
+
 
