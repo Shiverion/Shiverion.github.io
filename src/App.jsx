@@ -27,7 +27,7 @@ const portfolioData = {
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
   // --- ADDED YOUR PROFILE IMAGE URL HERE ---
   // --- Replace this placeholder with the path to your photo in the /public folder (e.g., "/my-photo.jpg") ---
-  profileImageUrl: "/images/my-photo.jpg",
+  profileImageUrl: "/images/profile-photo.jpg,
   bio: [
     "A highly motivated and results-oriented Data Scientist with a passion for building intelligent and autonomous AI agents. Recently completed 'The Complete Agentic AI Engineering Course,' gaining hands-on experience in designing, building, and deploying autonomous agents using cutting-edge frameworks like OpenAI Agents SDK, CrewAI, LangGraph, and AutoGen.",
     "Proven ability to apply Agentic AI to solve real-world commercial problems and architect robust and scalable AI solutions. My expertise lies in connecting LLMs with proven design patterns to solve complex problems, from RAG prototypes to multi-agent financial simulators."
