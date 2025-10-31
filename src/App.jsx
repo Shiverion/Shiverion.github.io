@@ -23,11 +23,11 @@ import {
 
 // --- YOUR CUSTOM DATA HERE ---
 const portfolioData = {
-  name: "Muhammad Iqbal",
+  name: "Muhammad Iqbal Hilmy Izzulhaq",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
   // --- ADDED YOUR PROFILE IMAGE URL HERE ---
   // --- This line is now fixed. Replace 'my-photo.jpg' with your actual filename ---
-  profileImageUrl: "/images/my-photo.jpg",
+  profileImageUrl: "/images/profile-photo.jpg",
   bio: [
     "A highly motivated and results-oriented Data Scientist with a passion for building intelligent and autonomous AI agents. Recently completed 'The Complete Agentic AI Engineering Course,' gaining hands-on experience in designing, building, and deploying autonomous agents using cutting-edge frameworks like OpenAI Agents SDK, CrewAI, LangGraph, and AutoGen.",
     "Proven ability to apply Agentic AI to solve real-world commercial problems and architect robust and scalable AI solutions. My expertise lies in connecting LLMs with proven design patterns to solve complex problems, from RAG prototypes to multi-agent financial simulators."
@@ -77,35 +77,35 @@ const portfolioData = {
       repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG",
       // --- ADDED PROJECT IMAGE URL HERE ---
       // --- Replace this with the path to your project image (e.g., "/project-1.gif" or "/project-1.mp4") ---
-      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
+      imageUrl: "/images/Career-Digital-Twin.gif"
     },
     {
       title: "Trader Agent Simulator – Autonomous Portfolio Management",
       description: "Built an intelligent trader agent using the <strong>OpenAI Agents SDK</strong>, capable of alternating between trading and rebalancing its portfolio using real-time insights from a researcher agent. Leveraged advanced async context management for clean multi-server handling, and integrated support for multiple LLM providers (OpenAI, DeepSeek, Google, Anthropic).",
       demoUrl: null,
       repoUrl: null,
-      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
+      imageUrl: "/images/Trader-Agent-Simulator.jpg"
     },
     {
       title: "Indonesian Parliament Activity Chatbot",
       description: "This project implements a chatbot that can answer questions about the activities and agendas of the Indonesian Parliament members. It utilizes a SQL database containing agenda data and leverages large language models (LLMs) through the <strong>Langchain</strong> library to interact with the database and provide natural language responses.",
       demoUrl: null,
       repoUrl: null,
-      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
+      imageUrl: "/images/DPR-chatbot.png"
     },
     {
       title: "Telco Churn Analysis",
       description: "Developed a churn prediction model using <strong>AllKNN</strong> with hyperparameter tuning, focused on minimizing false negatives. Achieved <strong>93.7% recall</strong>, reducing potential high-risk churn losses by $18.8K and cutting total misclassification costs by $48.5K, outperforming benchmark models like XGBoost and Random Forest.",
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/Telcho-Churn-Analysis",
-      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
+      imageUrl: "/images/Telco-Churn-Analysis.png"
     },
     {
       title: "Airbnb Data Analysis",
       description: "Analyzed Airbnb listings in Bangkok to identify peak-season revenue opportunities for December. Implemented dynamic pricing, extended-stay discounts, and last-minute deals. These optimizations increased total December revenue by <strong>7.6%</strong>, generating an additional <strong>฿3.9 million</strong> in high-demand areas.",
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/AirBnB-Data-Analysis",
-      imageUrl: "https://placehold.co/600x400/1f2937/9ca3af?text=Project+Media"
+      imageUrl: "/images/airbnb_analysis_bangkok.png"
     }
   ],
   education: [
@@ -470,7 +470,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           {/* Text Content */}
           <div className="flex-1">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
-              Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>.
+              Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>
             </h1>
             <h2 className="mt-6 mb-12 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0">
               {portfolioData.tagline}
