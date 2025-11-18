@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-// Import ReactMarkdown
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import {
   Briefcase,
@@ -18,15 +18,14 @@ import {
   MessageSquare,
   Bot,
   Loader2,
-  Menu
+  Menu,
+  Sparkles
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
 const portfolioData = {
   name: "Muhammad Iqbal Hilmy Izzulhaq",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
-  // --- ADDED YOUR PROFILE IMAGE URL HERE ---
-  // --- This line is now fixed. Replace 'my-photo.jpg' with your actual filename ---
   profileImageUrl: "/images/profile-photo.jpg",
   bio: [
     "A highly motivated and results-oriented Data Scientist with a passion for building intelligent and autonomous AI agents. Recently completed 'The Complete Agentic AI Engineering Course,' gaining hands-on experience in designing, building, and deploying autonomous agents using cutting-edge frameworks like OpenAI Agents SDK, CrewAI, LangGraph, and AutoGen.",
@@ -51,7 +50,6 @@ const portfolioData = {
       role: "AI Tech & Data for Corporate Training (Project-Based)",
       company: "RevoU",
       period: "Aug 2025 – Present",
-      // --- UPDATED THIS SECTION ---
       details: "<strong>Role: Mentor / Team Lead</strong> | <strong>Clients: Bayan Resources, PT Jalin, AXA Mandiri</strong>",
       clients: [
         {
@@ -66,7 +64,7 @@ const portfolioData = {
         {
           name: "2. PT Jalin",
           points: [
-            "Spearheaded Jalin’s first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n).",
+            "Spearheaded Jalin's first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n).",
             "Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization.",
             "Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects."
           ]
@@ -76,7 +74,7 @@ const portfolioData = {
           points: [
             "Delivered comprehensive Tech, Data, and AI Literacy program for non-technical professionals to foster digital transformation.",
             "Mentored teams to identify and apply AI-driven solutions to improve business efficiency and decision-making.",
-            { 
+            {
               intro: "Covered foundational modules:",
               modules: [
                 "<strong>Tech Primer:</strong> Building a digital mindset, understanding cloud, APIs, and innovation enablers.",
@@ -88,7 +86,6 @@ const portfolioData = {
           ]
         }
       ]
-      // --- END OF UPDATE ---
     },
     {
       role: "Data Scientist Intern",
@@ -108,8 +105,6 @@ const portfolioData = {
       description: "Built and deployed a personal agent to represent my skills and experience to potential employers, automating the initial stages of job applications.",
       demoUrl: "https://huggingface.co/spaces/Shiverion/career_conversations",
       repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG",
-      // --- ADDED PROJECT IMAGE URL HERE ---
-      // --- Replace this with the path to your project image (e.g., "/project-1.gif" or "/project-1.mp4") ---
       imageUrl: "/images/Career-Digital-Twin.gif"
     },
     {
@@ -161,12 +156,12 @@ const portfolioData = {
     },
     {
       name: "Artificial Intelligence",
-      issuer: "Kominfo’s Digital Talent Scholarship",
+      issuer: "Kominfo's Digital Talent Scholarship",
       date: "Issued Sep 2023"
     },
     {
       name: "Metaverse Engineering",
-      issuer: "Kominfo’s Digital Talent Scholarship",
+      issuer: "Kominfo's Digital Talent Scholarship",
       date: "Issued April 2023"
     },
     {
@@ -217,7 +212,7 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     * Role: Mentor / Team Lead
     * Clients: Bayan Resources, PT Jalin, AXA Mandiri
     * 1. Bayan Resources: Led Generative AI for Mining Industry corporate program, introducing real-world AI applications in heavy industry — including predictive maintenance, supply chain optimization, and safety monitoring. Delivered hands-on sessions on ChatGPT features, Agent Mode, and CustomGPT, enabling participants to apply AI tools in daily operational workflows. Taught prompt engineering techniques (zero-shot & few-shot) for efficiency tasks such as report generation, production summaries, and SOP drafting. Advocated for responsible AI use, covering topics on bias, data privacy, and ethical application of AI to support safety and sustainability in mining operations.
-    * 2. PT Jalin: Spearheaded Jalin’s first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n). Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization. Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects.
+    * 2. PT Jalin: Spearheaded Jalin's first corporate AI Engineering training, empowering non-developers to build AI agents and automate workflows using no-code tools (Zapier, n8n). Guided participants through prompt engineering, chatbot deployment (Telegram, Slack, WhatsApp), and real-world use cases for internal process optimization. Facilitated group mentoring, technical simulations, and progress evaluations for both individual and team projects.
     * 3. AXA Mandiri: Delivered comprehensive Tech, Data, and AI Literacy program for non-technical professionals to foster digital transformation. Covered foundational modules: Tech Primer (Building a digital mindset, understanding cloud, APIs, and innovation enablers), Data Primer (Data lifecycle, cleaning, and visualization using Power BI and Power Pivot), AI Primer (Everyday GenAI applications, risk awareness, and ethical AI practices), Copilot Primer (Productivity enhancement through AI tools for summarization, drafting, and presentations). Mentored teams to identify and apply AI-driven solutions to improve business efficiency and decision-making.
 
 * **Experience 2: Data Scientist Intern @ The House of Representatives, Republic of Indonesia (DPR RI) (April 2025 – October 2025)**
@@ -256,24 +251,26 @@ export default function App() {
 
   const navigateTo = (page) => {
     setCurrentPage(page);
-    window.scrollTo(0, 0); // Scroll to top on page change
+    window.scrollTo(0, 0);
   };
 
   return (
-    <div className="bg-gray-950 text-gray-100 min-h-screen font-sans antialiased relative">
+    <div className="bg-cyber-darker text-gray-100 min-h-screen font-sans antialiased relative">
+      {/* Scanline effect overlay */}
+      <div className="scanline fixed inset-0 pointer-events-none z-[100]" />
+
       <Header currentPage={currentPage} navigateTo={navigateTo} />
-      
-      <main className="pt-20">
-        <PageContainer 
-          currentPage={currentPage} 
-          navigateTo={navigateTo} 
+
+      <main className="pt-20 relative z-10">
+        <PageContainer
+          currentPage={currentPage}
+          navigateTo={navigateTo}
           openAgentModal={() => setIsAgentModalOpen(true)}
         />
       </main>
-      
+
       <Footer navigateTo={navigateTo} />
 
-      {/* The modal is now simpler and doesn't need the apiKey */}
       {isAgentModalOpen && (
         <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
       )}
@@ -285,43 +282,57 @@ export default function App() {
 
 /**
  * Header Component
- * Displays navigation links and logo.
+ * Displays navigation links with cyber glass-morphism effect.
  */
 const Header = ({ currentPage, navigateTo }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const NavLink = ({ page, children, isMobile = false }) => (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       onClick={() => {
         navigateTo(page);
-        setIsMobileMenuOpen(false); // Close mobile menu on click
+        setIsMobileMenuOpen(false);
       }}
-      className={`transition-colors ${
+      className={`transition-all duration-300 ${
         isMobile
           ? 'block w-full text-left px-4 py-3 rounded-lg text-lg'
           : 'px-4 py-2 rounded-md text-sm font-medium'
       } ${
         currentPage === page
-          ? (isMobile ? 'bg-sky-900/50 text-sky-300' : 'bg-sky-600 text-white')
-          : (isMobile ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white')
+          ? (isMobile
+              ? 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50'
+              : 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50 shadow-neon-blue')
+          : (isMobile
+              ? 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30'
+              : 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30')
       }`}
     >
       {children}
-    </button>
+    </motion.button>
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-gray-950 bg-opacity-80 backdrop-blur-md z-50 border-b border-gray-800">
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="fixed top-0 left-0 right-0 glass z-50 border-b border-neon-blue/30"
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => navigateTo('Hero')}
-              className="text-2xl font-bold text-white transition-opacity hover:opacity-80"
+              className="text-2xl font-bold text-neon-cyan transition-all"
             >
               {portfolioData.name}.
-            </button>
+            </motion.button>
           </div>
+
           {/* Desktop Nav */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -333,37 +344,49 @@ const Header = ({ currentPage, navigateTo }) => {
               <NavLink page="Contact">Contact</NavLink>
             </div>
           </div>
+
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-300 hover:text-white p-2 rounded-md"
+              className="text-neon-cyan hover:text-neon-blue p-2 rounded-md transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            </motion.button>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} border-t border-gray-800`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <NavLink page="Hero" isMobile>Home</NavLink>
-          <NavLink page="About" isMobile>About</NavLink>
-          <NavLink page="Experience" isMobile>Experience</NavLink>
-          <NavLink page="Projects" isMobile>Projects</NavLink>
-          <NavLink page="Education" isMobile>Education</NavLink>
-          <NavLink page="Contact" isMobile>Contact</NavLink>
-        </div>
-      </div>
-    </header>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden border-t border-neon-blue/30 overflow-hidden"
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 glass-strong">
+              <NavLink page="Hero" isMobile>Home</NavLink>
+              <NavLink page="About" isMobile>About</NavLink>
+              <NavLink page="Experience" isMobile>Experience</NavLink>
+              <NavLink page="Projects" isMobile>Projects</NavLink>
+              <NavLink page="Education" isMobile>Education</NavLink>
+              <NavLink page="Contact" isMobile>Contact</NavLink>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 
 /**
  * PageContainer Component
- * Renders the correct page based on the current state.
+ * Renders the correct page with animations.
  */
 const PageContainer = ({ currentPage, navigateTo, openAgentModal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -401,56 +424,72 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal }) => {
   }
 
   return (
-    <div
-      key={currentPage} 
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 animate-fadeIn"
+    <motion.div
+      key={currentPage}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20"
     >
       {pageContent}
-      {isScrolled && (
-        <button
-          onClick={() => navigateTo('Hero')}
-          className="fixed bottom-6 right-6 bg-sky-600 text-white p-3 rounded-full shadow-lg transition-transform hover:bg-sky-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950 z-50"
-          aria-label="Back to Top"
-        >
-          <ChevronUp className="h-6 w-6" />
-        </button>
-      )}
-    </div>
+
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => navigateTo('Hero')}
+            className="fixed bottom-6 right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-50"
+            aria-label="Back to Top"
+          >
+            <ChevronUp className="h-6 w-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
 /**
  * Footer Component
- * Displays copyright and social media links.
+ * Cyber-themed footer with glowing social icons.
  */
 const Footer = ({ navigateTo }) => {
   const { socialLinks, copyrightName } = portfolioData;
 
   const SocialIcon = ({ href, 'aria-label': ariaLabel, children }) => (
-    <a
+    <motion.a
+      whileHover={{ scale: 1.2, rotate: 5 }}
+      whileTap={{ scale: 0.9 }}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ariaLabel}
-      className="text-gray-400 hover:text-sky-400 transition-colors"
+      className="text-gray-400 hover:text-neon-cyan transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(0,255,255,0.8)]"
     >
       {children}
-    </a>
+    </motion.a>
   );
 
   const TextLink = ({ href, children }) => (
-    <a
+    <motion.a
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-sm font-medium text-gray-400 hover:text-sky-400 transition-colors"
+      className="text-sm font-medium text-gray-400 hover:text-neon-cyan transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(0,255,255,0.8)]"
     >
       {children}
-    </a>
+    </motion.a>
   );
 
   return (
-    <footer className="bg-gray-900 border-t border-gray-800 mt-20">
+    <footer className="glass-strong border-t border-neon-blue/30 mt-20 relative z-10">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
         <div className="flex justify-center space-x-6">
           <SocialIcon href={socialLinks.linkedin} aria-label="LinkedIn">
@@ -477,54 +516,98 @@ const Footer = ({ navigateTo }) => {
 
 /**
  * Hero (Home) Page
- * Main landing view with tagline and photo.
- * --- THIS COMPONENT HAS BEEN UPDATED ---
+ * Futuristic landing with glowing elements and cyber grid.
  */
 const Hero = ({ navigateTo, openAgentModal }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] py-20">
-      <div className="relative w-full max-w-5xl mx-auto"> {/* Increased max-w for new layout */}
-        {/* Background Gradient */}
-        <div className="absolute -top-40 -left-40 w-72 h-72 md:w-96 md:h-96 bg-sky-700 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute -bottom-40 -right-40 w-72 h-72 md:w-96 md:h-96 bg-indigo-700 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
-        
-        {/* --- UPDATED LAYOUT --- */}
+    <div className="flex flex-col items-center justify-center min-h-[70vh] py-20 relative">
+      {/* Cyber grid background */}
+      <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
+
+      <div className="relative w-full max-w-5xl mx-auto">
+        {/* Animated neon orbs */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 5, repeat: Infinity }}
+          className="absolute -top-40 -left-40 w-72 h-72 md:w-96 md:h-96 bg-neon-blue rounded-full mix-blend-screen filter blur-3xl"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 7, repeat: Infinity, delay: 1 }}
+          className="absolute -bottom-40 -right-40 w-72 h-72 md:w-96 md:h-96 bg-neon-purple rounded-full mix-blend-screen filter blur-3xl"
+        />
+
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 text-center md:text-left">
-          
-          {/* --- NEW IMAGE --- */}
-          <div className="flex-shrink-0">
-            <img
+          {/* Profile image with glow */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex-shrink-0"
+          >
+            <motion.img
+              whileHover={{ scale: 1.05 }}
               src={portfolioData.profileImageUrl}
               alt={portfolioData.name}
-              className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover object-top shadow-xl border-4 border-gray-800 hover:border-sky-600 transition-colors"
-              onError={(e) => { e.target.src = 'https://placehold.co/256x256/030712/9ca3af?text=Image+Not+Found'; }}
+              className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover object-top border-4 border-neon-cyan/30 hover:border-neon-cyan/50 transition-all duration-500 shadow-lg"
+              onError={(e) => { e.target.src = 'https://placehold.co/256x256/050816/00d9ff?text=Image+Not+Found'; }}
             />
-          </div>
-          {/* --- END NEW IMAGE --- */}
+          </motion.div>
 
           {/* Text Content */}
-          <div className="flex-1">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
-              Hello, I'm <span className="text-sky-400">{portfolioData.name}</span>
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex-1"
+          >
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-2">
+              Hello, I'm{' '}
+              <span className="text-neon-cyan">
+                {portfolioData.name}
+              </span>
             </h1>
-            <h2 className="mt-6 mb-12 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.6 }}
+              className="mt-6 mb-12 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0"
+            >
               {portfolioData.tagline}
-            </h2>
-            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-              <button
+            </motion.h2>
+
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col sm:flex-row justify-center md:justify-start gap-4"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => navigateTo('About')}
-                className="px-8 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
+                className="px-8 py-3 glass text-neon-cyan text-lg font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all duration-300 hover:shadow-neon-cyan hover:text-white focus:outline-none"
               >
                 View My Work
-              </button>
-              <button
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={openAgentModal}
-                className="px-8 py-3 bg-gray-800 text-sky-400 text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950"
+                className="px-8 py-3 glass text-neon-cyan text-lg font-semibold rounded-lg shadow-neon-blue border border-neon-purple/50 transition-all duration-300 hover:shadow-neon-purple hover:text-neon-purple focus:outline-none flex items-center justify-center gap-2"
               >
-                Ask My Agent ✨
-              </button>
-            </div>
-          </div>
+                <Sparkles className="w-5 h-5" />
+                Ask My Agent
+              </motion.button>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -533,15 +616,21 @@ const Hero = ({ navigateTo, openAgentModal }) => {
 
 /**
  * Section Component
- * Wrapper for consistent page section styling.
+ * Wrapper with cyber-themed title styling.
  */
 const Section = ({ title, icon, children }) => (
   <section className="mb-20">
-    <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 flex items-center">
-      {React.cloneElement(icon, { className: 'w-8 h-8 mr-4 text-sky-400' })}
+    <motion.h2
+      initial={{ x: -50, opacity: 0 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="text-3xl md:text-4xl font-bold text-neon-cyan mb-12 flex items-center"
+    >
+      {React.cloneElement(icon, { className: 'w-8 h-8 mr-4' })}
       {title}
-    </h2>
-    <div className="border-l-4 border-sky-600 pl-8">
+    </motion.h2>
+    <div className="border-l-4 border-neon-blue/50 pl-8 shadow-[inset_0_0_10px_rgba(0,217,255,0.2)]">
       {children}
     </div>
   </section>
@@ -549,34 +638,65 @@ const Section = ({ title, icon, children }) => (
 
 /**
  * About Page
- * Displays bio and skills.
+ * Bio and holographic skill cards.
  */
 const About = () => (
   <div>
     <section className="mb-20">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl md:text-4xl font-bold text-neon-cyan mb-8"
+      >
         About Me
-      </h2>
-      <div className="space-y-6 text-lg text-gray-300 max-w-3xl">
+      </motion.h2>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="space-y-6 text-lg text-gray-300 max-w-3xl"
+      >
         {portfolioData.bio.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
+          <motion.p
+            key={index}
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
+          >
+            {paragraph}
+          </motion.p>
         ))}
-      </div>
+      </motion.div>
     </section>
-    
+
     <section>
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-12">
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl md:text-4xl font-bold text-neon-cyan mb-12"
+      >
         Core Skills
-      </h2>
+      </motion.h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {portfolioData.skills.map((skill, index) => (
-          <div
+          <motion.div
             key={index}
-            className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-transform transform hover:-translate-y-2 hover:shadow-sky-500/20"
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+            whileHover={{
+              scale: 1.05,
+              rotateY: 10,
+              transition: { duration: 0.3 }
+            }}
+            className="glass p-6 rounded-lg shadow-glass flex flex-col items-center justify-center text-center transition-all duration-300 hover:shadow-neon-blue hover:border-neon-cyan cyber-card holographic-bg"
           >
-            {React.cloneElement(skill.icon, { className: 'w-10 h-10 mb-4 text-sky-400' })}
+            {React.cloneElement(skill.icon, { className: 'w-10 h-10 mb-4 text-neon-cyan' })}
             <span className="text-base font-medium text-white">{skill.name}</span>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -585,29 +705,45 @@ const About = () => (
 
 /**
  * Experience Page
- * Displays work experience timeline.
- * --- THIS COMPONENT HAS BEEN UPDATED ---
+ * Timeline with glowing markers and cyber effects.
  */
 const Experience = () => (
   <Section title="Working Experience" icon={<Briefcase />}>
     <div className="space-y-12">
       {portfolioData.experiences.map((job, index) => (
-        <div key={index} className="relative">
-          <div className="absolute -left-[3.2rem] top-1 w-6 h-6 bg-sky-600 rounded-full border-4 border-gray-950"></div>
-          <h3 className="text-2xl font-semibold text-white">{job.role}</h3>
-          <p className="text-lg text-sky-400 mb-2">{job.company}</p>
+        <motion.div
+          key={index}
+          initial={{ x: -50, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: index * 0.2 }}
+          className="relative glass-strong p-6 rounded-lg hover:shadow-neon-blue transition-all duration-300"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: index * 0.2 + 0.2 }}
+            className="absolute -left-[3.2rem] top-8 w-6 h-6 bg-neon-cyan rounded-full border-4 border-cyber-darker animate-pulse"
+          />
+
+          <h3 className="text-2xl font-semibold text-neon-cyan">{job.role}</h3>
+          <p className="text-lg text-neon-blue mb-2">{job.company}</p>
           <p className="text-sm text-gray-400 mb-4">{job.period}</p>
-          
-          {/* Check for the new 'clients' structure */}
+
           {job.clients ? (
             <div className="space-y-6">
-              {job.details && <p className="text-lg text-gray-300" dangerouslySetInnerHTML={{ __html: job.details }} />}
+              {job.details && (
+                <p className="text-lg text-gray-300" dangerouslySetInnerHTML={{ __html: job.details }} />
+              )}
               {job.clients.map((client, i) => (
-                <div key={i} className="pl-5">
-                  <h4 className="text-xl font-semibold text-white mb-3" dangerouslySetInnerHTML={{ __html: `<strong><u>${client.name}</u></strong>` }} />
+                <div key={i} className="pl-5 border-l-2 border-neon-purple/30">
+                  <h4
+                    className="text-xl font-semibold text-white mb-3"
+                    dangerouslySetInnerHTML={{ __html: `<strong><u>${client.name}</u></strong>` }}
+                  />
                   <ul className="list-disc list-outside space-y-3 text-gray-300 text-lg pl-5">
                     {client.points.map((point, j) => {
-                      // Check if the point is an object with modules
                       if (typeof point === 'object' && point.modules) {
                         return (
                           <li key={j}>
@@ -620,7 +756,6 @@ const Experience = () => (
                           </li>
                         );
                       }
-                      // Otherwise, it's a string
                       return <li key={j} dangerouslySetInnerHTML={{ __html: point }} />;
                     })}
                   </ul>
@@ -628,155 +763,182 @@ const Experience = () => (
               ))}
             </div>
           ) : (
-            // Fallback to the old 'points' structure
             <ul className="list-disc list-outside space-y-3 text-gray-300 text-lg pl-5">
               {job.points.map((point, i) => (
                 <li key={i} dangerouslySetInnerHTML={{ __html: point }} />
               ))}
             </ul>
           )}
-        </div>
+        </motion.div>
       ))}
     </div>
   </Section>
 );
 
-// --- NEW HELPER COMPONENT ---
 /**
  * ProjectMedia Component
- * Renders a video or an image based on the file extension.
- * Handles .mp4, .webm for video, and defaults to <img> for .gif, .png, .jpg, etc.
+ * Renders video or image with cyber border.
  */
 const ProjectMedia = ({ src, alt }) => {
   if (!src) return null;
 
   const isVideo = src.endsWith('.mp4') || src.endsWith('.webm');
-  
-  // Use placeholder if src is a placeholder URL
   const isPlaceholder = src.startsWith('https://placehold.co');
-  
-  // Treat placeholders as images, only render <video> for actual video files
+
   if (isVideo && !isPlaceholder) {
     return (
       <video
         src={src}
         alt={alt}
-        className="w-full h-48 object-cover" // Same class as the image
+        className="w-full h-48 object-cover"
         autoPlay
         loop
         muted
-        playsInline // Important for playback on mobile devices
+        playsInline
       >
         Your browser does not support the video tag.
       </video>
     );
   }
 
-  // Default to image (handles .png, .jpg, .gif, and placeholders)
   return (
     <img
       src={src}
       alt={alt}
       className="w-full h-48 object-cover"
-      onError={(e) => { e.target.src = 'https://placehold.co/600x400/1f2937/9ca3af?text=Image+Not+Found'; }}
+      onError={(e) => { e.target.src = 'https://placehold.co/600x400/050816/00d9ff?text=Image+Not+Found'; }}
     />
   );
 };
-// --- END NEW HELPER COMPONENT ---
-
 
 /**
  * Projects Page
- * Displays featured projects.
- * --- THIS COMPONENT HAS BEEN UPDATED ---
+ * Project cards with animated neon borders.
  */
 const Projects = () => (
   <Section title="Featured Projects" icon={<Lightbulb />}>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
       {portfolioData.projects.map((project, index) => (
-        <div
+        <motion.div
           key={index}
-          className="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform transform hover:-translate-y-2 hover:shadow-sky-500/20"
+          initial={{ scale: 0.8, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          whileHover={{
+            y: -10,
+            transition: { duration: 0.3 }
+          }}
+          className="glass rounded-lg shadow-glass overflow-hidden flex flex-col transition-all duration-300 hover:shadow-neon-cyan cyber-card border border-neon-blue/30"
         >
-          {/* --- UPDATED TO USE ProjectMedia COMPONENT --- */}
-          <ProjectMedia src={project.imageUrl} alt={project.title} />
-          
-          {/* --- UPDATED CARD BODY --- */}
-          {/* Added flex-grow and flex flex-col to make footer buttons stick to the bottom */}
+          <div className="relative overflow-hidden group">
+            <ProjectMedia src={project.imageUrl} alt={project.title} />
+            <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+
           <div className="p-6 flex-grow flex flex-col">
-            <h3 className="text-2xl font-semibold text-white mb-3">{project.title}</h3>
-            {/* Added flex-grow to the description */}
-            <p className="text-gray-300 text-base mb-6 flex-grow" dangerouslySetInnerHTML={{ __html: project.description }} />
-          
-            {/* Added mt-auto to the button container */}
+            <h3 className="text-2xl font-semibold text-neon-cyan mb-3">{project.title}</h3>
+            <p
+              className="text-gray-300 text-base mb-6 flex-grow"
+              dangerouslySetInnerHTML={{ __html: project.description }}
+            />
+
             <div className="flex items-center justify-end space-x-4 mt-auto">
               {project.demoUrl && (
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2 bg-sky-600 text-white text-sm font-semibold rounded-lg shadow transition-transform transform hover:scale-105 hover:bg-sky-500"
+                  className="px-5 py-2 bg-neon-blue text-white text-sm font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
                 >
                   View Demo
-                </a>
+                </motion.a>
               )}
               {project.repoUrl && (
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   href={project.repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow transition-transform transform hover:scale-105 hover:bg-gray-500"
+                  className="px-5 py-2 glass text-neon-purple text-sm font-semibold rounded-lg shadow-glass border border-neon-purple/50 transition-all hover:shadow-neon-purple"
                 >
                   {project.demoUrl ? "View Repo" : "Explore Project"}
-                </a>
-              )}
-              {!project.demoUrl && !project.repoUrl && (
-                <span className="px-5 py-2 text-gray-400 text-sm font-semibold">
-                  Details
-                </span>
+                </motion.a>
               )}
             </div>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   </Section>
 );
 
-
 /**
  * Education Page
- * Displays education and certifications.
+ * Timeline with glowing markers.
  */
 const Education = () => (
   <Section title="Education & Certifications" icon={<GraduationCap />}>
     <div className="space-y-12">
       {/* Education */}
       <div>
-        <h3 className="text-2xl font-semibold text-white mb-6">Education</h3>
+        <motion.h3
+          initial={{ x: -30, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl font-semibold text-neon-cyan mb-6"
+        >
+          Education
+        </motion.h3>
         <div className="space-y-6">
           {portfolioData.education.map((edu, index) => (
-            <div key={index} className="relative">
-              <div className="absolute -left-[3.2rem] top-1 w-6 h-6 bg-sky-600 rounded-full border-4 border-gray-950"></div>
+            <motion.div
+              key={index}
+              initial={{ x: -50, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="relative glass p-4 rounded-lg hover:shadow-neon-blue transition-all"
+            >
+              <div className="absolute -left-[3.2rem] top-5 w-6 h-6 bg-neon-cyan rounded-full border-4 border-cyber-darker animate-pulse" />
               <h4 className="text-xl font-medium text-white">{edu.institution}</h4>
               <p className="text-lg text-gray-300">{edu.degree}</p>
               <p className="text-sm text-gray-400">{edu.period}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-      
+
       {/* Certifications */}
       <div>
-        <h3 className="text-2xl font-semibold text-white mb-6">Certifications</h3>
+        <motion.h3
+          initial={{ x: -30, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl font-semibold text-neon-cyan mb-6"
+        >
+          Certifications
+        </motion.h3>
         <div className="space-y-6">
           {portfolioData.certifications.map((cert, index) => (
-            <div key={index} className="relative">
-              <div className="absolute -left-[3.2rem] top-1 w-6 h-6 bg-sky-600 rounded-full border-4 border-gray-950"></div>
+            <motion.div
+              key={index}
+              initial={{ x: -50, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="relative glass p-4 rounded-lg hover:shadow-neon-purple transition-all"
+            >
+              <div className="absolute -left-[3.2rem] top-5 w-6 h-6 bg-neon-purple rounded-full border-4 border-cyber-darker animate-pulse" />
               <h4 className="text-xl font-medium text-white">{cert.name}</h4>
               <p className="text-lg text-gray-300">{cert.issuer}</p>
               <p className="text-sm text-gray-400">{cert.date}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -786,22 +948,19 @@ const Education = () => (
 
 /**
  * Contact Page
- * Displays contact form.
- * --- THIS COMPONENT HAS BEEN UPDATED ---
+ * Cyber-themed contact form with glowing inputs.
  */
 const Contact = () => {
-  // Add state for form inputs and status
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState(''); // To show "Sending...", "Success", or "Error"
+  const [status, setStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('Sending...');
 
-    // --- PASTE YOUR FORMSPREE URL HERE ---
-    const formUrl = 'https://formspree.io/f/xovpkbkb'; 
+    const formUrl = 'https://formspree.io/f/xovpkbkb';
 
     try {
       const response = await fetch(formUrl, {
@@ -815,12 +974,10 @@ const Contact = () => {
 
       if (response.ok) {
         setStatus('Message sent successfully!');
-        // Clear the form
         setName('');
         setEmail('');
         setMessage('');
       } else {
-        // Handle server errors from Formspree
         const data = await response.json();
         if (data.errors) {
           setStatus(data.errors.map(error => error.message).join(', '));
@@ -829,7 +986,6 @@ const Contact = () => {
         }
       }
     } catch (error) {
-      // Handle network errors
       console.error('Form submission error:', error);
       setStatus('Failed to send message. Please check your connection.');
     }
@@ -837,18 +993,27 @@ const Contact = () => {
 
   return (
     <Section title="Get In Touch" icon={<Mail />}>
-      <p className="text-lg text-gray-300 mb-8 max-w-2xl">
-        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. 
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="text-lg text-gray-300 mb-8 max-w-2xl"
+      >
+        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
         Feel free to reach out.
-      </p>
-      
-      {/* Updated form with onSubmit handler */}
-      <form
+      </motion.p>
+
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
         onSubmit={handleSubmit}
         className="max-w-2xl space-y-6"
       >
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">Your Name</label>
+          <label htmlFor="name" className="block text-sm font-medium text-neon-cyan mb-2">
+            Your Name
+          </label>
           <input
             type="text"
             name="name"
@@ -856,13 +1021,15 @@ const Contact = () => {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            className="w-full px-4 py-3 rounded-lg glass border border-neon-blue/30 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:border-neon-cyan transition-all"
             placeholder="Muhammad Iqbal"
           />
         </div>
-        
+
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">Your Email</label>
+          <label htmlFor="email" className="block text-sm font-medium text-neon-cyan mb-2">
+            Your Email
+          </label>
           <input
             type="email"
             name="email"
@@ -870,13 +1037,15 @@ const Contact = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            className="w-full px-4 py-3 rounded-lg glass border border-neon-blue/30 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:border-neon-cyan transition-all"
             placeholder="example@email.com"
           />
         </div>
-        
+
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-200 mb-2">Message</label>
+          <label htmlFor="message" className="block text-sm font-medium text-neon-cyan mb-2">
+            Message
+          </label>
           <textarea
             name="message"
             id="message"
@@ -884,28 +1053,33 @@ const Contact = () => {
             required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            className="w-full px-4 py-3 rounded-lg glass border border-neon-blue/30 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:border-neon-cyan transition-all"
             placeholder="Your message..."
           ></textarea>
         </div>
-        
-        {/* Updated submit button and status message */}
+
         <div className="flex items-center gap-4">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={status === 'Sending...'}
-            className="px-8 py-3 bg-sky-600 text-white text-lg font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-950 disabled:opacity-50"
+            className="px-8 py-3 bg-neon-blue text-white text-lg font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all duration-300 hover:shadow-neon-cyan disabled:opacity-50"
           >
             {status === 'Sending...' ? 'Sending...' : 'Send Message'}
-          </button>
-          {/* Status Message */}
+          </motion.button>
+
           {status && (
-            <p className={`text-sm ${status.includes('successfully') ? 'text-green-400' : 'text-red-400'}`}>
+            <motion.p
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className={`text-sm ${status.includes('successfully') ? 'text-neon-green' : 'text-neon-pink'}`}
+            >
               {status}
-            </p>
+            </motion.p>
           )}
         </div>
-      </form>
+      </motion.form>
     </Section>
   );
 };
@@ -914,8 +1088,7 @@ const Contact = () => {
 
 /**
  * AgentChatModal Component
- * Handles the AI agent chat interface and API calls.
- * This version calls the SECURE Vercel backend.
+ * Futuristic glass-panel chat interface with neon accents.
  */
 const AgentChatModal = ({ closeModal }) => {
   const [messages, setMessages] = useState([
@@ -923,22 +1096,19 @@ const AgentChatModal = ({ closeModal }) => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null); // To display errors to the user
+  const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll to bottom of chat
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  // Handle API Call to our Vercel Backend
   const askAgent = async (message) => {
     setIsLoading(true);
-    setError(null); // Clear previous errors
+    setError(null);
     setMessages(prev => [...prev, { role: 'user', text: message }]);
 
     try {
-      // Call our NEW backend endpoint at `/api/askAgent`
       const response = await fetch('/api/askAgent', {
         method: 'POST',
         headers: {
@@ -946,12 +1116,11 @@ const AgentChatModal = ({ closeModal }) => {
         },
         body: JSON.stringify({
           message: message,
-          systemInstruction: AGENT_SYSTEM_PROMPT // Send the prompt to the backend
+          systemInstruction: AGENT_SYSTEM_PROMPT
         }),
       });
 
       if (!response.ok) {
-        // Get error message from backend's JSON response
         const errData = await response.json();
         throw new Error(errData.error || `Server error: ${response.status}`);
       }
@@ -967,10 +1136,9 @@ const AgentChatModal = ({ closeModal }) => {
 
     } catch (error) {
       console.error("Agent API call failed:", error);
-      // Display a user-friendly error in the chat
       const errorMessage = `My apologies, the agent is temporarily unavailable. Please try again shortly. (Details: ${error.message})`;
       setMessages(prev => [...prev, { role: 'agent', text: errorMessage }]);
-      setError(errorMessage); // Set the error state
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -985,136 +1153,167 @@ const AgentChatModal = ({ closeModal }) => {
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 animate-fadeIn"
-      onClick={closeModal}
-    >
-      <div
-        className="bg-gray-900 rounded-2xl shadow-2xl w-full max-w-2xl h-[80vh] flex flex-col overflow-hidden border border-gray-700"
-        onClick={(e) => e.stopPropagation()} // Prevent modal close on content click
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={closeModal}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-          <div className="flex items-center space-x-3">
-            <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-              <span className="flex h-full w-full items-center justify-center rounded-full bg-sky-800 text-white font-bold">
-                <Bot className="w-6 h-6" /> {/* Use Bot icon */}
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          transition={{ duration: 0.3 }}
+          className="glass-strong rounded-2xl shadow-neon-cyan w-full max-w-2xl h-[80vh] flex flex-col overflow-hidden border border-neon-cyan/50"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-neon-blue/30 flex-shrink-0 bg-cyber-dark/50">
+            <div className="flex items-center space-x-3">
+              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/50">
+                <span className="flex h-full w-full items-center justify-center rounded-full bg-neon-blue/20 text-neon-cyan">
+                  <Bot className="w-6 h-6" />
+                </span>
               </span>
-            </span>
-            <div>
-              <p className="text-lg font-semibold text-white">Career-Twin</p>
-              <p className="text-sm text-sky-400">Iqbal's AI Agent</p>
-            </div>
-          </div>
-          <button
-            onClick={closeModal}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Chat Messages */}
-        <div className="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar"> {/* Added custom-scrollbar */}
-          {messages.map((msg, index) => (
-            <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              {/* Icon for agent */}
-              {msg.role === 'agent' && (
-                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-800">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
-                    <Bot className="w-5 w-5" />
-                  </span>
-                </span>
-              )}
-              
-              {/* --- THIS IS THE FIX --- */}
-              {/* We now use ReactMarkdown and the 'prose' styles from Tailwind */}
-              <div
-                className={`max-w-[75%] rounded-2xl ${
-                  msg.role === 'user'
-                    ? 'bg-sky-600 text-white rounded-br-none p-3' // User messages are simple
-                    : 'bg-gray-800 text-gray-200 rounded-bl-none' // Agent messages get markdown
-                }`}
-              >
-                {msg.role === 'agent' ? (
-                  // Apply prose styles only to agent messages
-                  <ReactMarkdown
-                    className="prose prose-invert prose-sm p-3"
-                    components={{
-                      a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300" />
-                    }}
-                  >
-                    {msg.text}
-                  </ReactMarkdown>
-                ) : (
-                  // User messages are rendered as plain text
-                  <p className="text-base">{msg.text}</p>
-                )}
-              </div>
-              {/* --- END FIX --- */}
-
-
-              {/* Icon for user */}
-              {msg.role === 'user' && (
-                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-600">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
-                    <User className="w-5 w-5" />
-                  </span>
-                </span>
-              )}
-            </div>
-          ))}
-          
-          {/* Loading Indicator */}
-          {isLoading && (
-            <div className="flex items-start gap-3 justify-start">
-               <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-sky-800">
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gray-800 text-sky-400">
-                    <Bot className="w-5 w-5" />
-                  </span>
-                </span>
-              <div className="max-w-[75%] p-3 rounded-2xl bg-gray-800 text-gray-200 rounded-bl-none">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
-                  <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
-                </div>
+              <div>
+                <p className="text-lg font-semibold text-neon-cyan">Career-Twin</p>
+                <p className="text-sm text-neon-blue">Iqbal's AI Agent</p>
               </div>
             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-        
-        {/* Error Display */}
-        {error && (
-          <div className="p-3 border-t border-gray-700 bg-red-900/50 text-red-300 text-sm">
-            <strong>Error:</strong> {error}
-          </div>
-        )}
-
-        {/* Input Form */}
-        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700 flex-shrink-0">
-          <div className="flex items-center space-x-3">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about my projects, skills..."
-              disabled={isLoading}
-              className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 disabled:opacity-50"
-            />
-            <button
-              type="submit"
-              disabled={isLoading || !input.trim()}
-              className="p-3 bg-sky-600 text-white rounded-full transition-colors hover:bg-sky-500 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 90 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={closeModal}
+              className="text-gray-400 hover:text-neon-cyan transition-colors"
             >
-              <Send className="w-6 h-6" />
-            </button>
+              <X className="w-6 h-6" />
+            </motion.button>
           </div>
-        </form>
-      </div>
-    </div>
+
+          {/* Chat Messages */}
+          <div className="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar">
+            {messages.map((msg, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                {msg.role === 'agent' && (
+                  <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/50">
+                    <span className="flex h-full w-full items-center justify-center rounded-full bg-cyber-dark text-neon-cyan">
+                      <Bot className="w-5 h-5" />
+                    </span>
+                  </span>
+                )}
+
+                <div
+                  className={`max-w-[75%] rounded-2xl ${
+                    msg.role === 'user'
+                      ? 'bg-neon-blue/80 text-white rounded-br-none p-3 shadow-neon-blue'
+                      : 'glass text-gray-200 rounded-bl-none border border-neon-cyan/30'
+                  }`}
+                >
+                  {msg.role === 'agent' ? (
+                    <ReactMarkdown
+                      className="prose prose-invert prose-sm p-3"
+                      components={{
+                        a: ({ node, ...props }) => (
+                          <a {...props} target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:text-neon-blue" />
+                        )
+                      }}
+                    >
+                      {msg.text}
+                    </ReactMarkdown>
+                  ) : (
+                    <p className="text-base">{msg.text}</p>
+                  )}
+                </div>
+
+                {msg.role === 'user' && (
+                  <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-neon-blue/50">
+                    <span className="flex h-full w-full items-center justify-center rounded-full bg-cyber-dark text-neon-blue">
+                      <User className="w-5 h-5" />
+                    </span>
+                  </span>
+                )}
+              </motion.div>
+            ))}
+
+            {/* Loading Indicator */}
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-start gap-3 justify-start"
+              >
+                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/50">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-cyber-dark text-neon-cyan">
+                    <Bot className="w-5 h-5" />
+                  </span>
+                </span>
+                <div className="max-w-[75%] p-3 rounded-2xl glass text-gray-200 rounded-bl-none border border-neon-cyan/30">
+                  <div className="flex items-center space-x-2">
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 0.6, repeat: Infinity }}
+                      className="w-2 h-2 bg-neon-cyan rounded-full"
+                    />
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                      className="w-2 h-2 bg-neon-cyan rounded-full"
+                    />
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                      className="w-2 h-2 bg-neon-cyan rounded-full"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Error Display */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-3 border-t border-neon-pink/30 bg-neon-pink/10 text-neon-pink text-sm"
+            >
+              <strong>Error:</strong> {error}
+            </motion.div>
+          )}
+
+          {/* Input Form */}
+          <form onSubmit={handleSubmit} className="p-4 border-t border-neon-blue/30 flex-shrink-0 bg-cyber-dark/50">
+            <div className="flex items-center space-x-3">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about my projects, skills..."
+                disabled={isLoading}
+                className="w-full px-4 py-3 rounded-lg glass border border-neon-blue/30 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:border-neon-cyan disabled:opacity-50 transition-all"
+              />
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                type="submit"
+                disabled={isLoading || !input.trim()}
+                className="p-3 bg-neon-blue text-white rounded-full transition-all hover:bg-neon-cyan shadow-neon-blue hover:shadow-neon-cyan disabled:bg-gray-600 disabled:opacity-50"
+              >
+                <Send className="w-6 h-6" />
+              </motion.button>
+            </div>
+          </form>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
-
-

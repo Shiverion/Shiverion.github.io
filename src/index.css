@@ -3,26 +3,221 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Set the base font and dark mode background for the entire page */
+/* Cyber-themed body with animated grid background */
 body {
-  /* Use the 'sans' font family we defined in tailwind.config.js */
   font-family: theme('fontFamily.sans');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #030712; /* This is tailwind's gray-950 */
+  background-color: #050816;
+  background-image:
+    linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar for the chat modal */
+/* Animated cyber grid overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanline effect overlay */
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(0, 217, 255, 0.1) 50%,
+    transparent 100%);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(10, 14, 39, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.glass-strong {
+  background: rgba(10, 14, 39, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+/* Neon text glow effect - subtle and professional */
+.text-neon-glow {
+  text-shadow:
+    0 0 8px rgba(0, 217, 255, 0.3),
+    0 0 12px rgba(0, 217, 255, 0.2);
+}
+
+.text-neon-glow-strong {
+  text-shadow:
+    0 0 10px rgba(0, 217, 255, 0.5),
+    0 0 20px rgba(0, 217, 255, 0.3),
+    0 0 30px rgba(0, 217, 255, 0.15);
+}
+
+.text-neon-purple {
+  text-shadow:
+    0 0 8px rgba(181, 55, 255, 0.3),
+    0 0 12px rgba(181, 55, 255, 0.2);
+}
+
+/* Cyber border glow - subtle */
+.border-glow {
+  box-shadow:
+    0 0 8px rgba(0, 217, 255, 0.3),
+    0 0 15px rgba(0, 217, 255, 0.15),
+    inset 0 0 8px rgba(0, 217, 255, 0.05);
+}
+
+.border-glow-purple {
+  box-shadow:
+    0 0 8px rgba(181, 55, 255, 0.3),
+    0 0 15px rgba(181, 55, 255, 0.15),
+    inset 0 0 8px rgba(181, 55, 255, 0.05);
+}
+
+/* Holographic gradient background */
+.holographic-bg {
+  background: linear-gradient(
+    45deg,
+    rgba(0, 217, 255, 0.1),
+    rgba(181, 55, 255, 0.1),
+    rgba(0, 255, 255, 0.1),
+    rgba(255, 0, 255, 0.1)
+  );
+  background-size: 400% 400%;
+  animation: holographic 5s ease infinite;
+}
+
+/* Cyber card hover effect */
+.cyber-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(45deg, #00d9ff, #b537ff, #00ffff, #ff00ff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cyber-card:hover::before {
+  opacity: 1;
+}
+
+/* Custom cyber scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #1f2937; /* gray-800 */
+  background: rgba(10, 14, 39, 0.5);
+  border-radius: 10px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #374151; /* gray-700 */
-  border-radius: 4px;
+  background: linear-gradient(180deg, #00d9ff, #b537ff);
+  border-radius: 10px;
+  border: 2px solid rgba(10, 14, 39, 0.5);
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #4b5563; /* gray-600 */
+  background: linear-gradient(180deg, #00ffff, #ff00ff);
+}
+
+/* Glitch effect utility */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #00d9ff;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #b537ff;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+  }
+}
+
+/* Cyber grid pattern */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(0, 217, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Neon underline effect */
+.neon-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.neon-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+  box-shadow: 0 0 10px #00d9ff;
 }
