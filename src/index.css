@@ -3,221 +3,152 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Cyber-themed body with animated grid background */
+/* GitHub Dark Theme Variables */
+:root {
+  --github-bg: #0d1117;
+  --github-card-bg: #161b22;
+  --github-border: #30363d;
+  --github-text-main: #c9d1d9;
+  --github-text-muted: #8b949e;
+  --github-accent: #58a6ff;
+  --github-success: #238636;
+  --github-btn-bg: #21262d;
+  --github-btn-hover: #30363d;
+  --github-header-bg: #161b22;
+}
+
 body {
-  font-family: theme('fontFamily.sans');
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #050816;
-  background-image:
-    linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  position: relative;
-  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: var(--github-bg);
+  color: var(--github-text-main);
+  line-height: 1.5;
 }
 
-/* Animated cyber grid overlay */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
+/* GitHub Card Style */
+.github-card {
+  background-color: var(--github-card-bg);
+  border: 1px solid var(--github-border);
+  border-radius: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Scanline effect overlay */
-.scanline {
-  position: relative;
-  overflow: hidden;
+.github-card:hover {
+  border-color: var(--github-text-muted);
 }
 
-.scanline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(0, 217, 255, 0.1) 50%,
-    transparent 100%);
-  animation: scanline 8s linear infinite;
-  pointer-events: none;
-  z-index: 10;
+/* GitHub Button Style */
+.github-btn {
+  background-color: var(--github-btn-bg);
+  color: var(--github-text-main);
+  border: 1px solid var(--github-border);
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  border-radius: 6px;
+  transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  transition-property: color, background-color, border-color;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-/* Glass morphism effect */
-.glass {
-  background: rgba(10, 14, 39, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 217, 255, 0.2);
+.github-btn:hover {
+  background-color: var(--github-btn-hover);
+  border-color: var(--github-text-muted);
+  text-decoration: none;
 }
 
-.glass-strong {
-  background: rgba(10, 14, 39, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 217, 255, 0.3);
+.github-btn-primary {
+  background-color: var(--github-success);
+  color: #ffffff;
+  border: 1px solid rgba(240, 246, 252, 0.1);
 }
 
-/* Neon text glow effect - subtle and professional */
-.text-neon-glow {
-  text-shadow:
-    0 0 8px rgba(0, 217, 255, 0.3),
-    0 0 12px rgba(0, 217, 255, 0.2);
+.github-btn-primary:hover {
+  background-color: #2ea043;
+  border-color: rgba(240, 246, 252, 0.1);
 }
 
-.text-neon-glow-strong {
-  text-shadow:
-    0 0 10px rgba(0, 217, 255, 0.5),
-    0 0 20px rgba(0, 217, 255, 0.3),
-    0 0 30px rgba(0, 217, 255, 0.15);
+.github-btn-accent {
+  color: var(--github-accent);
+  background-color: transparent;
+  border: 0;
 }
 
-.text-neon-purple {
-  text-shadow:
-    0 0 8px rgba(181, 55, 255, 0.3),
-    0 0 12px rgba(181, 55, 255, 0.2);
+.github-btn-accent:hover {
+  text-decoration: underline;
 }
 
-/* Cyber border glow - subtle */
-.border-glow {
-  box-shadow:
-    0 0 8px rgba(0, 217, 255, 0.3),
-    0 0 15px rgba(0, 217, 255, 0.15),
-    inset 0 0 8px rgba(0, 217, 255, 0.05);
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
 }
 
-.border-glow-purple {
-  box-shadow:
-    0 0 8px rgba(181, 55, 255, 0.3),
-    0 0 15px rgba(181, 55, 255, 0.15),
-    inset 0 0 8px rgba(181, 55, 255, 0.05);
+::-webkit-scrollbar-track {
+  background: var(--github-bg);
 }
 
-/* Holographic gradient background */
-.holographic-bg {
-  background: linear-gradient(
-    45deg,
-    rgba(0, 217, 255, 0.1),
-    rgba(181, 55, 255, 0.1),
-    rgba(0, 255, 255, 0.1),
-    rgba(255, 0, 255, 0.1)
-  );
-  background-size: 400% 400%;
-  animation: holographic 5s ease infinite;
+::-webkit-scrollbar-thumb {
+  background-color: var(--github-border);
+  border: 3px solid var(--github-bg);
+  border-radius: 10px;
 }
 
-/* Cyber card hover effect */
-.cyber-card {
-  position: relative;
-  transition: all 0.3s ease;
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--github-text-muted);
 }
 
-.cyber-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  padding: 2px;
-  background: linear-gradient(45deg, #00d9ff, #b537ff, #00ffff, #ff00ff);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+/* Utilities */
+.text-github-accent {
+  color: var(--github-accent);
 }
 
-.cyber-card:hover::before {
-  opacity: 1;
+.text-github-muted {
+  color: var(--github-text-muted);
 }
 
-/* Custom cyber scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
+.border-github {
+  border-color: var(--github-border);
+}
+
+.bg-github-card {
+  background-color: var(--github-card-bg);
+}
+
+.bg-github-header {
+  background-color: var(--github-header-bg);
+}
+
+/* Contribution Graph Grid Mockup */
+.contribution-grid {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.contribution-cell {
   width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: #161b22;
+  /* Level 0 */
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(10, 14, 39, 0.5);
-  border-radius: 10px;
+.contribution-cell.level-1 {
+  background-color: #0e4429;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00d9ff, #b537ff);
-  border-radius: 10px;
-  border: 2px solid rgba(10, 14, 39, 0.5);
+.contribution-cell.level-2 {
+  background-color: #006d32;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #00ffff, #ff00ff);
+.contribution-cell.level-3 {
+  background-color: #26a641;
 }
 
-/* Glitch effect utility */
-.glitch {
-  position: relative;
-}
-
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.glitch::before {
-  left: 2px;
-  text-shadow: -2px 0 #00d9ff;
-  clip: rect(24px, 550px, 90px, 0);
-  animation: glitch-anim 3s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-  left: -2px;
-  text-shadow: -2px 0 #b537ff;
-  clip: rect(85px, 550px, 140px, 0);
-  animation: glitch-anim 2.5s infinite linear alternate-reverse;
-}
-
-@keyframes glitch-anim {
-  0% {
-    clip: rect(random(100) + px, 9999px, random(100) + px, 0);
-  }
-}
-
-/* Cyber grid pattern */
-.cyber-grid {
-  background-image:
-    linear-gradient(rgba(0, 217, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
-  background-size: 30px 30px;
-}
-
-/* Neon underline effect */
-.neon-underline {
-  position: relative;
-  display: inline-block;
-}
-
-.neon-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #00d9ff, transparent);
-  box-shadow: 0 0 10px #00d9ff;
+.contribution-cell.level-4 {
+  background-color: #39d353;
 }
