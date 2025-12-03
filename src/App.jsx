@@ -101,6 +101,13 @@ const portfolioData = {
   ],
   projects: [
     {
+      title: "Cybersecurity Analyzer Agent",
+      description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
+      demoUrl: "https://cyber-analyzer-xag3yi2i3q-uc.a.run.app/",
+      repoUrl: null,
+      imageUrl: "/images/Cybersecurity Analyst.png"
+    },
+    {
       title: "Career Digital Twin (RAG Chatbot)",
       description: "Built and deployed a personal agent to represent my skills and experience to potential employers, automating the initial stages of job applications.",
       demoUrl: "https://huggingface.co/spaces/Shiverion/career_conversations",
@@ -134,13 +141,6 @@ const portfolioData = {
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/AirBnB-Data-Analysis",
       imageUrl: "/images/airbnb_analysis_bangkok.png"
-    },
-    {
-      title: "Cybersecurity Analyzer Agent",
-      description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
-      demoUrl: "https://cyber-analyzer.livelycoast-f551c6c5.southeastasia.azurecontainerapps.io/",
-      repoUrl: null,
-      imageUrl: "https://placehold.co/600x400/1a1a1a/ffffff?text=Cybersecurity+Analyzer"
     }
   ],
   education: [
@@ -305,19 +305,17 @@ const Header = ({ currentPage, navigateTo }) => {
         navigateTo(page);
         setIsMobileMenuOpen(false);
       }}
-      className={`transition-all duration-300 ${
-        isMobile
-          ? 'block w-full text-left px-4 py-3 rounded-lg text-lg'
-          : 'px-4 py-2 rounded-md text-sm font-medium'
-      } ${
-        currentPage === page
+      className={`transition-all duration-300 ${isMobile
+        ? 'block w-full text-left px-4 py-3 rounded-lg text-lg'
+        : 'px-4 py-2 rounded-md text-sm font-medium'
+        } ${currentPage === page
           ? (isMobile
-              ? 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50'
-              : 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50 shadow-neon-blue')
+            ? 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50'
+            : 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50 shadow-neon-blue')
           : (isMobile
-              ? 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30'
-              : 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30')
-      }`}
+            ? 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30'
+            : 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30')
+        }`}
     >
       {children}
     </motion.button>
@@ -535,10 +533,9 @@ const Hero = ({ navigateTo, openAgentModal }) => {
       <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
 
       <div className="relative w-full max-w-5xl mx-auto">
-        {/* Animated neon orbs */}
+        {/* Animated neon orbs - Optimized for performance (static with opacity pulse) */}
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
           }}
           transition={{ duration: 5, repeat: Infinity }}
@@ -546,7 +543,6 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         />
         <motion.div
           animate={{
-            scale: [1, 1.3, 1],
             opacity: [0.3, 0.5, 0.3],
           }}
           transition={{ duration: 7, repeat: Infinity, delay: 1 }}
@@ -1221,11 +1217,10 @@ const AgentChatModal = ({ closeModal }) => {
                 )}
 
                 <div
-                  className={`max-w-[75%] rounded-2xl ${
-                    msg.role === 'user'
-                      ? 'bg-neon-blue/80 text-white rounded-br-none p-3 shadow-neon-blue'
-                      : 'glass text-gray-200 rounded-bl-none border border-neon-cyan/30'
-                  }`}
+                  className={`max-w-[75%] rounded-2xl ${msg.role === 'user'
+                    ? 'bg-neon-blue/80 text-white rounded-br-none p-3 shadow-neon-blue'
+                    : 'glass text-gray-200 rounded-bl-none border border-neon-cyan/30'
+                    }`}
                 >
                   {msg.role === 'agent' ? (
                     <ReactMarkdown
