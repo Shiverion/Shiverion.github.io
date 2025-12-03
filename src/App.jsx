@@ -103,8 +103,11 @@ const portfolioData = {
     {
       title: "Cybersecurity Analyzer Agent",
       description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
-      demoUrl: "https://cyber-analyzer-xag3yi2i3q-uc.a.run.app/",
-      repoUrl: null,
+      demoLinks: [
+        { label: "Azure Demo", url: "https://cyber-analyzer.livelycoast-f551c6c5.southeastasia.azurecontainerapps.io/" },
+        { label: "GCP Demo", url: "https://cyber-analyzer-xag3yi2i3q-uc.a.run.app/" }
+      ],
+      repoUrl: "https://github.com/Shiverion/cybersecurity-agent",
       imageUrl: "/images/Cybersecurity Analyst.png"
     },
     {
@@ -849,18 +852,34 @@ const Projects = () => (
               dangerouslySetInnerHTML={{ __html: project.description }}
             />
 
-            <div className="flex items-center justify-end space-x-4 mt-auto">
-              {project.demoUrl && (
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-2 bg-neon-blue text-white text-sm font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
-                >
-                  View Demo
-                </motion.a>
+            <div className="flex items-center justify-end gap-3 mt-auto flex-wrap">
+              {project.demoLinks ? (
+                project.demoLinks.map((link, i) => (
+                  <motion.a
+                    key={i}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-neon-blue text-white text-xs font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
+                  >
+                    {link.label}
+                  </motion.a>
+                ))
+              ) : (
+                project.demoUrl && (
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2 bg-neon-blue text-white text-sm font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
+                  >
+                    View Demo
+                  </motion.a>
+                )
               )}
               {project.repoUrl && (
                 <motion.a
