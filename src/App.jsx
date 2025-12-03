@@ -207,8 +207,8 @@ const Header = ({ activeTab, setActiveTab }) => {
               key={tab.name}
               onClick={() => setActiveTab(tab.name)}
               className={`flex items-center gap-2 px-4 py-2 text-sm border-b-2 transition-colors h-full mt-auto ${activeTab === tab.name
-                  ? 'border-[#f78166] font-semibold text-[#c9d1d9]'
-                  : 'border-transparent text-[#8b949e] hover:text-[#c9d1d9] hover:border-[#8b949e]'
+                ? 'border-[#f78166] font-semibold text-[#c9d1d9]'
+                : 'border-transparent text-[#8b949e] hover:text-[#c9d1d9] hover:border-[#8b949e]'
                 }`}
             >
               {tab.icon}
@@ -245,14 +245,14 @@ const ProfileSidebar = ({ openAgentModal }) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="relative group">
-        <img 
-          src={portfolioData.profileImageUrl} 
-          alt="Profile" 
+        <img
+          src={portfolioData.profileImageUrl}
+          alt="Profile"
           className="w-full max-w-[296px] rounded-full border border-[#30363d] shadow-sm"
           onError={(e) => { e.target.src = 'https://placehold.co/400x400/161b22/c9d1d9?text=Profile'; }}
         />
         <div className="absolute bottom-10 right-4 bg-[#161b22] border border-[#30363d] rounded-full p-2 shadow-md">
-          <span className="text-xl">🎯</span> 
+          <span className="text-xl">🎯</span>
         </div>
       </div>
 
@@ -265,7 +265,7 @@ const ProfileSidebar = ({ openAgentModal }) => {
         <p>{portfolioData.bio}</p>
       </div>
 
-      <button 
+      <button
         onClick={openAgentModal}
         className="w-full github-btn bg-[#238636] text-white border-[rgba(240,246,252,0.1)] hover:bg-[#2ea043]"
       >
@@ -284,7 +284,7 @@ const ProfileSidebar = ({ openAgentModal }) => {
         </div>
         <div className="flex items-center gap-2">
           <Mail className="w-4 h-4 text-[#8b949e]" />
-          <a href={\`mailto:\${portfolioData.email}\`} className="hover:text-[#58a6ff] hover:underline">{portfolioData.email}</a>
+          <a href={`mailto:${portfolioData.email}`} className="hover:text-[#58a6ff] hover:underline">{portfolioData.email}</a>
         </div>
         <div className="flex items-center gap-2">
           <LinkIcon className="w-4 h-4 text-[#8b949e]" />
@@ -556,8 +556,8 @@ const AgentChatModal = ({ closeModal }) => {
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[80%] p-3 rounded-lg text-sm ${msg.role === 'user'
-                  ? 'bg-[#1f6feb] text-white'
-                  : 'bg-[#21262d] text-[#c9d1d9] border border-[#30363d]'
+                ? 'bg-[#1f6feb] text-white'
+                : 'bg-[#21262d] text-[#c9d1d9] border border-[#30363d]'
                 }`}>
                 <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
