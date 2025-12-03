@@ -3,152 +3,150 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GitHub Dark Theme Variables */
-:root {
-  --github-bg: #0d1117;
-  --github-card-bg: #161b22;
-  --github-border: #30363d;
-  --github-text-main: #c9d1d9;
-  --github-text-muted: #8b949e;
-  --github-accent: #58a6ff;
-  --github-success: #238636;
-  --github-btn-bg: #21262d;
-  --github-btn-hover: #30363d;
-  --github-header-bg: #161b22;
-}
-
+/* GitHub Dark Theme Body */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  background-color: var(--github-bg);
-  color: var(--github-text-main);
-  line-height: 1.5;
+  font-family: theme('fontFamily.sans');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0d1117;
+  color: #c9d1d9;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* GitHub Card Style */
-.github-card {
-  background-color: var(--github-card-bg);
-  border: 1px solid var(--github-border);
+/* Subtle Grid Background (GitHub style) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(48, 54, 61, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48, 54, 61, 0.2) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Scanline effect overlay */
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanline - Removed/Hidden */
+.scanline::before {
+  display: none;
+}
+
+/* Glass morphism - GitHub Card Style */
+.glass {
+  background: #161b22;
+  border: 1px solid #30363d;
   border-radius: 6px;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.github-card:hover {
-  border-color: var(--github-text-muted);
-}
-
-/* GitHub Button Style */
-.github-btn {
-  background-color: var(--github-btn-bg);
-  color: var(--github-text-main);
-  border: 1px solid var(--github-border);
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
+.glass-strong {
+  background: #161b22;
+  border: 1px solid #30363d;
   border-radius: 6px;
-  transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-  transition-property: color, background-color, border-color;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
-.github-btn:hover {
-  background-color: var(--github-btn-hover);
-  border-color: var(--github-text-muted);
-  text-decoration: none;
+/* Text Glow - Removed */
+.text-neon-glow,
+.text-neon-glow-strong,
+.text-neon-purple {
+  text-shadow: none;
 }
 
-.github-btn-primary {
-  background-color: var(--github-success);
-  color: #ffffff;
-  border: 1px solid rgba(240, 246, 252, 0.1);
+/* Border Glow - Removed */
+.border-glow,
+.border-glow-purple {
+  box-shadow: none;
+  border-color: #30363d;
 }
 
-.github-btn-primary:hover {
-  background-color: #2ea043;
-  border-color: rgba(240, 246, 252, 0.1);
+/* Holographic BG - Removed */
+.holographic-bg {
+  background: #161b22;
+  animation: none;
 }
 
-.github-btn-accent {
-  color: var(--github-accent);
-  background-color: transparent;
-  border: 0;
+/* Cyber Card - GitHub Style Hover */
+.cyber-card {
+  position: relative;
+  transition: all 0.2s ease;
+  border: 1px solid #30363d;
+  border-radius: 6px;
 }
 
-.github-btn-accent:hover {
-  text-decoration: underline;
+.cyber-card:hover {
+  border-color: #8b949e;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
+.cyber-card::before {
+  display: none;
+}
+
+/* Custom Scrollbar - GitHub Style */
+.custom-scrollbar::-webkit-scrollbar {
   width: 12px;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--github-bg);
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0d1117;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--github-border);
-  border: 3px solid var(--github-bg);
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #30363d;
+  border: 3px solid #0d1117;
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--github-text-muted);
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #8b949e;
 }
 
-/* Utilities */
-.text-github-accent {
-  color: var(--github-accent);
+/* Glitch effect utility */
+.glitch {
+  position: relative;
 }
 
-.text-github-muted {
-  color: var(--github-text-muted);
+/* Glitch - Removed */
+.glitch::before,
+.glitch::after {
+  display: none;
 }
 
-.border-github {
-  border-color: var(--github-border);
+/* Cyber Grid - Subtle */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(48, 54, 61, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48, 54, 61, 0.2) 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 
-.bg-github-card {
-  background-color: var(--github-card-bg);
+/* Neon Underline - GitHub Link Style */
+.neon-underline {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
 }
 
-.bg-github-header {
-  background-color: var(--github-header-bg);
+.neon-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  box-shadow: none;
 }
 
-/* Contribution Graph Grid Mockup */
-.contribution-grid {
-  display: grid;
-  grid-template-columns: repeat(53, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  gap: 3px;
-}
-
-.contribution-cell {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  background-color: #161b22;
-  /* Level 0 */
-}
-
-.contribution-cell.level-1 {
-  background-color: #0e4429;
-}
-
-.contribution-cell.level-2 {
-  background-color: #006d32;
-}
-
-.contribution-cell.level-3 {
-  background-color: #26a641;
-}
-
-.contribution-cell.level-4 {
-  background-color: #39d353;
+.neon-underline:hover {
+  text-decoration: underline;
+  text-decoration-color: #58a6ff;
 }
