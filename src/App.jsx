@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Routes, Route, Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import {
@@ -12,6 +13,7 @@ import {
   Github,
   Instagram,
   ChevronUp,
+  ChevronDown,
   X,
   Send,
   User,
@@ -19,7 +21,15 @@ import {
   Bot,
   Loader2,
   Menu,
-  Sparkles
+  Sparkles,
+  FileDown,
+  TrendingUp,
+  ArrowRight,
+  Sun,
+  Moon,
+  Filter,
+  Award,
+  ExternalLink
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
@@ -101,8 +111,11 @@ const portfolioData = {
   ],
   projects: [
     {
+      slug: "cybersecurity-analyzer",
       title: "Cybersecurity Analyzer Agent",
       description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
+      technologies: ["Python", "OpenAI", "Semgrep", "Azure", "GCP"],
+      metrics: ["AI-Driven Security"],
       demoLinks: [
         { label: "Azure Demo", url: "https://cyber-analyzer.livelycoast-f551c6c5.southeastasia.azurecontainerapps.io/" },
         { label: "GCP Demo", url: "https://cyber-analyzer-xag3yi2i3q-uc.a.run.app/" }
@@ -111,36 +124,51 @@ const portfolioData = {
       imageUrl: "/images/Cybersecurity Analyst.png"
     },
     {
+      slug: "career-digital-twin",
       title: "Career Digital Twin (RAG Chatbot)",
       description: "Built and deployed a personal agent to represent my skills and experience to potential employers, automating the initial stages of job applications.",
+      technologies: ["Python", "RAG", "LangChain", "HuggingFace"],
+      metrics: ["Automated Screening"],
       demoUrl: "https://huggingface.co/spaces/Shiverion/career_conversations",
       repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG",
       imageUrl: "/images/Career-Digital-Twin.gif"
     },
     {
+      slug: "trader-agent-simulator",
       title: "Trader Agent Simulator – Autonomous Portfolio Management",
       description: "Built an intelligent trader agent using the <strong>OpenAI Agents SDK</strong>, capable of alternating between trading and rebalancing its portfolio using real-time insights from a researcher agent. Leveraged advanced async context management for clean multi-server handling, and integrated support for multiple LLM providers (OpenAI, DeepSeek, Google, Anthropic).",
+      technologies: ["Python", "OpenAI SDK", "Multi-Agent", "Async"],
+      metrics: ["Multi-LLM Support"],
       demoUrl: null,
       repoUrl: null,
       imageUrl: "/images/Trader-Agent-Simulator.jpg"
     },
     {
+      slug: "parliament-chatbot",
       title: "Indonesian Parliament Activity Chatbot",
       description: "This project implements a chatbot that can answer questions about the activities and agendas of the Indonesian Parliament members. It utilizes a SQL database containing agenda data and leverages large language models (LLMs) through the <strong>Langchain</strong> library to interact with the database and provide natural language responses.",
+      technologies: ["Python", "LangChain", "SQL", "NLP"],
+      metrics: ["Real-time Data"],
       demoUrl: null,
       repoUrl: null,
       imageUrl: "/images/DPR-chatbot.png"
     },
     {
+      slug: "telco-churn-analysis",
       title: "Telco Churn Analysis",
       description: "Developed a churn prediction model using <strong>AllKNN</strong> with hyperparameter tuning, focused on minimizing false negatives. Achieved <strong>93.7% recall</strong>, reducing potential high-risk churn losses by $18.8K and cutting total misclassification costs by $48.5K, outperforming benchmark models like XGBoost and Random Forest.",
+      technologies: ["Python", "Scikit-learn", "XGBoost", "Pandas"],
+      metrics: ["93.7% Recall", "-$48.5K Costs"],
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/Telcho-Churn-Analysis",
       imageUrl: "/images/Telco-Churn-Analysis.png"
     },
     {
+      slug: "airbnb-analysis",
       title: "Airbnb Data Analysis",
       description: "Analyzed Airbnb listings in Bangkok to identify peak-season revenue opportunities for December. Implemented dynamic pricing, extended-stay discounts, and last-minute deals. These optimizations increased total December revenue by <strong>7.6%</strong>, generating an additional <strong>฿3.9 million</strong> in high-demand areas.",
+      technologies: ["Python", "Pandas", "Data Viz", "Analytics"],
+      metrics: ["+7.6% Revenue", "+฿3.9M"],
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/AirBnB-Data-Analysis",
       imageUrl: "/images/airbnb_analysis_bangkok.png"
@@ -160,24 +188,32 @@ const portfolioData = {
   ],
   certifications: [
     {
-      name: "Agentic AI Engineering",
+      name: "MLOps with Vertex AI: Model Evaluation",
+      issuer: "Google",
+      date: "Credential ID: 20598469",
+      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
+      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469"
+    },
+    {
+      name: "Artificial Intelligence Fundamentals",
+      issuer: "IBM",
+      date: "Verified Credential",
+      description: "Comprehensive AI concepts including NLP, computer vision, deep learning, neural networks, and AI ethics. Practical experience with IBM Watson Studio.",
+      url: "https://www.credly.com/badges/727eb3d7-8c1d-4f63-80b4-edb20ca832ee/public_url"
+    },
+    {
+      name: "LLM Engineering, RAG, QLoRA, Agents",
+      issuer: "Udemy - I Engineer Core Track",
+      date: "Certificate ID: UC-bab4e4c3-5eee-4003-b4a3-6cdee24c48812",
+      description: "Advanced LLM engineering covering Retrieval-Augmented Generation (RAG), QLoRA fine-tuning, and building autonomous AI agents with modern frameworks.",
+      url: "https://ude.my/UC-bab4e4c3-5eee-4003-b4a3-6cdee24c48813"
+    },
+    {
+      name: "Complete Agentic AI Engineering Course (2025)",
       issuer: "Udemy",
-      date: "Issued July 2025"
-    },
-    {
-      name: "Artificial Intelligence",
-      issuer: "Kominfo's Digital Talent Scholarship",
-      date: "Issued Sep 2023"
-    },
-    {
-      name: "Metaverse Engineering",
-      issuer: "Kominfo's Digital Talent Scholarship",
-      date: "Issued April 2023"
-    },
-    {
-      name: "Data Science & AI",
-      issuer: "DQLab",
-      date: "Issued 2020 – 2022"
+      date: "Certificate ID: UC-0bac03ce-c247-4102-b92a-74fab96ca0fe2",
+      description: "End-to-end agentic AI development including multi-agent systems, tool integration, memory management, and production deployment strategies.",
+      url: "https://ude.my/UC-0bac03ce-c247-4102-b92a-74fab96ca0fe3"
     }
   ],
   contactEmail: "miqbal.izzulhaq@gmail.com",
@@ -256,15 +292,52 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
 
 /**
  * Main App Component
- * Manages page state and navigation.
+ * Manages page state and navigation with React Router.
  */
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('Hero');
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  // Map routes to page names for header highlighting
+  const getPageFromPath = (path) => {
+    if (path === '/') return 'Hero';
+    if (path.startsWith('/projects/')) return 'Projects';
+    const routeMap = {
+      '/about': 'About',
+      '/experience': 'Experience',
+      '/projects': 'Projects',
+      '/education': 'Education',
+      '/contact': 'Contact'
+    };
+    return routeMap[path] || 'Hero';
+  };
+
+  const currentPage = getPageFromPath(location.pathname);
+
+  // Page order for navigation
+  const pages = ['Hero', 'About', 'Experience', 'Projects', 'Education', 'Contact'];
+
+  // Route-based navigation
   const navigateTo = (page) => {
-    setCurrentPage(page);
+    const routeMap = {
+      'Hero': '/',
+      'About': '/about',
+      'Experience': '/experience',
+      'Projects': '/projects',
+      'Education': '/education',
+      'Contact': '/contact'
+    };
+    navigate(routeMap[page] || '/');
     window.scrollTo(0, 0);
+  };
+
+  const getNextPage = () => {
+    const currentIndex = pages.indexOf(currentPage);
+    if (currentIndex < pages.length - 1) {
+      return pages[currentIndex + 1];
+    }
+    return null;
   };
 
   return (
@@ -272,21 +345,122 @@ export default function App() {
       {/* Scanline effect overlay */}
       <div className="scanline fixed inset-0 pointer-events-none z-[100]" />
 
-      <Header currentPage={currentPage} navigateTo={navigateTo} />
+      <Header
+        currentPage={currentPage}
+        navigateTo={navigateTo}
+        pages={pages}
+      />
 
       <main className="pt-20 relative z-10">
-        <PageContainer
-          currentPage={currentPage}
-          navigateTo={navigateTo}
-          openAgentModal={() => setIsAgentModalOpen(true)}
-        />
+        <Routes>
+          <Route path="/" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <Hero navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} />
+            </PageWrapper>
+          } />
+          <Route path="/about" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <About />
+            </PageWrapper>
+          } />
+          <Route path="/experience" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <Experience />
+            </PageWrapper>
+          } />
+          <Route path="/projects" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <Projects />
+            </PageWrapper>
+          } />
+          <Route path="/projects/:slug" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={null}>
+              <ProjectDetail />
+            </PageWrapper>
+          } />
+          <Route path="/education" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <Education />
+            </PageWrapper>
+          } />
+          <Route path="/contact" element={
+            <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={null}>
+              <Contact />
+            </PageWrapper>
+          } />
+        </Routes>
       </main>
 
       <Footer navigateTo={navigateTo} />
 
+      {/* Floating AI Agent Button - Always visible */}
+      {!isAgentModalOpen && (
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 1, duration: 0.3 }}
+          className="floating-button"
+        >
+          <div className="floating-button-pulse" />
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsAgentModalOpen(true)}
+            className="relative z-10 p-4 bg-neon-blue text-white rounded-full shadow-lg border border-neon-cyan/50 transition-all hover:shadow-neon-cyan flex items-center justify-center"
+            aria-label="Ask AI Agent"
+          >
+            <Sparkles className="w-6 h-6" />
+          </motion.button>
+        </motion.div>
+      )}
+
       {isAgentModalOpen && (
         <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
       )}
+    </div>
+  );
+}
+
+/**
+ * PageWrapper Component
+ * Wraps page content with navigation buttons
+ */
+const PageWrapper = ({ children, navigateTo, nextPage }) => {
+  return (
+    <div className="min-h-screen">
+      {children}
+
+      {/* Next Section Button */}
+      {nextPage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="fixed bottom-24 right-6 z-40"
+        >
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigateTo(nextPage)}
+            className="flex items-center gap-2 px-4 py-2 glass rounded-full border border-neon-cyan/30 text-neon-cyan text-sm font-medium hover:border-neon-cyan/60 hover:shadow-neon-cyan transition-all"
+          >
+            Next: {nextPage}
+            <ArrowRight className="w-4 h-4" />
+          </motion.button>
+        </motion.div>
+      )}
+
+      {/* Back to Top Button */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 p-3 glass rounded-full border border-neon-blue/50 text-neon-cyan hover:shadow-neon-blue transition-all z-40"
+        aria-label="Back to top"
+      >
+        <ChevronUp className="w-5 h-5" />
+      </motion.button>
     </div>
   );
 }
@@ -297,7 +471,7 @@ export default function App() {
  * Header Component
  * Displays navigation links with cyber glass-morphism effect.
  */
-const Header = ({ currentPage, navigateTo }) => {
+const Header = ({ currentPage, navigateTo, pages }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const NavLink = ({ page, children, isMobile = false }) => (
@@ -323,6 +497,16 @@ const Header = ({ currentPage, navigateTo }) => {
       {children}
     </motion.button>
   );
+
+  // Page labels for tooltips
+  const pageLabels = {
+    'Hero': 'Home',
+    'About': 'About',
+    'Experience': 'Experience',
+    'Projects': 'Projects',
+    'Education': 'Education',
+    'Contact': 'Contact'
+  };
 
   return (
     <motion.header
@@ -356,6 +540,37 @@ const Header = ({ currentPage, navigateTo }) => {
             </div>
           </div>
 
+          {/* Right side controls */}
+          <div className="hidden md:flex items-center gap-4">
+            {/* Progress Dots */}
+            <div className="flex items-center gap-2">
+              {pages.map((page) => (
+                <motion.button
+                  key={page}
+                  whileHover={{ scale: 1.3 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => navigateTo(page)}
+                  className={`progress-dot ${currentPage === page ? 'active' : ''}`}
+                  title={pageLabels[page]}
+                  aria-label={`Navigate to ${pageLabels[page]}`}
+                />
+              ))}
+            </div>
+
+            {/* Resume Button */}
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://drive.google.com/file/d/1gnyOl0OWglBntwKF54ow30mpnh4n2Dd6/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium glass rounded-lg border border-neon-cyan/30 text-neon-cyan hover:text-white hover:border-neon-cyan/60 hover:shadow-neon-cyan transition-all"
+            >
+              <FileDown className="w-4 h-4" />
+              Resume
+            </motion.a>
+          </div>
+
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <motion.button
@@ -387,6 +602,21 @@ const Header = ({ currentPage, navigateTo }) => {
               <NavLink page="Projects" isMobile>Projects</NavLink>
               <NavLink page="Education" isMobile>Education</NavLink>
               <NavLink page="Contact" isMobile>Contact</NavLink>
+
+              {/* Mobile Progress Dots */}
+              <div className="flex items-center justify-center gap-3 pt-4 pb-2 border-t border-neon-blue/20 mt-2">
+                {pages.map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => {
+                      navigateTo(page);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`progress-dot ${currentPage === page ? 'active' : ''}`}
+                    aria-label={`Navigate to ${pageLabels[page]}`}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
@@ -399,7 +629,7 @@ const Header = ({ currentPage, navigateTo }) => {
  * PageContainer Component
  * Renders the correct page with animations.
  */
-const PageContainer = ({ currentPage, navigateTo, openAgentModal }) => {
+const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -409,6 +639,16 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Page labels for next section button
+  const pageLabels = {
+    'Hero': 'Home',
+    'About': 'About',
+    'Experience': 'Experience',
+    'Projects': 'Projects',
+    'Education': 'Education',
+    'Contact': 'Contact'
+  };
 
   let pageContent;
   switch (currentPage) {
@@ -445,6 +685,32 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal }) => {
     >
       {pageContent}
 
+      {/* Next Section Button */}
+      {nextPage && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="flex justify-center mt-16"
+        >
+          <motion.button
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigateTo(nextPage)}
+            className="group flex items-center gap-3 px-6 py-3 glass rounded-full border border-neon-blue/30 text-gray-300 hover:text-neon-cyan hover:border-neon-cyan/50 transition-all duration-300"
+          >
+            <span className="text-sm font-medium">Next: {pageLabels[nextPage]}</span>
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <ArrowRight className="w-4 h-4" />
+            </motion.div>
+          </motion.button>
+        </motion.div>
+      )}
+
+      {/* Back to Top Button - positioned higher to not overlap with floating AI button */}
       <AnimatePresence>
         {isScrolled && (
           <motion.button
@@ -454,7 +720,7 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal }) => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => navigateTo('Hero')}
-            className="fixed bottom-6 right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-50"
+            className="fixed bottom-24 right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-40"
             aria-label="Back to Top"
           >
             <ChevronUp className="h-6 w-6" />
@@ -531,7 +797,7 @@ const Footer = ({ navigateTo }) => {
  */
 const Hero = ({ navigateTo, openAgentModal }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] py-20 relative">
+    <div className="flex flex-col items-center justify-center min-h-[75vh] py-20 relative">
       {/* Cyber grid background */}
       <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
 
@@ -586,39 +852,28 @@ const Hero = ({ navigateTo, openAgentModal }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
-              className="mt-6 mb-12 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0"
+              className="mt-6 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0"
             >
               {portfolioData.tagline}
             </motion.h2>
-
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row justify-center md:justify-start gap-4"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => navigateTo('About')}
-                className="px-8 py-3 glass text-neon-cyan text-lg font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all duration-300 hover:shadow-neon-cyan hover:text-white focus:outline-none"
-              >
-                View My Work
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={openAgentModal}
-                className="px-8 py-3 glass text-neon-cyan text-lg font-semibold rounded-lg shadow-neon-blue border border-neon-purple/50 transition-all duration-300 hover:shadow-neon-purple hover:text-neon-purple focus:outline-none flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-5 h-5" />
-                Ask My Agent
-              </motion.button>
-            </motion.div>
           </motion.div>
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
+        className="scroll-indicator mt-16"
+      >
+        <span className="scroll-indicator-text">Scroll to explore</span>
+        <motion.div
+          className="animate-bounce-slow"
+        >
+          <ChevronDown className="w-6 h-6 text-neon-cyan" />
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
@@ -824,82 +1079,364 @@ const ProjectMedia = ({ src, alt }) => {
  * Projects Page
  * Project cards with animated neon borders.
  */
-const Projects = () => (
-  <Section title="Featured Projects" icon={<Lightbulb />}>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {portfolioData.projects.map((project, index) => (
-        <motion.div
-          key={index}
-          initial={{ scale: 0.8, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          whileHover={{
-            y: -10,
-            transition: { duration: 0.3 }
-          }}
-          className="glass rounded-lg shadow-glass overflow-hidden flex flex-col transition-all duration-300 hover:shadow-neon-cyan cyber-card border border-neon-blue/30"
-        >
-          <div className="relative overflow-hidden group">
-            <ProjectMedia src={project.imageUrl} alt={project.title} />
-            <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </div>
+const Projects = () => {
+  const [activeFilter, setActiveFilter] = useState('All');
 
-          <div className="p-6 flex-grow flex flex-col">
-            <h3 className="text-2xl font-semibold text-neon-cyan mb-3">{project.title}</h3>
+  // Get unique technologies from all projects
+  const allTechnologies = [...new Set(
+    portfolioData.projects.flatMap(p => p.technologies || [])
+  )];
+
+  // Filter categories
+  const filterCategories = [
+    { label: 'All', keywords: [] },
+    { label: 'AI / ML', keywords: ['OpenAI', 'RAG', 'LangChain', 'NLP', 'Multi-Agent', 'OpenAI SDK'] },
+    { label: 'Data Science', keywords: ['Python', 'Pandas', 'Scikit-learn', 'XGBoost', 'Analytics', 'Data Viz'] },
+    { label: 'Cloud / Web', keywords: ['Azure', 'GCP', 'HuggingFace', 'Semgrep', 'SQL'] },
+  ];
+
+  // Filter projects based on active filter
+  const filteredProjects = activeFilter === 'All'
+    ? portfolioData.projects
+    : portfolioData.projects.filter(project => {
+      const category = filterCategories.find(c => c.label === activeFilter);
+      return project.technologies?.some(tech =>
+        category.keywords.some(keyword =>
+          tech.toLowerCase().includes(keyword.toLowerCase())
+        )
+      );
+    });
+
+  return (
+    <Section title="Featured Projects" icon={<Lightbulb />}>
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap gap-3 mb-8 -mt-4">
+        {filterCategories.map((category) => (
+          <motion.button
+            key={category.label}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setActiveFilter(category.label)}
+            className={`filter-button ${activeFilter === category.label ? 'active' : ''}`}
+          >
+            {category.label}
+          </motion.button>
+        ))}
+      </div>
+
+      {/* Project Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              layout
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              whileHover={{
+                y: -10,
+                transition: { duration: 0.3 }
+              }}
+              className="glass rounded-lg shadow-glass overflow-hidden flex flex-col transition-all duration-300 hover:shadow-neon-cyan cyber-card border border-neon-blue/30"
+            >
+              {/* Image with zoom effect */}
+              <div className="relative project-image-container group">
+                <ProjectMedia src={project.imageUrl} alt={project.title} />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Metrics overlay on hover */}
+                {project.metrics && project.metrics.length > 0 && (
+                  <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="flex flex-wrap gap-2">
+                      {project.metrics.map((metric, i) => (
+                        <span key={i} className="metric-badge">
+                          <TrendingUp className="w-3 h-3" />
+                          {metric}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-6 flex-grow flex flex-col">
+                <Link to={`/projects/${project.slug}`} className="group">
+                  <h3 className="text-2xl font-semibold text-neon-cyan mb-2 group-hover:text-white transition-colors">
+                    {project.title}
+                  </h3>
+                </Link>
+
+                {/* Technology Tags */}
+                {project.technologies && project.technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.map((tech, i) => (
+                      <span
+                        key={i}
+                        className={`tech-pill ${i % 3 === 1 ? 'purple' : i % 3 === 2 ? 'green' : ''}`}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <p
+                  className="text-gray-300 text-base mb-6 flex-grow line-clamp-4"
+                  dangerouslySetInnerHTML={{ __html: project.description }}
+                />
+
+                <div className="flex items-center justify-between gap-3 mt-auto flex-wrap">
+                  {/* View Details Link */}
+                  <Link
+                    to={`/projects/${project.slug}`}
+                    className="text-sm text-neon-cyan hover:text-white transition-colors flex items-center gap-1"
+                  >
+                    View Details
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {project.demoLinks ? (
+                      project.demoLinks.map((link, i) => (
+                        <motion.a
+                          key={i}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-4 py-2 bg-neon-blue text-white text-xs font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
+                        >
+                          {link.label}
+                        </motion.a>
+                      ))
+                    ) : (
+                      project.demoUrl && (
+                        <motion.a
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-5 py-2 bg-neon-blue text-white text-sm font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
+                        >
+                          View Demo
+                        </motion.a>
+                      )
+                    )}
+                    {project.repoUrl && (
+                      <motion.a
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2 glass text-neon-purple text-sm font-semibold rounded-lg shadow-glass border border-neon-purple/50 transition-all hover:shadow-neon-purple"
+                      >
+                        {project.demoUrl ? "View Repo" : "Explore Project"}
+                      </motion.a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Empty State */}
+      {filteredProjects.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-12 text-gray-400"
+        >
+          <p>No projects found for this filter.</p>
+          <button
+            onClick={() => setActiveFilter('All')}
+            className="mt-4 text-neon-cyan hover:underline"
+          >
+            Show all projects
+          </button>
+        </motion.div>
+      )}
+    </Section>
+  );
+};
+
+/**
+ * ProjectDetail Page
+ * Individual project page with full details.
+ */
+const ProjectDetail = () => {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+
+  const project = portfolioData.projects.find(p => p.slug === slug);
+
+  if (!project) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+        <h1 className="text-4xl font-bold text-neon-cyan mb-4">Project Not Found</h1>
+        <p className="text-gray-400 mb-8">The project you're looking for doesn't exist.</p>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate('/projects')}
+          className="px-6 py-3 glass text-neon-cyan rounded-lg border border-neon-cyan/50 hover:shadow-neon-cyan transition-all"
+        >
+          Back to Projects
+        </motion.button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      {/* Back Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => navigate('/projects')}
+        className="flex items-center gap-2 text-neon-cyan hover:text-white transition-colors mb-8"
+      >
+        <ChevronUp className="w-5 h-5 rotate-[-90deg]" />
+        Back to Projects
+      </motion.button>
+
+      {/* Project Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="glass rounded-xl overflow-hidden border border-neon-blue/30"
+      >
+        {/* Project Image */}
+        <div className="relative">
+          <ProjectMedia src={project.imageUrl} alt={project.title} />
+          <div className="absolute inset-0 bg-gradient-to-t from-cyber-darker/80 to-transparent" />
+        </div>
+
+        {/* Project Content */}
+        <div className="p-8">
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl md:text-4xl font-bold text-neon-cyan mb-4"
+          >
+            {project.title}
+          </motion.h1>
+
+          {/* Technology Tags */}
+          {project.technologies && project.technologies.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-wrap gap-2 mb-6"
+            >
+              {project.technologies.map((tech, i) => (
+                <span
+                  key={i}
+                  className={`tech-pill ${i % 3 === 1 ? 'purple' : i % 3 === 2 ? 'green' : ''}`}
+                >
+                  {tech}
+                </span>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Impact Metrics */}
+          {project.metrics && project.metrics.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap gap-3 mb-6"
+            >
+              {project.metrics.map((metric, i) => (
+                <span key={i} className="metric-badge">
+                  <TrendingUp className="w-4 h-4" />
+                  {metric}
+                </span>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Description */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="prose prose-invert max-w-none mb-8"
+          >
             <p
-              className="text-gray-300 text-base mb-6 flex-grow"
+              className="text-gray-300 text-lg leading-relaxed"
               dangerouslySetInnerHTML={{ __html: project.description }}
             />
+          </motion.div>
 
-            <div className="flex items-center justify-end gap-3 mt-auto flex-wrap">
-              {project.demoLinks ? (
-                project.demoLinks.map((link, i) => (
-                  <motion.a
-                    key={i}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 bg-neon-blue text-white text-xs font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
-                  >
-                    {link.label}
-                  </motion.a>
-                ))
-              ) : (
-                project.demoUrl && (
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-5 py-2 bg-neon-blue text-white text-sm font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
-                  >
-                    View Demo
-                  </motion.a>
-                )
-              )}
-              {project.repoUrl && (
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex flex-wrap gap-4"
+          >
+            {project.demoLinks ? (
+              project.demoLinks.map((link, i) => (
+                <motion.a
+                  key={i}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-neon-blue text-white font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan flex items-center gap-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {link.label}
+                </motion.a>
+              ))
+            ) : (
+              project.demoUrl && (
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href={project.repoUrl}
+                  href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2 glass text-neon-purple text-sm font-semibold rounded-lg shadow-glass border border-neon-purple/50 transition-all hover:shadow-neon-purple"
+                  className="px-6 py-3 bg-neon-blue text-white font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan flex items-center gap-2"
                 >
-                  {project.demoUrl ? "View Repo" : "Explore Project"}
+                  <ExternalLink className="w-4 h-4" />
+                  View Live Demo
                 </motion.a>
-              )}
-            </div>
-          </div>
-        </motion.div>
-      ))}
+              )
+            )}
+            {project.repoUrl && (
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 glass text-neon-purple font-semibold rounded-lg border border-neon-purple/50 transition-all hover:shadow-neon-purple flex items-center gap-2"
+              >
+                <Github className="w-4 h-4" />
+                View Source Code
+              </motion.a>
+            )}
+          </motion.div>
+        </div>
+      </motion.div>
     </div>
-  </Section>
-);
+  );
+};
 
 /**
  * Education Page
@@ -947,25 +1484,61 @@ const Education = () => (
           transition={{ duration: 0.6 }}
           className="text-2xl font-semibold text-neon-cyan mb-6"
         >
-          Certifications
+          Featured Certifications
         </motion.h3>
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {portfolioData.certifications.map((cert, index) => (
-            <motion.div
+            <motion.a
               key={index}
-              initial={{ x: -50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
+              href={cert.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="relative glass p-4 rounded-lg hover:shadow-neon-purple transition-all"
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="group relative glass p-5 rounded-xl hover:shadow-neon-purple transition-all border border-neon-purple/20 hover:border-neon-purple/50"
             >
-              <div className="absolute -left-[3.2rem] top-5 w-6 h-6 bg-neon-purple rounded-full border-4 border-cyber-darker animate-pulse" />
-              <h4 className="text-xl font-medium text-white">{cert.name}</h4>
-              <p className="text-lg text-gray-300">{cert.issuer}</p>
-              <p className="text-sm text-gray-400">{cert.date}</p>
-            </motion.div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-neon-purple/20 flex items-center justify-center flex-shrink-0 group-hover:bg-neon-purple/30 transition-colors">
+                  <Award className="w-6 h-6 text-neon-purple" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-lg font-semibold text-white group-hover:text-neon-cyan transition-colors">{cert.name}</h4>
+                  <p className="text-sm text-neon-purple font-medium">{cert.issuer}</p>
+                  {cert.description && (
+                    <p className="text-sm text-gray-400 mt-2 line-clamp-2">{cert.description}</p>
+                  )}
+                  <p className="text-xs text-gray-500 mt-2">{cert.date}</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-neon-purple transition-colors flex-shrink-0" />
+              </div>
+            </motion.a>
           ))}
         </div>
+
+        {/* View All Certificates Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-8"
+        >
+          <motion.a
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            href="https://drive.google.com/drive/folders/1BoxxVDvw8No7piD1OB0yS_lPnMaNR-bJ?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 glass rounded-lg border border-neon-purple/40 text-neon-purple hover:text-white hover:border-neon-purple hover:shadow-neon-purple transition-all duration-300"
+          >
+            <Award className="w-5 h-5" />
+            View All Certificates
+            <ExternalLink className="w-4 h-4" />
+          </motion.a>
+        </motion.div>
       </div>
     </div>
   </Section>
