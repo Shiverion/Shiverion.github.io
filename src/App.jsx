@@ -2407,6 +2407,16 @@ const AgentChatModal = ({ closeModal }) => {
   const [sendingEmail, setSendingEmail] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // Ref to always have access to current messages (fixes iOS closure issue)
+  const messagesRef = useRef(messages);
+  const saveTimeoutRef = useRef(null);
+  const hasSavedRef = useRef(false);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
   // Save messages to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('agentChatHistory', JSON.stringify(messages));
@@ -2416,13 +2426,41 @@ const AgentChatModal = ({ closeModal }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading, showContactForm]);
 
+  // Debounced save to Firebase - saves 3 seconds after the last message
+  // This ensures iOS chats are saved even if modal close doesn't trigger cleanup
+  useEffect(() => {
+    const userMessages = messages.filter(m => m.role === 'user');
+    if (userMessages.length >= 1) {
+      // Clear any pending save
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+      // Schedule a save after 3 seconds of inactivity
+      saveTimeoutRef.current = setTimeout(() => {
+        saveChatToFirebase(messages);
+        hasSavedRef.current = true;
+      }, 3000);
+    }
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [messages]);
+
   // Save chat to Firebase when modal closes (cleanup function)
   useEffect(() => {
     return () => {
-      // Save on unmount (when modal closes) if there are user messages
-      const userMessages = messages.filter(m => m.role === 'user');
+      // Clear any pending debounced save
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+      // Save on unmount (when modal closes) if there are user messages and haven't just saved
+      const currentMessages = messagesRef.current;
+      const userMessages = currentMessages.filter(m => m.role === 'user');
       if (userMessages.length >= 1) {
-        saveChatToFirebase(messages);
+        saveChatToFirebase(currentMessages);
       }
     };
   }, []);
