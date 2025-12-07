@@ -2416,18 +2416,23 @@ const AgentChatModal = ({ closeModal }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading, showContactForm]);
 
-  // Save chat to Firebase when there are enough messages
+  // Save chat to Firebase when modal closes (cleanup function)
   useEffect(() => {
-    const userMessages = messages.filter(m => m.role === 'user');
-    // Save when there are 2+ user messages
-    if (userMessages.length >= 2) {
-      saveChatToFirebase(messages);
-    }
-  }, [messages]);
+    return () => {
+      // Save on unmount (when modal closes) if there are user messages
+      const userMessages = messages.filter(m => m.role === 'user');
+      if (userMessages.length >= 1) {
+        saveChatToFirebase(messages);
+      }
+    };
+  }, []);
 
   const clearHistory = () => {
     // Save to Firebase before clearing
-    saveChatToFirebase(messages);
+    const userMessages = messages.filter(m => m.role === 'user');
+    if (userMessages.length >= 1) {
+      saveChatToFirebase(messages);
+    }
     setMessages([INITIAL_MESSAGE]);
     localStorage.removeItem('agentChatHistory');
   };
