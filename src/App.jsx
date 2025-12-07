@@ -111,6 +111,16 @@ const portfolioData = {
   ],
   projects: [
     {
+      slug: "meeting-summarizer",
+      title: "Meeting Summarizer",
+      description: "A full-stack web application for transcribing meeting recordings and generating AI-powered summaries. Features <strong>OpenAI Whisper</strong> for audio transcription, <strong>GPT-4o-mini</strong> for intelligent summarization, and <strong>Clerk</strong> for user authentication. Deployed on <strong>Google Cloud Run</strong> with a complete CI/CD pipeline via GitHub Actions.",
+      technologies: ["React", "FastAPI", "OpenAI", "GCP", "Docker"],
+      metrics: ["AI Transcription", "Cloud Native"],
+      demoUrl: "https://meeting-summarizer-frontend-536127761034.asia-southeast1.run.app",
+      repoUrl: null,
+      imageUrl: "/images/meeting-summary.gif"
+    },
+    {
       slug: "cybersecurity-analyzer",
       title: "Cybersecurity Analyzer Agent",
       description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
@@ -276,6 +286,7 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     4.  **Telco Churn Analysis:** A predictive model (AllKNN) that achieved 93.7% recall, saving $18.8K in potential high-risk churn.
     5.  **Airbnb Data Analysis:** Optimized pricing models to increase December revenue by 7.6% (฿3.9 million).
     6.  **Cybersecurity Analyzer Agent:** A web-based tool for identifying security vulnerabilities in Python code using AI-driven analysis and Semgrep (MCP), deployed on Azure/GCP.
+    7.  **Meeting Summarizer:** A full-stack web app for transcribing meetings with OpenAI Whisper and generating AI-powered summaries with GPT-4o-mini. Deployed on Google Cloud Run with CI/CD via GitHub Actions.
 
 * **Education:**
     * Purwadhika Digital Technology School (Data Analysis & Machine Learning)
@@ -287,6 +298,56 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     * Metaverse Engineering (Kominfo, April 2023)
     * Data Science & AI (DQLab, 2020 – 2022)
 `;
+
+// --- ANIMATED COUNTER COMPONENT ---
+/**
+ * AnimatedCounter Component
+ * Displays a number that animates from 0 to the target value when scrolled into view.
+ */
+const AnimatedCounter = ({ value, prefix = '', suffix = '', decimals = 0 }) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let start = 0;
+          const end = value;
+          const duration = 2000;
+          const stepTime = 16;
+          const steps = duration / stepTime;
+          const increment = end / steps;
+
+          const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(start);
+            }
+          }, stepTime);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [value, hasAnimated]);
+
+  return (
+    <div ref={ref} className="text-3xl md:text-4xl font-bold text-neon-cyan">
+      {prefix}{decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}{suffix}
+    </div>
+  );
+};
 
 // --- MAIN APPLICATION ---
 
@@ -859,6 +920,38 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           </motion.div>
         </div>
       </div>
+
+      {/* Stats Counter Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        className="w-full max-w-4xl mx-auto mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+      >
+        {[
+          { value: 7, suffix: '+', label: 'Projects Completed' },
+          { value: 4, suffix: '', label: 'AI / ML Projects' },
+          { value: 2, suffix: '', label: 'Full-Stack Apps' },
+          { value: 2, suffix: '', label: 'Data Analytics' },
+        ].map((stat, index) => (
+          <motion.div
+            key={index}
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 * index, duration: 0.5 }}
+            className="glass p-6 rounded-xl border border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-neon-cyan transition-all duration-300 text-center"
+          >
+            <AnimatedCounter
+              value={stat.value}
+              prefix={stat.prefix}
+              suffix={stat.suffix}
+              decimals={stat.decimals}
+            />
+            <p className="text-gray-400 text-sm mt-2">{stat.label}</p>
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
