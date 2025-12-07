@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Smooth Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 /* GitHub Dark Theme Body */
 body {
   font-family: theme('fontFamily.sans');
@@ -12,6 +17,7 @@ body {
   color: #c9d1d9;
   position: relative;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 /* Subtle Grid Background (GitHub style) */
@@ -499,6 +505,115 @@ body::before {
 
 [data-theme="light"] .progress-dot.active {
   background-color: var(--accent-blue);
+}
+
+/* Light Mode - Text Colors */
+[data-theme="light"] .text-white {
+  color: #24292f;
+}
+
+[data-theme="light"] .text-gray-100,
+[data-theme="light"] .text-gray-200 {
+  color: #24292f;
+}
+
+[data-theme="light"] .text-gray-300 {
+  color: #57606a;
+}
+
+[data-theme="light"] .text-gray-400 {
+  color: #656d76;
+}
+
+[data-theme="light"] .text-gray-500 {
+  color: #6e7781;
+}
+
+/* Light Mode - Neon Colors Adjustments */
+[data-theme="light"] .text-neon-cyan {
+  color: #0969da;
+}
+
+[data-theme="light"] .text-neon-blue {
+  color: #0550ae;
+}
+
+[data-theme="light"] .text-neon-purple {
+  color: #8250df;
+}
+
+[data-theme="light"] .text-neon-green {
+  color: #1a7f37;
+}
+
+[data-theme="light"] .text-neon-pink {
+  color: #cf222e;
+}
+
+/* Light Mode - Backgrounds */
+[data-theme="light"] .bg-cyber-dark,
+[data-theme="light"] .bg-cyber-darker {
+  background-color: #f6f8fa;
+}
+
+[data-theme="light"] .bg-neon-blue {
+  background-color: #0969da;
+}
+
+[data-theme="light"] .bg-neon-blue\/20 {
+  background-color: rgba(9, 105, 218, 0.2);
+}
+
+/* Light Mode - Borders */
+[data-theme="light"] .border-neon-cyan\/30,
+[data-theme="light"] .border-neon-cyan\/50,
+[data-theme="light"] .border-neon-blue\/30,
+[data-theme="light"] .border-neon-blue\/20 {
+  border-color: rgba(9, 105, 218, 0.3);
+}
+
+[data-theme="light"] .border-neon-purple\/30,
+[data-theme="light"] .border-neon-purple\/40 {
+  border-color: rgba(130, 80, 223, 0.3);
+}
+
+[data-theme="light"] .border-neon-green\/20,
+[data-theme="light"] .border-neon-green\/40 {
+  border-color: rgba(26, 127, 55, 0.3);
+}
+
+/* Light Mode - Shadows */
+[data-theme="light"] .shadow-neon-cyan,
+[data-theme="light"] .shadow-neon-blue {
+  box-shadow: 0 4px 14px rgba(9, 105, 218, 0.15);
+}
+
+[data-theme="light"] .shadow-neon-purple {
+  box-shadow: 0 4px 14px rgba(130, 80, 223, 0.15);
+}
+
+/* Light Mode - Floating Button */
+[data-theme="light"] .floating-button-pulse {
+  background: rgba(9, 105, 218, 0.3);
+}
+
+/* Light Mode - Scroll Indicator */
+[data-theme="light"] .scroll-indicator-text {
+  color: #656d76;
+}
+
+/* Light Mode - Custom Scrollbar */
+[data-theme="light"] .custom-scrollbar::-webkit-scrollbar-track {
+  background: #f6f8fa;
+}
+
+[data-theme="light"] .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d0d7de;
+  border: 3px solid #f6f8fa;
+}
+
+[data-theme="light"] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #8b949e;
 }
 
 /* Project filter buttons */
