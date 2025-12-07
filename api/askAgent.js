@@ -7,8 +7,8 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // 2. Ensure JSON body
-  const { message, systemInstruction } = request.body || {};
+  // 2. Ensure JSON body - now accepts history for conversation memory
+  const { message, systemInstruction, history } = request.body || {};
 
   if (!message || !systemInstruction) {
     return response.status(400).json({ error: 'Message and systemInstruction are required.' });
@@ -19,22 +19,31 @@ export default async function handler(request, response) {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      // This is the error you saw when you forgot to redeploy.
       return response.status(500).json({ error: 'Server is not configured with GEMINI_API_KEY.' });
     }
 
     // 4. Initialize Gemini on the SERVER, using your secret key
     const genAI = new GoogleGenerativeAI(apiKey);
-    
-    // --- FIX IS HERE ---
-    // The model name was incorrect. Switched to the correct model.
+
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash-preview-09-2025",
+      model: "gemini-2.5-flash-preview-05-20",
       systemInstruction,
     });
-    // --- END FIX ---
 
-    const chat = model.startChat();
+    // 5. Build conversation history for multi-turn context
+    // Convert our format {role: 'user'|'agent', text} to Gemini format {role: 'user'|'model', parts}
+    const chatHistory = (history || [])
+      .filter(msg => msg.role === 'user' || msg.role === 'agent')
+      .map(msg => ({
+        role: msg.role === 'agent' ? 'model' : 'user',
+        parts: [{ text: msg.text }]
+      }));
+
+    // Start chat with history for context memory
+    const chat = model.startChat({
+      history: chatHistory
+    });
+
     const result = await chat.sendMessage(message);
     const text = result.response?.text?.();
 
@@ -42,12 +51,10 @@ export default async function handler(request, response) {
       return response.status(502).json({ error: 'Empty response from AI provider.' });
     }
 
-    // 5. Send the AI's response back to the frontend
+    // 6. Send the AI's response back to the frontend
     return response.status(200).json({ text });
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    // This will now pass the *real* error message back to the frontend for debugging
     return response.status(502).json({ error: `Failed to communicate with the AI agent. (Details: ${error.message})` });
   }
 }
-
