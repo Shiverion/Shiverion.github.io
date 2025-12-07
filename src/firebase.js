@@ -17,6 +17,27 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 /**
+ * Get visitor's IP and location info
+ */
+const getVisitorInfo = async () => {
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        return {
+            ip: data.ip || 'unknown',
+            city: data.city || 'unknown',
+            region: data.region || 'unknown',
+            country: data.country_name || 'unknown',
+            countryCode: data.country_code || 'unknown',
+            timezone: data.timezone || 'unknown'
+        };
+    } catch (error) {
+        console.error("Error fetching visitor info:", error);
+        return { ip: 'unknown', city: 'unknown', country: 'unknown' };
+    }
+};
+
+/**
  * Save a chat conversation to Firestore
  * @param {Array} messages - Array of message objects {role, text}
  */
@@ -26,13 +47,29 @@ export const saveChatToFirebase = async (messages) => {
         const userMessages = messages.filter(m => m.role === 'user');
         if (userMessages.length === 0) return;
 
+        // Get visitor info (IP, location)
+        const visitorInfo = await getVisitorInfo();
+
         await addDoc(collection(db, "agentChats"), {
             messages: messages,
             messageCount: messages.length,
             userMessageCount: userMessages.length,
             createdAt: serverTimestamp(),
+            // Device info
             userAgent: navigator.userAgent,
-            referrer: document.referrer || 'direct'
+            platform: navigator.platform || 'unknown',
+            language: navigator.language || 'unknown',
+            screenSize: `${window.screen.width}x${window.screen.height}`,
+            // Visitor location
+            ip: visitorInfo.ip,
+            city: visitorInfo.city,
+            region: visitorInfo.region,
+            country: visitorInfo.country,
+            countryCode: visitorInfo.countryCode,
+            timezone: visitorInfo.timezone,
+            // Source
+            referrer: document.referrer || 'direct',
+            pageUrl: window.location.href
         });
         console.log("Chat saved to Firebase");
     } catch (error) {
