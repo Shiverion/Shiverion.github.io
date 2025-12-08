@@ -597,7 +597,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <div className="bg-cyber-darker text-gray-100 min-h-screen font-sans antialiased relative">
+      <div className="bg-cyber-darker text-gray-100 min-h-screen font-sans antialiased relative overflow-x-hidden">
         {/* Scanline effect overlay */}
         <div className="scanline fixed inset-0 pointer-events-none z-[100]" />
 
@@ -1086,7 +1086,7 @@ const Footer = ({ navigateTo }) => {
  */
 const Hero = ({ navigateTo, openAgentModal }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[75vh] py-20 relative">
+    <div className="flex flex-col items-center justify-center min-h-[75vh] py-20 relative overflow-hidden">
       {/* Cyber grid background */}
       <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
 
