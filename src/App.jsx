@@ -980,7 +980,7 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) =>
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="flex justify-center mt-16 relative z-50"
+          className="flex justify-center mt-8 md:mt-16 relative z-50 pb-8 md:pb-0"
         >
           <motion.button
             whileHover={{ scale: 1.05, y: -3 }}
@@ -1182,7 +1182,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="w-full max-w-4xl mx-auto mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+        className="w-full max-w-4xl mx-auto mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
       >
         {[
           { value: 7, suffix: '+', label: 'Projects Completed' },
@@ -1196,7 +1196,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 * index, duration: 0.5 }}
-            className="glass p-6 rounded-xl border border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-neon-cyan transition-all duration-300 text-center"
+            className="glass p-4 md:p-6 rounded-xl border border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-neon-cyan transition-all duration-300 text-center"
           >
             <AnimatedCounter
               value={stat.value}
@@ -1204,7 +1204,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
               suffix={stat.suffix}
               decimals={stat.decimals}
             />
-            <p className="text-gray-400 text-sm mt-2">{stat.label}</p>
+            <p className="text-gray-400 text-xs md:text-sm mt-2">{stat.label}</p>
           </motion.div>
         ))}
       </motion.div>
@@ -1214,15 +1214,15 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.6 }}
-        className="w-full max-w-5xl mx-auto mt-16"
+        className="w-full max-w-5xl mx-auto mt-10 md:mt-16"
       >
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-semibold text-neon-cyan flex items-center gap-2">
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h3 className="text-lg md:text-xl font-semibold text-neon-cyan flex items-center gap-2">
             <Briefcase className="w-5 h-5" /> Featured Projects
           </h3>
           <button
             onClick={() => navigateTo('Projects')}
-            className="text-sm text-gray-400 hover:text-neon-cyan transition-colors flex items-center gap-1"
+            className="text-xs md:text-sm text-gray-400 hover:text-neon-cyan transition-colors flex items-center gap-1"
           >
             View All <ArrowRight className="w-4 h-4" />
           </button>
@@ -1256,12 +1256,12 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.4, duration: 0.6 }}
-        className="w-full max-w-4xl mx-auto mt-12"
+        className="w-full max-w-4xl mx-auto mt-10 md:mt-12"
       >
-        <h3 className="text-xl font-semibold text-neon-purple text-center mb-6 flex items-center justify-center gap-2">
+        <h3 className="text-lg md:text-xl font-semibold text-neon-purple text-center mb-4 md:mb-6 flex items-center justify-center gap-2">
           <Cpu className="w-5 h-5" /> Tech Stack
         </h3>
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3">
           {['Python', 'SQL', 'OpenAI', 'LangChain', 'RAG', 'CrewAI', 'FastAPI', 'React', 'Docker', 'AWS', 'GCP', 'Azure', 'Terraform'].map((tech, i) => (
             <motion.span
               key={tech}
@@ -1269,7 +1269,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.5 + i * 0.05 }}
               whileHover={{ scale: 1.1, y: -2 }}
-              className="px-4 py-2 glass rounded-full border border-neon-purple/30 text-gray-300 text-sm hover:border-neon-purple/60 hover:text-white transition-all cursor-default"
+              className="px-3 py-1.5 md:px-4 md:py-2 glass rounded-full border border-neon-purple/30 text-gray-300 text-xs md:text-sm hover:border-neon-purple/60 hover:text-white transition-all cursor-default"
             >
               {tech}
             </motion.span>
@@ -1282,15 +1282,15 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.6, duration: 0.6 }}
-        className="w-full max-w-4xl mx-auto mt-12"
+        className="w-full max-w-4xl mx-auto mt-10 md:mt-12 mb-10 md:mb-0"
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold text-neon-green flex items-center gap-2">
+          <h3 className="text-lg md:text-xl font-semibold text-neon-green flex items-center gap-2">
             <MessageSquare className="w-5 h-5" /> Recent Articles
           </h3>
           <button
             onClick={() => navigateTo('Articles')}
-            className="text-sm text-gray-400 hover:text-neon-green transition-colors flex items-center gap-1"
+            className="text-xs md:text-sm text-gray-400 hover:text-neon-green transition-colors flex items-center gap-1"
           >
             View All <ArrowRight className="w-4 h-4" />
           </button>
@@ -1306,13 +1306,13 @@ const Hero = ({ navigateTo, openAgentModal }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.7 + i * 0.1 }}
               whileHover={{ x: 5 }}
-              className="block glass p-4 rounded-lg border border-neon-green/20 hover:border-neon-green/50 transition-all group"
+              className="block glass p-3 md:p-4 rounded-lg border border-neon-green/20 hover:border-neon-green/50 transition-all group"
             >
               <div className="flex items-center justify-between">
-                <span className="text-white text-sm font-medium group-hover:text-neon-green transition-colors line-clamp-1">
+                <span className="text-white text-xs md:text-sm font-medium group-hover:text-neon-green transition-colors line-clamp-1">
                   {article.title}
                 </span>
-                <span className="text-xs text-gray-500">{article.readTime}</span>
+                <span className="text-[10px] md:text-xs text-gray-500 flex-shrink-0 ml-2">{article.readTime}</span>
               </div>
             </motion.a>
           ))}
