@@ -130,6 +130,21 @@ const portfolioData = {
       }
     },
     {
+      slug: "financial-wellness-agent",
+      title: "Financial Wellness Agent (FWA)",
+      description: "AI-powered personal finance management PWA for Indonesian users. Features <strong>Gemini 2.5 Flash</strong> with function calling for intelligent financial chat, <strong>Firestore</strong> for conversation memory, and <strong>Clerk</strong> authentication. Supports transaction tracking, saving goals, and AI-driven financial insights with topic guardrails.",
+      technologies: ["Next.js", "FastAPI", "Gemini AI", "Firestore", "GCP"],
+      metrics: ["PWA", "AI Financial Advisor"],
+      demoUrl: "https://fwa-frontend-5brcxjzeya-et.a.run.app",
+      repoUrl: null,
+      imageUrl: "/images/financial-wellness-agent.png",
+      caseStudy: {
+        problem: "Indonesian users lack accessible, intelligent personal finance tools that understand their language and financial context. Traditional budgeting apps don't provide AI-powered insights or natural language interaction.",
+        approach: "Built a full-stack PWA with Next.js 16 frontend and FastAPI backend. Implemented a two-tier Firestore memory system for conversation persistence, integrated Gemini 2.5 Flash with function calling for transaction parsing, and added topic guardrails to keep the AI focused on financial topics. Supports English and Indonesian (i18n).",
+        results: "Deployed on Google Cloud Run with Terraform IaC. Features include AI chat with memory, transaction management, saving goals tracking, and PWA installation across iOS/Android/Desktop. Successfully implemented topic validation to prevent off-topic AI responses."
+      }
+    },
+    {
       slug: "cybersecurity-analyzer",
       title: "Cybersecurity Analyzer Agent",
       description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
