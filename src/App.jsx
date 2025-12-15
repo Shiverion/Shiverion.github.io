@@ -132,16 +132,16 @@ const portfolioData = {
     {
       slug: "financial-wellness-agent",
       title: "Financial Wellness Agent (FWA)",
-      description: "AI-powered personal finance management PWA for Indonesian users. Features <strong>Gemini 2.5 Flash</strong> with function calling for intelligent financial chat, <strong>Firestore</strong> for conversation memory, and <strong>Clerk</strong> authentication. Supports transaction tracking, saving goals, and AI-driven financial insights with topic guardrails.",
-      technologies: ["Next.js", "FastAPI", "Gemini AI", "Firestore", "GCP"],
-      metrics: ["PWA", "AI Financial Advisor"],
+      description: "Production-ready AI-powered personal finance PWA with <strong>multi-agent architecture</strong>. Features <strong>5 AWS Lambda agents</strong> orchestrated via SQS (Planner using Gemini 3 Pro, 4 specialists using Gemini 2.5 Flash), deployed on <strong>Google Cloud Run</strong> with <strong>Firestore</strong> database. Achieved <strong>95% cost optimization</strong> ($3-11/month) through serverless-first design and strategic architecture decisions.",
+      technologies: ["Next.js", "FastAPI", "AWS Lambda", "SQS", "Gemini AI", "Firestore", "Cloud Run"],
+      metrics: ["Multi-Agent System", "95% Cost Savings"],
       demoUrl: "https://fwa-frontend-5brcxjzeya-et.a.run.app",
       repoUrl: null,
       imageUrl: "/images/financial-wellness-agent.png",
       caseStudy: {
-        problem: "Indonesian users lack accessible, intelligent personal finance tools that understand their language and financial context. Traditional budgeting apps don't provide AI-powered insights or natural language interaction.",
-        approach: "Built a full-stack PWA with Next.js 16 frontend and FastAPI backend. Implemented a two-tier Firestore memory system for conversation persistence, integrated Gemini 2.5 Flash with function calling for transaction parsing, and added topic guardrails to keep the AI focused on financial topics. Supports English and Indonesian (i18n).",
-        results: "Deployed on Google Cloud Run with Terraform IaC. Features include AI chat with memory, transaction management, saving goals tracking, and PWA installation across iOS/Android/Desktop. Successfully implemented topic validation to prevent off-topic AI responses."
+        problem: "Indonesian users lack accessible, intelligent personal finance tools with AI-powered insights. Traditional solutions are expensive, don't scale efficiently, and lack natural language interaction in local languages.",
+        approach: "Built a serverless multi-agent architecture with 5 AWS Lambda functions: Planner (Gemini 3 Pro) for orchestration, and 4 specialists (Gemini 2.5 Flash) for report generation, transaction parsing, budget analysis, and goal planning. Frontend in Next.js with i18n, backend API on Cloud Run, async communication via SQS, and Firestore for data persistence. Optimized costs by removing Aurora Serverless ($50-80/month), VPC NAT Gateway ($32/month), and minimizing Lambda packages to 15-18 MB using REST APIs instead of SDKs.",
+        results: "Production-deployed system achieving 95% cost reduction ($3-11/month vs $85-123/month baseline). Cold start: 2-4s, warm: 1-2s. Supports unlimited scaling via Cloud Run (0-1000 instances) and Lambda (1000 concurrent). Successfully demonstrated end-to-end multi-agent orchestration with intelligent routing, specialist delegation, and async result processing. Live at: https://financial-agent-api-693635751904.us-central1.run.app"
       }
     },
     {
@@ -374,7 +374,7 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     
     **!! SHOWCASE THESE AS MOST IMPRESSIVE - Full production-deployed AI systems !!**
     
-    1.  **Financial Wellness Agent (FWA):** A complete end-to-end AI-powered personal finance PWA for Indonesian users. Built with Next.js 16 frontend, FastAPI backend, Google Gemini 2.5 Flash with function calling, Firestore for conversation memory persistence, and Clerk authentication. Features include AI chat with topic guardrails, transaction tracking, saving goals, and i18n support (English/Indonesian). **Fully deployed on Google Cloud Run with Terraform IaC.** Live at: fwa-frontend-5brcxjzeya-et.a.run.app
+    1.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system demonstrating advanced serverless architecture and cost optimization. Built with **5 AWS Lambda functions** (Planner using Gemini 3 Pro + 4 specialists using Gemini 2.5 Flash) orchestrated via SQS queue, Next.js 16 frontend, FastAPI backend on **Google Cloud Run**, and Firestore database. Achieved **95% cost reduction** (from $85-123/month to $3-11/month) through strategic architecture decisions: removing Aurora Serverless, eliminating VPC costs, and ultra-minimizing Lambda packages (15-18 MB) using REST APIs. Features AI chat with topic guardrails, transaction parsing, budget analysis, goal planning, and i18n support. **Production URL:** https://financial-agent-api-693635751904.us-central1.run.app
     
     2.  **Meeting Summarizer:** A production-grade full-stack web application demonstrating complete CI/CD pipeline mastery. Features OpenAI Whisper for audio transcription, GPT-4o-mini for intelligent summarization with adaptive formatting. Built with React frontend, FastAPI backend, and Express PDF service. **Fully deployed on Google Cloud Run with automated CI/CD via GitHub Actions.** Live demo available.
     
@@ -633,7 +633,6 @@ export default function App() {
           currentPage={currentPage}
           navigateTo={navigateTo}
           pages={pages}
-          theme={theme}
           toggleTheme={toggleTheme}
         />
 
