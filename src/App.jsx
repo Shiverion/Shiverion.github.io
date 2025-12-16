@@ -132,16 +132,16 @@ const portfolioData = {
     {
       slug: "financial-wellness-agent",
       title: "Financial Wellness Agent (FWA)",
-      description: "Production-ready AI-powered personal finance PWA with <strong>multi-agent architecture</strong>. Features <strong>5 AWS Lambda agents</strong> orchestrated via SQS (Planner using Gemini 3 Pro, 4 specialists using Gemini 2.5 Flash), deployed on <strong>Google Cloud Run</strong> with <strong>Firestore</strong> database. Achieved <strong>95% cost optimization</strong> ($3-11/month) through serverless-first design and strategic architecture decisions.",
-      technologies: ["Next.js", "FastAPI", "AWS Lambda", "SQS", "Gemini AI", "Firestore", "Cloud Run"],
-      metrics: ["Multi-Agent System", "95% Cost Savings"],
-      demoUrl: "https://fwa-frontend-5brcxjzeya-et.a.run.app",
+      description: "Production-ready AI-powered personal finance PWA with <strong>multi-agent architecture</strong> and <strong>real-time market analysis</strong>. Features <strong>5 AWS Lambda agents</strong> (Planner + 4 specialists), <strong>AI-powered stock analysis</strong> with structured JSON output, <strong>portfolio management</strong>, and <strong>investment recommendations</strong>. Integrates yfinance for real-time data (RSI, SMA). Achieved <strong>95% cost optimization</strong> ($3-11/month).",
+      technologies: ["Next.js", "FastAPI", "AWS Lambda", "SQS", "Gemini AI", "Firestore", "Cloud Run", "yfinance"],
+      metrics: ["Multi-Agent System", "AI Stock Analysis", "95% Cost Savings"],
+      demoUrl: "https://fwa-frontend-693635751904.us-central1.run.app",
       repoUrl: null,
       imageUrl: "/images/financial-wellness-agent.png",
       caseStudy: {
-        problem: "Indonesian users lack accessible, intelligent personal finance tools with AI-powered insights. Traditional solutions are expensive, don't scale efficiently, and lack natural language interaction in local languages.",
-        approach: "Built a serverless multi-agent architecture with 5 AWS Lambda functions: Planner (Gemini 3 Pro) for orchestration, and 4 specialists (Gemini 2.5 Flash) for report generation, transaction parsing, budget analysis, and goal planning. Frontend in Next.js with i18n, backend API on Cloud Run, async communication via SQS, and Firestore for data persistence. Optimized costs by using Firestore free tier instead of Aurora Serverless (saving $50-80/month), eliminating VPC costs (saving $32/month NAT Gateway), and minimizing Lambda packages to 15-18 MB using REST APIs instead of SDKs.",
-        results: "Production-deployed system achieving 95% cost reduction ($3-11/month vs $85-123/month baseline). Cold start: 2-4s, warm: 1-2s. Supports unlimited scaling via Cloud Run (0-1000 instances) and Lambda (1000 concurrent). Successfully demonstrated end-to-end multi-agent orchestration with intelligent routing, specialist delegation, and async result processing. Live at: https://financial-agent-api-693635751904.us-central1.run.app"
+        problem: "Indonesian users lack accessible, intelligent personal finance tools that combine AI chat with real-time market analysis. Traditional apps are expensive, don't scale, and lack natural language interaction with investment insights.",
+        approach: "Built a serverless multi-agent architecture with 5 AWS Lambda functions orchestrated via SQS. Added AI-powered market analysis with yfinance integration for real-time stock prices, technical indicators (RSI, SMA), and sentiment analysis. Implemented structured JSON output for beautiful card-based UI with skeleton loading states. Portfolio management tracks holdings, performance, and daily snapshots. Frontend on Next.js with i18n, backend on Cloud Run, Firestore for persistence.",
+        results: "Production-deployed full-stack system with frontend and backend on Cloud Run. Features AI stock analysis with buy/hold/sell recommendations, price targets, and risk levels. Portfolio management with performance tracking. 95% cost reduction ($3-11/month). Cold start: 2-4s, warm: 1-2s. 18+ technologies mastered across 3 development sessions."
       }
     },
     {
@@ -374,7 +374,7 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     
     **!! SHOWCASE THESE AS MOST IMPRESSIVE - Full production-deployed AI systems !!**
     
-    1.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system demonstrating advanced serverless architecture and cost optimization. Built with **5 AWS Lambda functions** (Planner using Gemini 3 Pro + 4 specialists using Gemini 2.5 Flash) orchestrated via SQS queue, Next.js 16 frontend, FastAPI backend on **Google Cloud Run**, and Firestore database. Achieved **95% cost reduction** (from $85-123/month to $3-11/month) through strategic architecture decisions: using Firestore free tier instead of Aurora Serverless (saving $50-80/month), eliminating VPC costs (saving $32/month NAT Gateway), and ultra-minimizing Lambda packages (15-18 MB) using REST APIs. Features AI chat with topic guardrails, transaction parsing, budget analysis, goal planning, and i18n support. **Production URL:** https://financial-agent-api-693635751904.us-central1.run.app
+    1.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system with **real-time market analysis** and **portfolio management**. Built with **5 AWS Lambda functions** (Planner using Gemini 3 Pro + 4 specialists using Gemini 2.5 Flash) orchestrated via SQS queue. Features **AI-powered stock analysis** with yfinance integration (RSI, SMA, sentiment), **investment recommendations** with buy/hold/sell ratings and price targets, **portfolio tracking** with performance snapshots, and beautiful card-based UI with skeleton loaders. Frontend (Next.js) and Backend (FastAPI) both on **Google Cloud Run**, Firestore database. Achieved **95% cost reduction** ($3-11/month). **18+ technologies mastered** across 3 development sessions. **Production URLs:** Frontend: https://fwa-frontend-693635751904.us-central1.run.app | Backend: https://fwa-backend-693635751904.us-central1.run.app
     
     2.  **Meeting Summarizer:** A production-grade full-stack web application demonstrating complete CI/CD pipeline mastery. Features OpenAI Whisper for audio transcription, GPT-4o-mini for intelligent summarization with adaptive formatting. Built with React frontend, FastAPI backend, and Express PDF service. **Fully deployed on Google Cloud Run with automated CI/CD via GitHub Actions.** Live demo available.
     
