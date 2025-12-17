@@ -132,16 +132,16 @@ const portfolioData = {
     {
       slug: "financial-wellness-agent",
       title: "Financial Wellness Agent (FWA)",
-      description: "Production-ready AI-powered personal finance PWA with <strong>multi-agent architecture</strong> and <strong>real-time market analysis</strong>. Features <strong>5 AWS Lambda agents</strong> (Planner + 4 specialists), <strong>AI-powered stock analysis</strong> with structured JSON output, <strong>portfolio management</strong>, and <strong>investment recommendations</strong>. Integrates yfinance for real-time data (RSI, SMA). Achieved <strong>95% cost optimization</strong> ($3-11/month).",
+      description: "Production-ready AI-powered personal finance PWA with <strong>multi-agent architecture</strong> and <strong>real-time market analysis</strong>. Features <strong>6 specialized AI agents</strong> (Planner, Report Generator, Transaction Parser, Budget Analyzer, Goal Advisor, Market Agent), <strong>AI-powered stock analysis</strong> for IDX and global markets, <strong>portfolio management</strong>, and <strong>personalized investment recommendations</strong>. Achieved <strong>95% cost optimization</strong> ($3-11/month).",
       technologies: ["Next.js", "FastAPI", "AWS Lambda", "SQS", "Gemini AI", "Firestore", "Cloud Run", "yfinance"],
-      metrics: ["Multi-Agent System", "AI Stock Analysis", "95% Cost Savings"],
-      demoUrl: "https://fwa-frontend-693635751904.us-central1.run.app",
+      metrics: ["6 AI Agents", "Stock Analysis", "95% Cost Savings"],
+      demoUrl: "https://fwa-frontend-5brcxjzeya-et.a.run.app",
       repoUrl: null,
       imageUrl: "/images/financial-wellness-agent.png",
       caseStudy: {
         problem: "Indonesian users lack accessible, intelligent personal finance tools that combine AI chat with real-time market analysis. Traditional apps are expensive, don't scale, and lack natural language interaction with investment insights.",
-        approach: "Built a serverless multi-agent architecture with 5 AWS Lambda functions orchestrated via SQS. Added AI-powered market analysis with yfinance integration for real-time stock prices, technical indicators (RSI, SMA), and sentiment analysis. Implemented structured JSON output for beautiful card-based UI with skeleton loading states. Portfolio management tracks holdings, performance, and daily snapshots. Frontend on Next.js with i18n, backend on Cloud Run, Firestore for persistence.",
-        results: "Production-deployed full-stack system with frontend and backend on Cloud Run. Features AI stock analysis with buy/hold/sell recommendations, price targets, and risk levels. Portfolio management with performance tracking. 95% cost reduction ($3-11/month). Cold start: 2-4s, warm: 1-2s. 18+ technologies mastered across 3 development sessions."
+        approach: "Built a serverless multi-agent architecture with 6 specialized AI agents: Planner (Gemini 3 Pro) for orchestration, plus 5 specialists (Gemini 2.5 Flash) for reports, transactions, budgets, goals, and market analysis. Integrated yfinance for real-time stock data (IDX and global markets) with sentiment analysis and price targets. Beautiful card-based UI with skeleton loaders, bilingual support (EN/ID), and conversation memory.",
+        results: "Production-deployed on Cloud Run (asia-southeast2). AI stock analysis with buy/hold/sell recommendations and risk levels. Portfolio tracking with performance snapshots. 95% cost reduction ($3-11/month) through serverless architecture and smart model selection. Comprehensive security with Clerk auth, JWT exchange, and AI guardrails."
       }
     },
     {
@@ -374,7 +374,7 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     
     **!! SHOWCASE THESE AS MOST IMPRESSIVE - Full production-deployed AI systems !!**
     
-    1.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system with **real-time market analysis** and **portfolio management**. Built with **5 AWS Lambda functions** (Planner using Gemini 3 Pro + 4 specialists using Gemini 2.5 Flash) orchestrated via SQS queue. Features **AI-powered stock analysis** with yfinance integration (RSI, SMA, sentiment), **investment recommendations** with buy/hold/sell ratings and price targets, **portfolio tracking** with performance snapshots, and beautiful card-based UI with skeleton loaders. Frontend (Next.js) and Backend (FastAPI) both on **Google Cloud Run**, Firestore database. Achieved **95% cost reduction** ($3-11/month). **18+ technologies mastered** across 3 development sessions. **Production URLs:** Frontend: https://fwa-frontend-693635751904.us-central1.run.app | Backend: https://fwa-backend-693635751904.us-central1.run.app
+    1.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system with **6 specialized AI agents** and **real-time market analysis**. Built with Planner (Gemini 3 Pro) + 5 specialists (Gemini 2.5 Flash) including a Market Agent for stock analysis. Features **AI-powered stock analysis** for IDX and global markets with yfinance (sentiment, buy/hold/sell, price targets), **portfolio tracking** with performance snapshots, **personalized investment recommendations**, and bilingual support (EN/ID). Deployed on **Cloud Run (asia-southeast2)** with Firestore. **95% cost reduction** ($3-11/month). Comprehensive security with Clerk auth, JWT exchange, and AI guardrails. **Live Demo:** https://fwa-frontend-5brcxjzeya-et.a.run.app
     
     2.  **Meeting Summarizer:** A production-grade full-stack web application demonstrating complete CI/CD pipeline mastery. Features OpenAI Whisper for audio transcription, GPT-4o-mini for intelligent summarization with adaptive formatting. Built with React frontend, FastAPI backend, and Express PDF service. **Fully deployed on Google Cloud Run with automated CI/CD via GitHub Actions.** Live demo available.
     
