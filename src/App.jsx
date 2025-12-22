@@ -119,10 +119,13 @@ const portfolioData = {
       title: "Meeting Summarizer",
       description: "A full-stack web application for transcribing meeting recordings and generating AI-powered summaries. Features <strong>OpenAI Whisper</strong> for audio transcription, <strong>GPT-4o-mini</strong> for intelligent summarization, and <strong>Clerk</strong> for user authentication. Deployed on <strong>Google Cloud Run</strong> with a complete CI/CD pipeline via GitHub Actions.",
       technologies: ["React", "FastAPI", "OpenAI", "GCP", "Docker"],
+      complexity: 8,
+      date: "2025-11",
       metrics: ["AI Transcription", "Cloud Native"],
       demoUrl: "https://meeting-summarizer-frontend-536127761034.asia-southeast1.run.app",
       repoUrl: null,
       imageUrl: "/images/meeting-summary.gif",
+      gallery: [],
       caseStudy: {
         problem: "Professionals waste hours manually transcribing and summarizing meeting recordings, leading to delayed action items and lost insights.",
         approach: "Built a microservices architecture with React frontend, FastAPI backend, and Express PDF service. Integrated OpenAI Whisper for transcription and GPT-4o-mini for intelligent summarization with adaptive formatting based on content type.",
@@ -134,10 +137,22 @@ const portfolioData = {
       title: "Financial Wellness Agent (FWA)",
       description: "Production-ready AI-powered personal finance PWA with <strong>multi-agent architecture</strong> and <strong>real-time market analysis</strong>. Features <strong>6 specialized AI agents</strong> (Planner, Report Generator, Transaction Parser, Budget Analyzer, Goal Advisor, Market Agent), <strong>AI-powered stock analysis</strong> for IDX and global markets, <strong>portfolio management</strong>, and <strong>personalized investment recommendations</strong>. Achieved <strong>95% cost optimization</strong> ($3-11/month).",
       technologies: ["Next.js", "FastAPI", "AWS Lambda", "SQS", "Gemini AI", "Firestore", "Cloud Run", "yfinance"],
+      complexity: 10,
+      date: "2025-12",
       metrics: ["6 AI Agents", "Stock Analysis", "95% Cost Savings"],
       demoUrl: "https://fwa-frontend-5brcxjzeya-et.a.run.app",
       repoUrl: null,
       imageUrl: "/images/financial-wellness-agent.png",
+      gallery: [
+        { type: "video", url: "https://drive.google.com/file/d/1ZYU5ltw6sJbs8hsgOT2cfrRsF8IOY_mk/view", caption: "FWA Demo Video" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/1-home.jpeg", caption: "Home Dashboard" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/ai-chat.jpeg", caption: "AI Chat" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/ai-recommendation.jpeg", caption: "AI Recommendation" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/market-analysis.jpeg", caption: "Market Analysis" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/market.jpeg", caption: "Market View" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/reports.jpeg", caption: "Reports" },
+        { type: "image", url: "/images/financial-wellness-agent/Gallery/saving-goals.jpeg", caption: "Saving Goals" },
+      ],
       caseStudy: {
         problem: "Indonesian users lack accessible, intelligent personal finance tools that combine AI chat with real-time market analysis. Traditional apps are expensive, don't scale, and lack natural language interaction with investment insights.",
         approach: "Built a serverless multi-agent architecture with 6 specialized AI agents: Planner (Gemini 3 Pro) for orchestration, plus 5 specialists (Gemini 2.5 Flash) for reports, transactions, budgets, goals, and market analysis. Integrated yfinance for real-time stock data (IDX and global markets) with sentiment analysis and price targets. Beautiful card-based UI with skeleton loaders, bilingual support (EN/ID), and conversation memory.",
@@ -145,10 +160,35 @@ const portfolioData = {
       }
     },
     {
+      slug: "focusforge",
+      title: "FocusForge - Learning Focus App",
+      description: "A <strong>Tauri 2.0</strong> desktop application for enhanced learning through <strong>Pomodoro-style focus sessions</strong>, <strong>AI-powered knowledge consolidation</strong>, and <strong>gamification</strong>. Features <strong>TensorFlow.js face detection</strong> for distraction tracking, <strong>Gemini AI</strong> (2.5 Flash / 3 Pro) for Socratic learning analysis, and <strong>11 achievement badges</strong>.",
+      technologies: ["Tauri 2.0", "React", "TypeScript", "TensorFlow.js", "Gemini AI", "SQLite"],
+      complexity: 9,
+      date: "2025-12",
+      metrics: ["Face Detection", "AI Analysis", "11 Badges"],
+      demoUrl: null,
+      repoUrl: null,
+      imageUrl: "/images/FocusForge/Tumbnail/Home.png",
+      gallery: [
+        { type: "video", url: "https://drive.google.com/file/d/1S_8HUCncgpQqhKLe4hHr89b0kLK3oqJN/view", caption: "FocusForge Demo Video" },
+        { type: "image", url: "/images/FocusForge/Gallery/Home.png", caption: "Home Screen" },
+        { type: "image", url: "/images/FocusForge/Gallery/Learning-history.png", caption: "Learning History" },
+        { type: "image", url: "/images/FocusForge/Gallery/stats-and-badges.png", caption: "Stats & Badges" },
+      ],
+      caseStudy: {
+        problem: "Students and learners struggle with maintaining focus during study sessions and lack tools to track their attention and consolidate knowledge effectively.",
+        approach: "Built a Tauri 2.0 desktop app with TensorFlow.js MediaPipe face detection to track eye gaze and detect distractions. Integrated Gemini AI (2.5 Flash / 3 Pro) for post-session Socratic analysis that compares active recall with session notes. Added gamification with 11 achievement badges across streak, focus, and milestone categories.",
+        results: "Cross-platform desktop app with real-time distraction detection, AI-powered learning consolidation, and comprehensive badge system. Features system tray integration, global shortcuts (Ctrl+Alt+N for quick notes), Picture-in-Picture camera mode, and cross-window state sync via Tauri events."
+      }
+    },
+    {
       slug: "cybersecurity-analyzer",
       title: "Cybersecurity Analyzer Agent",
       description: "A web-based tool designed to identify security vulnerabilities in Python code. Features <strong>AI-Driven Analysis</strong> using OpenAI's agents, <strong>Static Code Analysis</strong> with Semgrep via MCP, and an interactive chat interface. Architected for deployment on serverless container platforms like Azure Container Apps and Google Cloud Run.",
       technologies: ["Python", "OpenAI", "Semgrep", "Azure", "GCP"],
+      complexity: 7,
+      date: "2025-12",
       metrics: ["AI-Driven Security"],
       demoLinks: [
         { label: "Azure Demo", url: "https://cyber-analyzer.livelycoast-f551c6c5.southeastasia.azurecontainerapps.io/" },
@@ -156,6 +196,7 @@ const portfolioData = {
       ],
       repoUrl: "https://github.com/Shiverion/cybersecurity-agent",
       imageUrl: "/images/Cybersecurity Analyst.png",
+      gallery: [],
       caseStudy: {
         problem: "Developers often miss security vulnerabilities in their code, and traditional static analysis tools require complex setup and interpretation.",
         approach: "Combined OpenAI Agents with Semgrep static analysis via MCP (Model Context Protocol). Created conversational interface for explaining vulnerabilities in plain language.",
@@ -167,10 +208,13 @@ const portfolioData = {
       title: "Career Digital Twin (RAG Chatbot)",
       description: "Built and deployed a personal agent to represent my skills and experience to potential employers, automating the initial stages of job applications.",
       technologies: ["Python", "RAG", "LangChain", "HuggingFace"],
+      complexity: 5,
+      date: "2025-08",
       metrics: ["Automated Screening"],
       demoUrl: "https://huggingface.co/spaces/Shiverion/career_conversations",
       repoUrl: "https://github.com/Shiverion/Resume-chatbot-with-RAG",
       imageUrl: "/images/Career-Digital-Twin.gif",
+      gallery: [],
       caseStudy: {
         problem: "Job seekers spend excessive time answering repetitive questions from recruiters about their background and qualifications.",
         approach: "Built a RAG-based chatbot using LangChain that indexes my resume and project portfolio. Deployed on HuggingFace Spaces for easy access.",
@@ -182,10 +226,13 @@ const portfolioData = {
       title: "Trader Agent Simulator – Autonomous Portfolio Management",
       description: "Built an intelligent trader agent using the <strong>OpenAI Agents SDK</strong>, capable of alternating between trading and rebalancing its portfolio using real-time insights from a researcher agent. Leveraged advanced async context management for clean multi-server handling, and integrated support for multiple LLM providers (OpenAI, DeepSeek, Google, Anthropic).",
       technologies: ["Python", "OpenAI SDK", "Multi-Agent", "Async"],
+      complexity: 7,
+      date: "2025-09",
       metrics: ["Multi-LLM Support"],
       demoUrl: null,
       repoUrl: null,
       imageUrl: "/images/Trader-Agent-Simulator.jpg",
+      gallery: [],
       caseStudy: {
         problem: "Manual portfolio management is time-consuming and prone to emotional decision-making. Multiple LLM providers offer different strengths.",
         approach: "Designed a multi-agent system where a trader agent collaborates with a researcher agent. Used async context management for parallel MCP server connections.",
@@ -197,10 +244,13 @@ const portfolioData = {
       title: "Indonesian Parliament Activity Chatbot",
       description: "This project implements a chatbot that can answer questions about the activities and agendas of the Indonesian Parliament members. It utilizes a SQL database containing agenda data and leverages large language models (LLMs) through the <strong>Langchain</strong> library to interact with the database and provide natural language responses.",
       technologies: ["Python", "LangChain", "SQL", "NLP"],
+      complexity: 5,
+      date: "2025-05",
       metrics: ["Real-time Data"],
       demoUrl: null,
       repoUrl: null,
       imageUrl: "/images/DPR-chatbot.png",
+      gallery: [],
       caseStudy: {
         problem: "Citizens lack easy access to information about their parliamentary representatives' activities and voting records.",
         approach: "Built a LangChain SQL agent that converts natural language questions into SQL queries against parliament activity database.",
@@ -212,10 +262,13 @@ const portfolioData = {
       title: "Telco Churn Analysis",
       description: "Developed a churn prediction model using <strong>AllKNN</strong> with hyperparameter tuning, focused on minimizing false negatives. Achieved <strong>93.7% recall</strong>, reducing potential high-risk churn losses by $18.8K and cutting total misclassification costs by $48.5K, outperforming benchmark models like XGBoost and Random Forest.",
       technologies: ["Python", "Scikit-learn", "XGBoost", "Pandas"],
+      complexity: 4,
+      date: "2025-02",
       metrics: ["93.7% Recall", "-$48.5K Costs"],
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/Telcho-Churn-Analysis",
       imageUrl: "/images/Telco-Churn-Analysis.png",
+      gallery: [],
       caseStudy: {
         problem: "Telecom companies lose significant revenue from customer churn. Traditional models optimize for accuracy, missing high-risk churners.",
         approach: "Focused on recall optimization to catch high-risk customers. Used AllKNN with hyperparameter tuning, comparing against XGBoost and Random Forest.",
@@ -227,14 +280,35 @@ const portfolioData = {
       title: "Airbnb Data Analysis",
       description: "Analyzed Airbnb listings in Bangkok to identify peak-season revenue opportunities for December. Implemented dynamic pricing, extended-stay discounts, and last-minute deals. These optimizations increased total December revenue by <strong>7.6%</strong>, generating an additional <strong>฿3.9 million</strong> in high-demand areas.",
       technologies: ["Python", "Pandas", "Data Viz", "Analytics"],
+      complexity: 3,
+      date: "2025-01",
       metrics: ["+7.6% Revenue", "+฿3.9M"],
       demoUrl: null,
       repoUrl: "https://github.com/Shiverion/AirBnB-Data-Analysis",
       imageUrl: "/images/airbnb_analysis_bangkok.png",
+      gallery: [],
       caseStudy: {
         problem: "Airbnb hosts in Bangkok were missing peak-season revenue opportunities due to static pricing strategies.",
         approach: "Analyzed listing data to identify high-demand areas and optimal pricing windows. Developed dynamic pricing, extended-stay discounts, and last-minute deal strategies.",
         results: "Projected 7.6% increase in December revenue (฿3.9 million) through data-driven pricing recommendations for high-demand Bangkok neighborhoods."
+      }
+    },
+    {
+      slug: "galaxy-morphology-classification",
+      title: "Galaxy Morphology Classification",
+      description: "An interpretable deep learning project for classifying galaxy morphologies (Elliptical vs Spiral) using the <strong>Galaxy Zoo 2</strong> dataset from SDSS images. Achieved <strong>99.07% accuracy</strong> and <strong>ROC-AUC 0.9995</strong> with <strong>ResNet18</strong> transfer learning. Features <strong>Grad-CAM</strong> and <strong>Integrated Gradients</strong> for scientific interpretability.",
+      technologies: ["PyTorch", "ResNet18", "Grad-CAM", "Captum", "Astropy", "NumPy"],
+      complexity: 6,
+      date: "2025-12",
+      metrics: ["99.07% Accuracy", "ROC-AUC 0.9995"],
+      demoUrl: null,
+      repoUrl: "https://github.com/Shiverion/galaxy-morphology-classification",
+      imageUrl: "/images/GalaxyML/Thumbnail/galaxy-ml.png",
+      gallery: [],
+      caseStudy: {
+        problem: "Astronomical datasets require interpretable ML models where researchers can understand why predictions are made - critical for building trust in astrophysics research.",
+        approach: "Used ResNet18 with ImageNet transfer learning on 24,273 high-confidence galaxy images (80%+ citizen science vote agreement). Implemented Grad-CAM and Integrated Gradients for visual interpretability.",
+        results: "Achieved 99.07% test accuracy with near-perfect ROC-AUC (0.9995). Model attention aligns with expected morphological features - bulge regions for ellipticals, spiral arms for spirals."
       }
     }
   ],
@@ -381,12 +455,15 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     3.  **Cybersecurity Analyzer Agent:** An end-to-end deployed security analysis tool showcasing multi-cloud deployment expertise. Uses OpenAI Agents with Semgrep static analysis via MCP (Model Context Protocol). **Deployed on BOTH Azure Container Apps AND Google Cloud Run** - demonstrating cloud-agnostic deployment skills.
     
     4.  **Trader Agent Simulator:** An autonomous multi-agent trading system built with OpenAI Agents SDK. Features a trader agent collaborating with a researcher agent for real-time market insights. Demonstrates advanced async context management for parallel MCP server connections. **Supports multiple LLM providers:** OpenAI, DeepSeek, Google, and Anthropic.
+    
+    5.  **FocusForge - Learning Focus App:** A **Tauri 2.0 desktop application** for enhanced learning through Pomodoro-style focus sessions, AI-powered knowledge consolidation, and gamification. Features **TensorFlow.js MediaPipe face detection** for distraction tracking (eye gaze analysis), **Gemini AI** (2.5 Flash / 3 Pro) for Socratic post-session learning analysis. Includes **11 achievement badges**, system tray integration, global shortcuts (Ctrl+Alt+N), Picture-in-Picture camera mode, and cross-window state sync. **Tech stack:** Tauri 2.0 (Rust backend) + React + TypeScript + SQLite.
 
     **Other Notable Projects:**
-    5.  **Career Digital Twin (RAG Chatbot):** A personal RAG agent deployed on HuggingFace Spaces to represent his skills to employers 24/7.
-    6.  **Indonesian Parliament Activity Chatbot:** A Langchain SQL agent that queries parliament activity database, improving government transparency.
-    7.  **Telco Churn Analysis:** A predictive model (AllKNN) that achieved **93.7% recall**, saving **$18.8K** in potential high-risk churn.
-    8.  **Airbnb Data Analysis:** Optimized pricing models to increase December revenue by **7.6%** (฿3.9 million).
+    6.  **Career Digital Twin (RAG Chatbot):** A personal RAG agent deployed on HuggingFace Spaces to represent his skills to employers 24/7.
+    7.  **Indonesian Parliament Activity Chatbot:** A Langchain SQL agent that queries parliament activity database, improving government transparency.
+    8.  **Galaxy Morphology Classification:** An interpretable deep learning project classifying galaxies (Elliptical vs Spiral) using **PyTorch ResNet18** on Galaxy Zoo 2 dataset. Achieved **99.07% accuracy** with **ROC-AUC 0.9995**. Features **Grad-CAM** and **Integrated Gradients** for scientific interpretability - model attention aligns with expected morphological features.
+    9.  **Telco Churn Analysis:** A predictive model (AllKNN) that achieved **93.7% recall**, saving **$18.8K** in potential high-risk churn.
+    10. **Airbnb Data Analysis:** Optimized pricing models to increase December revenue by **7.6%** (฿3.9 million).
 
 * **Education:**
     * Purwadhika Digital Technology School (Data Analysis & Machine Learning)
@@ -1512,7 +1589,7 @@ const Experience = () => (
 
 /**
  * ProjectMedia Component
- * Renders video or image with cyber border, lazy loading, and skeleton state.
+ * Renders video, Google Drive embed, or image with cyber border, lazy loading, and skeleton state.
  */
 const ProjectMedia = ({ src, alt, className = "w-full h-48 object-cover" }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -1542,6 +1619,7 @@ const ProjectMedia = ({ src, alt, className = "w-full h-48 object-cover" }) => {
   const isVideo = src.endsWith('.mp4') || src.endsWith('.webm');
   const isGif = src.endsWith('.gif');
   const isPlaceholder = src.startsWith('https://placehold.co');
+  const isGoogleDrive = src.includes('drive.google.com');
 
   // Skeleton loader
   const Skeleton = () => (
@@ -1551,6 +1629,34 @@ const ProjectMedia = ({ src, alt, className = "w-full h-48 object-cover" }) => {
       </div>
     </div>
   );
+
+  // Google Drive embed
+  if (isGoogleDrive) {
+    // Convert share link to embed link if needed
+    let embedUrl = src;
+    if (src.includes('/view') || src.includes('/d/')) {
+      const fileIdMatch = src.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (fileIdMatch) {
+        embedUrl = `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+      }
+    }
+
+    return (
+      <div ref={mediaRef} className="relative aspect-video">
+        {!isLoaded && <Skeleton />}
+        {isInView && (
+          <iframe
+            src={embedUrl}
+            className={`w-full h-full ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            onLoad={() => setIsLoaded(true)}
+            title={alt}
+          />
+        )}
+      </div>
+    );
+  }
 
   if (isVideo && !isPlaceholder) {
     return (
@@ -1595,6 +1701,100 @@ const ProjectMedia = ({ src, alt, className = "w-full h-48 object-cover" }) => {
 };
 
 /**
+ * MediaGallery Component
+ * Image/video slideshow carousel for project details.
+ */
+const MediaGallery = ({ items, projectTitle }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!items || items.length === 0) return null;
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+  };
+
+  const currentItem = items[currentIndex];
+
+  return (
+    <div className="mb-8">
+      {/* Main Display */}
+      <div className="relative rounded-xl overflow-hidden glass border border-neon-blue/30">
+        {/* Media Content */}
+        <div className="relative aspect-video">
+          {currentItem.type === 'video' || currentItem.url?.includes('drive.google.com') ? (
+            <ProjectMedia src={currentItem.url} alt={currentItem.caption || projectTitle} className="w-full h-full object-contain" />
+          ) : (
+            <img
+              src={currentItem.url}
+              alt={currentItem.caption || projectTitle}
+              className="w-full h-full object-contain bg-cyber-darker"
+            />
+          )}
+        </div>
+
+        {/* Navigation Arrows */}
+        {items.length > 1 && (
+          <>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={goToPrevious}
+              className="absolute left-3 top-1/2 -translate-y-1/2 p-2 glass rounded-full border border-neon-cyan/50 text-neon-cyan hover:shadow-neon-cyan transition-all"
+              aria-label="Previous"
+            >
+              <ChevronUp className="w-5 h-5 rotate-[-90deg]" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={goToNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-2 glass rounded-full border border-neon-cyan/50 text-neon-cyan hover:shadow-neon-cyan transition-all"
+              aria-label="Next"
+            >
+              <ChevronUp className="w-5 h-5 rotate-90" />
+            </motion.button>
+          </>
+        )}
+
+        {/* Caption */}
+        {currentItem.caption && (
+          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-cyber-darker/90 to-transparent">
+            <p className="text-gray-300 text-sm text-center">{currentItem.caption}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Thumbnails / Dots */}
+      {items.length > 1 && (
+        <div className="flex justify-center gap-2 mt-4">
+          {items.map((item, index) => (
+            <motion.button
+              key={index}
+              whileHover={{ scale: 1.2 }}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-3 h-3 rounded-full transition-all ${index === currentIndex
+                ? 'bg-neon-cyan shadow-neon-cyan'
+                : 'bg-gray-600 hover:bg-gray-500'
+                }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Counter */}
+      <div className="text-center mt-2 text-gray-500 text-sm">
+        {currentIndex + 1} / {items.length}
+      </div>
+    </div>
+  );
+};
+
+/**
  * Projects Page
  * Project cards with animated neon borders.
  */
@@ -1609,15 +1809,26 @@ const Projects = () => {
   // Filter categories
   const filterCategories = [
     { label: 'All', keywords: [] },
-    { label: 'AI / ML', keywords: ['OpenAI', 'RAG', 'LangChain', 'NLP', 'Multi-Agent', 'OpenAI SDK'] },
-    { label: 'Data Science', keywords: ['Python', 'Pandas', 'Scikit-learn', 'XGBoost', 'Analytics', 'Data Viz'] },
-    { label: 'Cloud / Web', keywords: ['Azure', 'GCP', 'HuggingFace', 'Semgrep', 'SQL'] },
+    { label: 'Full Stack', keywords: ['Next.js', 'FastAPI', 'React', 'Tauri', 'Cloud Run', 'Docker', 'AWS Lambda'] },
+    { label: 'AI / ML', keywords: ['OpenAI', 'RAG', 'LangChain', 'NLP', 'Multi-Agent', 'OpenAI SDK', 'Gemini AI', 'PyTorch', 'TensorFlow.js', 'ResNet18'] },
+    { label: 'Data Science', keywords: ['Python', 'Pandas', 'Scikit-learn', 'XGBoost', 'Analytics', 'Data Viz', 'Captum', 'Astropy'] },
+    { label: 'Cloud / Web', keywords: ['Azure', 'GCP', 'HuggingFace', 'Semgrep', 'SQL', 'Firestore', 'SQLite'] },
   ];
 
-  // Filter projects based on active filter
+  // Filter and sort projects based on active filter
+  // Sort by: complexity (desc), then date (desc)
+  const sortedProjects = [...portfolioData.projects].sort((a, b) => {
+    // First sort by complexity (descending)
+    if ((b.complexity || 0) !== (a.complexity || 0)) {
+      return (b.complexity || 0) - (a.complexity || 0);
+    }
+    // Then sort by date (descending)
+    return (b.date || '').localeCompare(a.date || '');
+  });
+
   const filteredProjects = activeFilter === 'All'
-    ? portfolioData.projects
-    : portfolioData.projects.filter(project => {
+    ? sortedProjects
+    : sortedProjects.filter(project => {
       const category = filterCategories.find(c => c.label === activeFilter);
       return project.technologies?.some(tech =>
         category.keywords.some(keyword =>
@@ -1682,10 +1893,27 @@ const Projects = () => {
 
               <div className="p-6 flex-grow flex flex-col">
                 <Link to={`/projects/${project.slug}`} className="group">
-                  <h3 className="text-2xl font-semibold text-neon-cyan mb-2 group-hover:text-white transition-colors">
+                  <h3 className="text-2xl font-semibold text-neon-cyan mb-1 group-hover:text-white transition-colors">
                     {project.title}
                   </h3>
                 </Link>
+
+                {/* Complexity Stars */}
+                {project.complexity && (
+                  <div className="flex items-center gap-1 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className={`w-4 h-4 ${i < Math.ceil(project.complexity / 2) ? 'text-yellow-400' : 'text-gray-600'}`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                    <span className="text-xs text-gray-400 ml-1">({project.complexity}/10)</span>
+                  </div>
+                )}
 
                 {/* Technology Tags */}
                 {project.technologies && project.technologies.length > 0 && (
@@ -1834,11 +2062,15 @@ const ProjectDetail = () => {
         transition={{ duration: 0.5 }}
         className="glass rounded-xl overflow-hidden border border-neon-blue/30"
       >
-        {/* Project Image */}
-        <div className="relative">
-          <ProjectMedia src={project.imageUrl} alt={project.title} />
-          <div className="absolute inset-0 bg-gradient-to-t from-cyber-darker/80 to-transparent" />
-        </div>
+        {/* Project Media - Gallery or Single Image */}
+        {project.gallery && project.gallery.length > 0 ? (
+          <MediaGallery items={project.gallery} projectTitle={project.title} />
+        ) : (
+          <div className="relative">
+            <ProjectMedia src={project.imageUrl} alt={project.title} />
+            <div className="absolute inset-0 bg-gradient-to-t from-cyber-darker/80 to-transparent" />
+          </div>
+        )}
 
         {/* Project Content */}
         <div className="p-8">
