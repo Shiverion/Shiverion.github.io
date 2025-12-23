@@ -162,11 +162,11 @@ const portfolioData = {
     {
       slug: "focusforge",
       title: "FocusForge - Learning Focus App",
-      description: "A <strong>Tauri 2.0</strong> desktop application for enhanced learning through <strong>Pomodoro-style focus sessions</strong>, <strong>AI-powered knowledge consolidation</strong>, and <strong>gamification</strong>. Features <strong>TensorFlow.js face detection</strong> for distraction tracking with eye gaze analysis, <strong>Gemini AI</strong> (2.5 Flash / 3 Pro) for Socratic learning analysis, <strong>11 achievement badges</strong>, <strong>Analytics Dashboard</strong> with productivity heatmap, and <strong>global Quick Notes</strong> (Ctrl+Alt+N).",
-      technologies: ["Tauri 2.0", "React", "TypeScript", "TensorFlow.js", "Gemini AI", "SQLite"],
+      description: "A <strong>Tauri 2.0</strong> desktop application for enhanced learning through <strong>Pomodoro-style focus sessions</strong>, <strong>AI-powered knowledge consolidation</strong>, and <strong>gamification</strong>. Features <strong>TensorFlow.js face detection</strong> for distraction tracking with eye gaze analysis, <strong>Gemini AI</strong> (2.5 Flash / 3 Pro) for Socratic learning analysis, <strong>AI Timer Assistant v2</strong> with context-aware recommendations, <strong>11 achievement badges</strong>, <strong>Analytics Dashboard</strong> with productivity heatmap, and <strong>global Quick Notes</strong> (Ctrl+Alt+N).",
+      technologies: ["Tauri 2.0", "React", "TypeScript", "TensorFlow.js", "Gemini AI", "SQLite", "Zustand"],
       complexity: 9,
       date: "2025-12",
-      metrics: ["Face Detection", "AI Analysis", "11 Badges"],
+      metrics: ["Face Detection", "AI Timer Assistant", "11 Badges"],
       demoLinks: [
         { label: "Download (.exe)", url: "https://drive.google.com/file/d/1agIbR4pk8wvYLyD7Q9Hlnin-VHqzCr40/view?usp=sharing" }
       ],
@@ -180,8 +180,8 @@ const portfolioData = {
       ],
       caseStudy: {
         problem: "Students and learners struggle with maintaining focus during study sessions and lack tools to track their attention and consolidate knowledge effectively.",
-        approach: "Built a Tauri 2.0 desktop app with TensorFlow.js MediaPipe face detection to track eye gaze and detect distractions. Integrated Gemini AI (2.5 Flash / 3 Pro) for post-session Socratic analysis that compares active recall with session notes. Added gamification with 11 achievement badges across streak, focus, and milestone categories.",
-        results: "Cross-platform desktop app with real-time distraction detection, AI-powered learning consolidation, and comprehensive badge system. Features system tray integration, global shortcuts (Ctrl+Alt+N for quick notes), Picture-in-Picture camera mode, and cross-window state sync via Tauri events."
+        approach: "Built a Tauri 2.0 desktop app with TensorFlow.js MediaPipe face detection to track eye gaze and detect distractions. Integrated Gemini AI (2.5 Flash / 3 Pro) for post-session Socratic analysis that compares active recall with session notes. Added AI Timer Assistant v2 with dual integration points (task selector + task creation) providing context-aware timer suggestions based on topic complexity, learning style, and energy level. Gamification with 11 achievement badges across streak, focus, and milestone categories.",
+        results: "Cross-platform desktop app with real-time distraction detection, AI-powered learning consolidation, and comprehensive badge system. Features system tray integration with live timer display, global shortcuts (Ctrl+Alt+N for quick notes), Picture-in-Picture camera mode, cross-window state sync via Tauri events, and desktop + Pushover phone notifications."
       }
     },
     {
@@ -458,7 +458,7 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     
     4.  **Trader Agent Simulator:** An autonomous multi-agent trading system built with OpenAI Agents SDK. Features a trader agent collaborating with a researcher agent for real-time market insights. Demonstrates advanced async context management for parallel MCP server connections. **Supports multiple LLM providers:** OpenAI, DeepSeek, Google, and Anthropic.
     
-    5.  **FocusForge - Learning Focus App:** A **Tauri 2.0 desktop application** for enhanced learning through Pomodoro-style focus sessions, AI-powered knowledge consolidation, and gamification. Features **TensorFlow.js MediaPipe face detection** for distraction tracking (eye gaze analysis), **Gemini AI** (2.5 Flash / 3 Pro) for Socratic post-session learning analysis. Includes **11 achievement badges**, **Analytics Dashboard** with productivity heatmap, system tray integration, **global Quick Notes** (Ctrl+Alt+N), Picture-in-Picture camera mode, and cross-window state sync. **Tech stack:** Tauri 2.0 (Rust backend) + React + TypeScript + SQLite. **Download available** on GitHub.
+    5.  **FocusForge - Learning Focus App:** A **Tauri 2.0 desktop application** for enhanced learning through Pomodoro-style focus sessions, AI-powered knowledge consolidation, and gamification. Features **TensorFlow.js MediaPipe face detection** for distraction tracking (eye gaze analysis), **Gemini AI** (2.5 Flash / 3 Pro) for Socratic post-session learning analysis, and **AI Timer Assistant v2** with context-aware recommendations based on topic complexity, learning style, and energy level. Includes **11 achievement badges**, **Analytics Dashboard** with productivity heatmap, system tray integration with live timer display, **global Quick Notes** (Ctrl+Alt+N), Picture-in-Picture camera mode, cross-window state sync, and **desktop + Pushover phone notifications**. **Tech stack:** Tauri 2.0 (Rust backend) + React + TypeScript + SQLite + Zustand. **Download available** on GitHub.
 
     **Other Notable Projects:**
     6.  **Career Digital Twin (RAG Chatbot):** A personal RAG agent deployed on HuggingFace Spaces to represent his skills to employers 24/7.
