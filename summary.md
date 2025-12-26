@@ -142,7 +142,27 @@ An interpretable deep learning project for classifying galaxy morphologies (Elli
 
 ---
 
-## 7. Career Digital Twin (RAG Chatbot)
+## 7. Baseline Pro - Tennis Coaching Platform
+**Complexity:** 8/10 | **Date:** December 2025
+
+**Description:**  
+A mobile-first **tennis booking platform** with **Google SSO**, **interactive heatmap schedule**, and comprehensive admin tools. Features include **multi-step booking flow** with class type selection (Private/Semi-Private/Regular), **birthday voucher system** with ±14 days auto-discount, **skill badge tracking**, **YouTube tutorial library**, and **Google Calendar integration**. Built for Coach ARUM with full Indonesian localization.
+
+**Technologies:** Next.js, TypeScript, Tailwind CSS, Firebase, Vercel
+
+**Metrics:** Google SSO | Heatmap Schedule | Admin Panel
+
+**Links:**
+- Demo: https://baseline-pro.vercel.app
+
+**Case Study:**
+- **Problem:** Tennis coaches lack accessible booking systems that combine scheduling, payment verification, and user progress tracking in one mobile-friendly platform.
+- **Approach:** Built a Next.js 16 app with Firebase (Auth + Firestore + Storage). Implemented interactive heatmap schedule for slot availability, multi-step booking flow with class types, birthday voucher system, and skill badge tracking. Admin panel includes booking approval/rejection, slot templates for bulk generation, and tutorial management.
+- **Results:** Production-deployed on Vercel with complete admin management. Features Google SSO, heatmap scheduling, voucher system, booking history with rescheduling, skill badges, and YouTube tutorial integration. Full Indonesian localization with Vercel Analytics.
+
+---
+
+## 8. Career Digital Twin (RAG Chatbot)
 **Complexity:** 5/10 | **Date:** August 2025
 
 **Description:**  
@@ -163,7 +183,7 @@ Built and deployed a personal agent to represent my skills and experience to pot
 
 ---
 
-## 8. Indonesian Parliament Activity Chatbot
+## 9. Indonesian Parliament Activity Chatbot
 **Complexity:** 5/10 | **Date:** May 2025
 
 **Description:**  
@@ -180,7 +200,7 @@ This project implements a chatbot that can answer questions about the activities
 
 ---
 
-## 9. Telco Churn Analysis
+## 10. Telco Churn Analysis
 **Complexity:** 4/10 | **Date:** February 2025
 
 **Description:**  
@@ -200,7 +220,7 @@ Developed a churn prediction model using **AllKNN** with hyperparameter tuning, 
 
 ---
 
-## 10. Airbnb Data Analysis
+## 11. Airbnb Data Analysis
 **Complexity:** 3/10 | **Date:** January 2025
 
 **Description:**  

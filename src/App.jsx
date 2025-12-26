@@ -115,6 +115,24 @@ const portfolioData = {
   ],
   projects: [
     {
+      slug: "baseline-pro",
+      title: "Baseline Pro - Tennis Coaching Platform",
+      description: "A mobile-first <strong>tennis booking platform</strong> with <strong>Google SSO</strong>, <strong>interactive heatmap schedule</strong>, and comprehensive admin tools. Features include <strong>multi-step booking flow</strong> with class type selection, <strong>birthday voucher system</strong>, <strong>skill badge tracking</strong>, <strong>YouTube tutorial library</strong>, and <strong>Google Calendar integration</strong>. Built for Coach ARUM with full Indonesian localization.",
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Firebase", "Vercel"],
+      complexity: 8,
+      date: "2025-12",
+      metrics: ["Google SSO", "Heatmap Schedule", "Admin Panel"],
+      demoUrl: "https://baseline-pro.vercel.app",
+      repoUrl: null,
+      imageUrl: "/images/BaselinePro/thumbnail.png",
+      gallery: [],
+      caseStudy: {
+        problem: "Tennis coaches lack accessible booking systems that combine scheduling, payment verification, and user progress tracking in one mobile-friendly platform.",
+        approach: "Built a Next.js 16 app with Firebase (Auth + Firestore + Storage). Implemented interactive heatmap schedule for slot availability, multi-step booking flow with class types (Private/Semi-Private/Regular), birthday voucher system with ±14 days auto-discount, and skill badge tracking. Admin panel includes booking approval/rejection, slot templates for bulk generation, and tutorial management.",
+        results: "Production-deployed on Vercel with complete admin management. Features Google SSO, heatmap scheduling, voucher system, booking history with rescheduling, skill badges, and YouTube tutorial integration. Full Indonesian localization with Vercel Analytics."
+      }
+    },
+    {
       slug: "meeting-summarizer",
       title: "Meeting Summarizer",
       description: "A full-stack web application for transcribing meeting recordings and generating AI-powered summaries. Features <strong>OpenAI Whisper</strong> for audio transcription, <strong>GPT-4o-mini</strong> for intelligent summarization, and <strong>Clerk</strong> for user authentication. Deployed on <strong>Google Cloud Run</strong> with a complete CI/CD pipeline via GitHub Actions.",
