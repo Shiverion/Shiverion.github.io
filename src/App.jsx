@@ -124,8 +124,15 @@ const portfolioData = {
       metrics: ["Google SSO", "Heatmap Schedule", "Admin Panel"],
       demoUrl: "https://baseline-pro.vercel.app",
       repoUrl: null,
-      imageUrl: "/images/BaselinePro/thumbnail.png",
-      gallery: [],
+      imageUrl: "/images/BaselinePro/Thumbnail/Home.png",
+      gallery: [
+        { type: "image", url: "/images/BaselinePro/Gallery/Home.png", caption: "Home Screen" },
+        { type: "image", url: "/images/BaselinePro/Gallery/Booking.png", caption: "Booking" },
+        { type: "image", url: "/images/BaselinePro/Gallery/Jadwal.png", caption: "Jadwal" },
+        { type: "image", url: "/images/BaselinePro/Gallery/Riwayat.png", caption: "Riwayat" },
+        { type: "image", url: "/images/BaselinePro/Gallery/Profile.png", caption: "Profile" },
+        { type: "image", url: "/images/BaselinePro/Gallery/Admin-Panel.png", caption: "Admin Panel" },
+      ],
       caseStudy: {
         problem: "Tennis coaches lack accessible booking systems that combine scheduling, payment verification, and user progress tracking in one mobile-friendly platform.",
         approach: "Built a Next.js 16 app with Firebase (Auth + Firestore + Storage). Implemented interactive heatmap schedule for slot availability, multi-step booking flow with class types (Private/Semi-Private/Regular), birthday voucher system with ±14 days auto-discount, and skill badge tracking. Admin panel includes booking approval/rejection, slot templates for bulk generation, and tutorial management.",
