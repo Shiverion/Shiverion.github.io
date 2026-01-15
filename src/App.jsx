@@ -115,6 +115,27 @@ const portfolioData = {
   ],
   projects: [
     {
+      slug: "ucp-agent",
+      title: "Universal Commerce Protocol (UCP) Agent",
+      description: "A production-ready AI Agent implementation of the Universal Commerce Protocol (UCP). Features a <strong>federated multi-shop architecture</strong> with 3 independent stores (Main, Budget, Luxury) and an intelligent <strong>shopping agent powered by Gemini 2.0 Flash</strong>. The agent handles decentralized search, real-time inventory checks, and conversational checkout.",
+      technologies: ["Python", "FastAPI", "React", "Gemini 2.0 Flash", "UCP Standards"],
+      complexity: 9,
+      date: "2026-01",
+      metrics: ["Federated Search", "Gemini 2.0 Flash", "3 Independent Shops"],
+      demoUrl: null,
+      repoUrl: null,
+      imageUrl: "/images/UCP/thumbnail.gif",
+      gallery: [
+        { type: "image", url: "/images/UCP/architecture.jpeg", caption: "Federated Architecture" },
+        { type: "image", url: "/images/UCP/agent_card.png", caption: "Agent Interface" },
+      ],
+      caseStudy: {
+        problem: "AI Agents need a standardized way to discover, search, and buy from multiple commerce backends without custom integrations for every store.",
+        approach: "Implemented the Google/Shopify UCP standard with a federated architecture. Created a smart orchestration agent that queries multiple independent shop APIs in parallel. Built a React frontend with interactive chat cards for rich product displays and order tracking.",
+        results: "Delivered a working demo with decentralized search across 3 shops, sub-second latency using Gemini 2.0 Flash, and a seamless conversational checkout flow."
+      }
+    },
+    {
       slug: "baseline-pro",
       title: "Baseline Pro - Tennis Coaching Platform",
       description: "A mobile-first <strong>tennis booking platform</strong> with <strong>Google SSO</strong>, <strong>interactive heatmap schedule</strong>, and comprehensive admin tools. Features include <strong>multi-step booking flow</strong> with class type selection, <strong>birthday voucher system</strong>, <strong>skill badge tracking</strong>, <strong>YouTube tutorial library</strong>, and <strong>Google Calendar integration</strong>. Built for Coach ARUM with full Indonesian localization.",
