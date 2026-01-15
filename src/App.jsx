@@ -126,6 +126,7 @@ const portfolioData = {
       repoUrl: null,
       imageUrl: "/images/UCP/thumbnail.gif",
       gallery: [
+        { type: "video", url: "https://drive.google.com/file/d/1amP9eY3NKBOOXQraffUCAgoti_jTCX8g/view", caption: "UCP Demo Video" },
         { type: "image", url: "/images/UCP/architecture.jpeg", caption: "Federated Architecture" },
         { type: "image", url: "/images/UCP/agent_card.png", caption: "Agent Interface" },
       ],
