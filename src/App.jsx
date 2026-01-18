@@ -27,8 +27,6 @@ import {
   Download,
   TrendingUp,
   ArrowRight,
-  Sun,
-  Moon,
   Filter,
   Award,
   ExternalLink,
@@ -684,22 +682,8 @@ const LoadingScreen = ({ onLoadingComplete }) => {
 export default function App() {
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'dark';
-    }
-    return 'dark';
-  });
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Apply theme to document
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   // Map routes to page names for header highlighting
   const getPageFromPath = (path) => {
@@ -761,7 +745,6 @@ export default function App() {
           currentPage={currentPage}
           navigateTo={navigateTo}
           pages={pages}
-          toggleTheme={toggleTheme}
         />
 
         <main className="pt-20 relative z-10">
@@ -892,7 +875,7 @@ const PageWrapper = ({ children, navigateTo, nextPage }) => {
  * Header Component
  * Displays navigation links with cyber glass-morphism effect.
  */
-const Header = ({ currentPage, navigateTo, pages, theme, toggleTheme }) => {
+const Header = ({ currentPage, navigateTo, pages }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const NavLink = ({ page, children, isMobile = false }) => (
@@ -993,16 +976,6 @@ const Header = ({ currentPage, navigateTo, pages, theme, toggleTheme }) => {
               Resume
             </motion.a>
 
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleTheme}
-              className="p-2 rounded-lg glass border border-neon-purple/30 text-neon-purple hover:border-neon-purple/60 transition-all"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -1052,14 +1025,6 @@ const Header = ({ currentPage, navigateTo, pages, theme, toggleTheme }) => {
                   />
                 ))}
 
-                {/* Mobile Theme Toggle */}
-                <button
-                  onClick={toggleTheme}
-                  className="ml-3 p-2 rounded-lg glass border border-neon-purple/30 text-neon-purple"
-                  aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                >
-                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
               </div>
             </div>
           </motion.div>
@@ -1701,10 +1666,11 @@ const Section = ({ title, icon, children }) => (
 
 /**
  * About Page
- * Bio and holographic skill cards.
+ * Bio with LinkedIn badge on the side and holographic skill cards.
  */
 const About = () => (
   <div>
+    {/* About Me Section - Two Column Layout */}
     <section className="mb-20">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
@@ -1714,26 +1680,44 @@ const About = () => (
       >
         About Me
       </motion.h2>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="space-y-6 text-lg text-gray-300 max-w-3xl"
-      >
-        {portfolioData.bio.map((paragraph, index) => (
-          <motion.p
-            key={index}
-            initial={{ x: -30, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
-          >
-            {paragraph}
-          </motion.p>
-        ))}
-      </motion.div>
-    </section>
 
-    <section>
+      {/* Two Column Layout: Bio Left, Badge Right */}
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+        {/* Bio Content - Left Side */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex-1 space-y-6 text-lg text-gray-300 max-w-2xl"
+        >
+          {portfolioData.bio.map((paragraph, index) => (
+            <motion.p
+              key={index}
+              initial={{ x: -30, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
+            >
+              {paragraph}
+            </motion.p>
+          ))}
+        </motion.div>
+
+        {/* LinkedIn Badge - Right Side */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex-shrink-0 flex justify-center lg:justify-end"
+        >
+          <div className="glass p-4 rounded-xl border border-neon-cyan/20 hover:border-neon-cyan/40 transition-all duration-300">
+            <LinkedInBadge />
+          </div>
+        </motion.div>
+      </div>
+    </section >
+
+    {/* Core Skills Section */}
+    < section >
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -1742,7 +1726,7 @@ const About = () => (
       >
         Core Skills
       </motion.h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
         {portfolioData.skills.map((skill, index) => (
           <motion.div
             key={index}
@@ -1755,35 +1739,15 @@ const About = () => (
               rotateY: 10,
               transition: { duration: 0.3 }
             }}
-            className="glass p-6 rounded-lg shadow-glass flex flex-col items-center justify-center text-center transition-all duration-300 hover:shadow-neon-blue hover:border-neon-cyan cyber-card holographic-bg"
+            className="glass p-4 md:p-6 rounded-lg shadow-glass flex flex-col items-center justify-center text-center transition-all duration-300 hover:shadow-neon-blue hover:border-neon-cyan cyber-card holographic-bg"
           >
-            {React.cloneElement(skill.icon, { className: 'w-10 h-10 mb-4 text-neon-cyan' })}
-            <span className="text-base font-medium text-white">{skill.name}</span>
+            {React.cloneElement(skill.icon, { className: 'w-8 h-8 md:w-10 md:h-10 mb-3 md:mb-4 text-neon-cyan' })}
+            <span className="text-sm md:text-base font-medium text-white">{skill.name}</span>
           </motion.div>
         ))}
       </div>
-    </section>
-
-    {/* LinkedIn Badge Section */}
-    <section className="mt-16">
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-3xl md:text-4xl font-bold text-neon-cyan mb-8"
-      >
-        Connect With Me
-      </motion.h2>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="flex justify-center md:justify-start"
-      >
-        <LinkedInBadge />
-      </motion.div>
-    </section>
-  </div>
+    </section >
+  </div >
 );
 
 /**
