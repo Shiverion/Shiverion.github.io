@@ -33,7 +33,8 @@ import {
   Award,
   ExternalLink,
   Home,
-  AlertTriangle
+  AlertTriangle,
+  Music
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
@@ -432,7 +433,8 @@ const portfolioData = {
     github: "https://github.com/Shiverion",
     huggingface: "https://huggingface.co/spaces/Shiverion/career_conversations",
     medium: "https://medium.com/@miqbal.izzulhaq",
-    instagram: "https://www.instagram.com/izzulhaq_iqbal/"
+    instagram: "https://www.instagram.com/izzulhaq_iqbal/",
+    spotify: "https://open.spotify.com/user/jawbzhgfmbcfm7pmho2ipplag?si=7bfc38f20ffb4507"
   },
   copyrightName: "Muhammad Iqbal Hilmy Izzulhaq"
 };
@@ -804,6 +806,7 @@ export default function App() {
                 <Contact />
               </PageWrapper>
             } />
+            <Route path="/links" element={<LinksPage />} />
             <Route path="*" element={<NotFound navigateTo={navigateTo} />} />
           </Routes>
         </main>
@@ -1275,11 +1278,6 @@ const Footer = ({ navigateTo }) => {
             <TextLink href={socialLinks.medium}>Medium</TextLink>
           </div>
 
-          {/* LinkedIn Badge */}
-          <div className="flex justify-center">
-            <LinkedInBadge />
-          </div>
-
           {/* Copyright */}
           <div className="text-center text-gray-500 text-sm">
             © {new Date().getFullYear()} {copyrightName}.
@@ -1291,6 +1289,151 @@ const Footer = ({ navigateTo }) => {
 };
 
 // --- PAGE COMPONENTS ---
+
+/**
+ * LinksPage Component
+ * A link-in-bio style page with all social and professional links
+ * Accessible at /links route - designed to be shared as a single URL
+ */
+const LinksPage = () => {
+  const { name, tagline, profileImageUrl, socialLinks, contactEmail } = portfolioData;
+
+  // Define all links with icons and labels
+  const allLinks = [
+    {
+      name: 'LinkedIn',
+      url: socialLinks.linkedin,
+      icon: <Linkedin className="w-5 h-5" />,
+      color: 'from-blue-600 to-blue-800',
+      hoverColor: 'hover:shadow-blue-500/50'
+    },
+    {
+      name: 'GitHub',
+      url: socialLinks.github,
+      icon: <Github className="w-5 h-5" />,
+      color: 'from-gray-700 to-gray-900',
+      hoverColor: 'hover:shadow-gray-500/50'
+    },
+    {
+      name: 'Instagram',
+      url: socialLinks.instagram,
+      icon: <Instagram className="w-5 h-5" />,
+      color: 'from-pink-500 via-purple-500 to-orange-400',
+      hoverColor: 'hover:shadow-pink-500/50'
+    },
+    {
+      name: 'Spotify',
+      url: socialLinks.spotify,
+      icon: <Music className="w-5 h-5" />,
+      color: 'from-green-500 to-green-700',
+      hoverColor: 'hover:shadow-green-500/50'
+    },
+    {
+      name: 'Medium',
+      url: socialLinks.medium,
+      icon: <MessageSquare className="w-5 h-5" />,
+      color: 'from-gray-800 to-black',
+      hoverColor: 'hover:shadow-gray-500/50'
+    },
+    {
+      name: 'Hugging Face',
+      url: socialLinks.huggingface,
+      icon: <Bot className="w-5 h-5" />,
+      color: 'from-yellow-500 to-orange-500',
+      hoverColor: 'hover:shadow-yellow-500/50'
+    },
+    {
+      name: 'Portfolio Website',
+      url: 'https://shiverion.com',
+      icon: <Home className="w-5 h-5" />,
+      color: 'from-neon-cyan to-neon-blue',
+      hoverColor: 'hover:shadow-neon-cyan'
+    },
+    {
+      name: 'Email Me',
+      url: `mailto:${contactEmail}`,
+      icon: <Mail className="w-5 h-5" />,
+      color: 'from-red-500 to-red-700',
+      hoverColor: 'hover:shadow-red-500/50'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-cyber-darker flex flex-col items-center justify-start py-12 px-4 relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
+      <motion.div
+        animate={{ opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 5, repeat: Infinity }}
+        className="absolute top-0 left-1/4 w-96 h-96 bg-neon-blue rounded-full mix-blend-screen filter blur-3xl"
+      />
+      <motion.div
+        animate={{ opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 7, repeat: Infinity, delay: 1 }}
+        className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-purple rounded-full mix-blend-screen filter blur-3xl"
+      />
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-md">
+        {/* Profile Header */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center mb-8"
+        >
+          <motion.img
+            whileHover={{ scale: 1.05 }}
+            src={profileImageUrl}
+            alt={name}
+            className="w-28 h-28 rounded-full object-cover object-top border-4 border-neon-cyan/50 shadow-lg mb-4"
+            onError={(e) => { e.target.src = 'https://placehold.co/112x112/050816/00d9ff?text=Photo'; }}
+          />
+          <h1 className="text-2xl font-bold text-white text-center">{name}</h1>
+          <p className="text-sm text-gray-400 text-center mt-1 max-w-xs">{tagline}</p>
+        </motion.div>
+
+        {/* Links Grid */}
+        <div className="space-y-3">
+          {allLinks.map((link, index) => (
+            <motion.a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * index, duration: 0.4 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className={`flex items-center gap-4 w-full px-6 py-4 rounded-xl bg-gradient-to-r ${link.color} text-white font-medium shadow-lg ${link.hoverColor} hover:shadow-xl transition-all duration-300 border border-white/10`}
+            >
+              {link.icon}
+              <span className="flex-1">{link.name}</span>
+              <ExternalLink className="w-4 h-4 opacity-60" />
+            </motion.a>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.5 }}
+          className="mt-12 text-center"
+        >
+          <p className="text-xs text-gray-500">
+            © {new Date().getFullYear()} {name}
+          </p>
+          <p className="text-xs text-gray-600 mt-1">
+            <a href="/" className="hover:text-neon-cyan transition-colors">shiverion.com</a>
+          </p>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 
 /**
  * Hero (Home) Page
@@ -1619,6 +1762,26 @@ const About = () => (
           </motion.div>
         ))}
       </div>
+    </section>
+
+    {/* LinkedIn Badge Section */}
+    <section className="mt-16">
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl md:text-4xl font-bold text-neon-cyan mb-8"
+      >
+        Connect With Me
+      </motion.h2>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="flex justify-center md:justify-start"
+      >
+        <LinkedInBadge />
+      </motion.div>
     </section>
   </div>
 );
