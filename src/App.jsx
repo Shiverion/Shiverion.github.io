@@ -397,6 +397,27 @@ const portfolioData = {
   ],
   certifications: [
     {
+      name: "Generative AI with Large Language Models",
+      issuer: "Amazon Web Services (AWS)",
+      date: "Credential ID: 56TNN6IUU883",
+      description: "Gain foundational knowledge, practical skills, and a functional understanding of how generative AI works. Dive into the latest research on Gen AI to understand how companies are creating value with cutting-edge technology. Instruction from expert AWS AI practitioners who actively build and deploy AI in business use-cases today.",
+      url: "https://coursera.org/share/8f7f2759c003ca4a755c74b7c85feff3"
+    },
+    {
+      name: "Tools for Data Science",
+      issuer: "IBM",
+      date: "Credential ID: O46IVC8SUCD6",
+      description: "Describe the Data Scientist’s tool kit which includes: Libraries & Packages, Data sets, Machine learning models, and Big Data tools. Utilize languages commonly used by data scientists like Python, R, and SQL. Demonstrate working knowledge of tools such as Jupyter notebooks and RStudio and utilize their various features. Create and manage source code for data science using Git repositories and GitHub.",
+      url: "https://www.coursera.org/account/accomplishments/records/O46IVC8SUCD6"
+    },
+    {
+      name: "AI Engineer MLOps Track: Deploy Gen AI & Agentic AI at Scale",
+      issuer: "Udemy",
+      date: "Credential ID: UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3",
+      description: "Built and deployed production-grade LLM SaaS applications across major cloud platforms, designing scalable cloud architectures and CI/CD pipelines. Integrated leading commercial and open-source models, automated multi-environment deployments, and delivered secure, observable, enterprise-ready AI systems including multi-agent and agentic workflows.",
+      url: "https://www.udemy.com/certificate/UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3/"
+    },
+    {
       name: "MLOps with Vertex AI: Model Evaluation",
       issuer: "Google",
       date: "Credential ID: 20598469",
@@ -2371,80 +2392,144 @@ const Articles = () => (
  * Education Page
  * Timeline with glowing markers.
  */
-const Education = () => (
-  <Section title="Education & Certifications" icon={<GraduationCap />}>
-    <div className="space-y-12">
-      {/* Education */}
-      <div>
-        <motion.h3
-          initial={{ x: -30, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-2xl font-semibold text-neon-cyan mb-6"
-        >
-          Education
-        </motion.h3>
-        <div className="space-y-6">
-          {portfolioData.education.map((edu, index) => (
-            <motion.div
-              key={index}
-              initial={{ x: -50, opacity: 0 }}
+const Education = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 4;
+
+  const totalPages = Math.ceil(portfolioData.certifications.length / itemsPerPage);
+
+  const currentCertificates = portfolioData.certifications.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
+  return (
+    <Section title="Education & Certifications" icon={<GraduationCap />}>
+      <div className="space-y-12">
+        {/* Education */}
+        <div>
+          <motion.h3
+            initial={{ x: -30, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl font-semibold text-neon-cyan mb-6"
+          >
+            Education
+          </motion.h3>
+          <div className="space-y-6">
+            {portfolioData.education.map((edu, index) => (
+              <motion.div
+                key={index}
+                initial={{ x: -50, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="relative glass p-4 rounded-lg hover:shadow-neon-blue transition-all"
+              >
+                <div className="absolute -left-[3.2rem] top-5 w-6 h-6 bg-neon-cyan rounded-full border-4 border-cyber-darker animate-pulse" />
+                <h4 className="text-xl font-medium text-white">{edu.institution}</h4>
+                <p className="text-lg text-gray-300">{edu.degree}</p>
+                <p className="text-sm text-gray-400">{edu.period}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Certifications */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <motion.h3
+              initial={{ x: -30, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="relative glass p-4 rounded-lg hover:shadow-neon-blue transition-all"
+              transition={{ duration: 0.6 }}
+              className="text-2xl font-semibold text-neon-cyan"
             >
-              <div className="absolute -left-[3.2rem] top-5 w-6 h-6 bg-neon-cyan rounded-full border-4 border-cyber-darker animate-pulse" />
-              <h4 className="text-xl font-medium text-white">{edu.institution}</h4>
-              <p className="text-lg text-gray-300">{edu.degree}</p>
-              <p className="text-sm text-gray-400">{edu.period}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+              Featured Certifications
+            </motion.h3>
 
-      {/* Certifications */}
-      <div>
-        <motion.h3
-          initial={{ x: -30, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-2xl font-semibold text-neon-cyan mb-6"
-        >
-          Featured Certifications
-        </motion.h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {portfolioData.certifications.map((cert, index) => (
-            <motion.a
-              key={index}
-              href={cert.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group relative glass p-5 rounded-xl hover:shadow-neon-purple transition-all border border-neon-purple/20 hover:border-neon-purple/50"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-neon-purple/20 flex items-center justify-center flex-shrink-0 group-hover:bg-neon-purple/30 transition-colors">
-                  <Award className="w-6 h-6 text-neon-purple" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-lg font-semibold text-white group-hover:text-neon-cyan transition-colors">{cert.name}</h4>
-                  <p className="text-sm text-neon-purple font-medium">{cert.issuer}</p>
-                  {cert.description && (
-                    <p className="text-sm text-gray-400 mt-2 line-clamp-2">{cert.description}</p>
-                  )}
-                  <p className="text-xs text-gray-500 mt-2">{cert.date}</p>
-                </div>
-                <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-neon-purple transition-colors flex-shrink-0" />
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)}
+                  className="p-2 glass rounded-full hover:bg-neon-cyan/20 text-neon-cyan transition-colors"
+                  aria-label="Previous page"
+                >
+                  <ChevronUp className="w-5 h-5 -rotate-90" />
+                </button>
+                <button
+                  onClick={() => setCurrentPage((prev) => (prev + 1) % totalPages)}
+                  className="p-2 glass rounded-full hover:bg-neon-cyan/20 text-neon-cyan transition-colors"
+                  aria-label="Next page"
+                >
+                  <ChevronUp className="w-5 h-5 rotate-90" />
+                </button>
               </div>
-            </motion.a>
-          ))}
+            )}
+          </div>
+
+          <div className="relative min-h-[400px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
+                {currentCertificates.map((cert, index) => (
+                  <motion.a
+                    key={cert.date || index} // Use unique ID if available, otherwise date/index fallback
+                    href={cert.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                    className="group relative glass p-5 rounded-xl hover:shadow-neon-purple transition-all border border-neon-purple/20 hover:border-neon-purple/50 flex flex-col h-full"
+                  >
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-full bg-neon-purple/20 flex items-center justify-center flex-shrink-0 group-hover:bg-neon-purple/30 transition-colors">
+                        <Award className="w-6 h-6 text-neon-purple" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-lg font-semibold text-white group-hover:text-neon-cyan transition-colors line-clamp-2">{cert.name}</h4>
+                        <p className="text-sm text-neon-purple font-medium mt-1">{cert.issuer}</p>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-neon-purple transition-colors flex-shrink-0" />
+                    </div>
+
+                    <div className="flex-grow">
+                      {cert.description && (
+                        <p className="text-sm text-gray-400 line-clamp-3 mb-3">{cert.description}</p>
+                      )}
+                    </div>
+
+                    <p className="text-xs text-gray-500 mt-auto pt-3 border-t border-gray-700/50">{cert.date}</p>
+                  </motion.a>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Page Indicators */}
+          {totalPages > 1 && (
+            <div className="flex justify-center gap-2 mt-6">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${currentPage === i ? 'bg-neon-cyan w-6' : 'bg-gray-600 hover:bg-gray-500'
+                    }`}
+                  aria-label={`Go to page ${i + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* View All Certificates Button */}
@@ -2469,9 +2554,10 @@ const Education = () => (
           </motion.a>
         </motion.div>
       </div>
-    </div>
-  </Section>
-);
+
+    </Section >
+  );
+};
 
 /**
  * Contact Page
