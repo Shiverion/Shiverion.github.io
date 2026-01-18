@@ -582,95 +582,37 @@ const AnimatedCounter = ({ value, prefix = '', suffix = '', decimals = 0 }) => {
  * Cyber-themed loading animation with pulsing logo and progress bar.
  */
 const LoadingScreen = ({ onLoadingComplete }) => {
-  const [progress, setProgress] = useState(0);
-
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(() => onLoadingComplete(), 300);
-          return 100;
-        }
-        return prev + 2;
-      });
-    }, 30);
-
-    return () => clearInterval(timer);
+    // Quick fade out after brief delay
+    const timer = setTimeout(() => onLoadingComplete(), 800);
+    return () => clearTimeout(timer);
   }, [onLoadingComplete]);
 
   return (
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 bg-cyber-darker z-[200] flex flex-col items-center justify-center"
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 bg-cyber-darker z-[200] flex items-center justify-center"
     >
-      {/* Cyber grid background */}
-      <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
-
-      {/* Animated neon orbs */}
+      {/* Simple logo display */}
       <motion.div
-        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute w-64 h-64 bg-neon-blue rounded-full mix-blend-screen filter blur-3xl"
-      />
-      <motion.div
-        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
-        transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-        className="absolute w-48 h-48 bg-neon-purple rounded-full mix-blend-screen filter blur-3xl translate-x-20 translate-y-10"
-      />
-
-      {/* Logo / Name */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 text-center"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="text-center"
       >
-        <motion.div
-          animate={{
-            textShadow: [
-              '0 0 10px rgba(0, 255, 255, 0.5)',
-              '0 0 30px rgba(0, 255, 255, 0.8)',
-              '0 0 10px rgba(0, 255, 255, 0.5)'
-            ]
-          }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="text-4xl md:text-5xl font-bold text-neon-cyan mb-2"
-        >
+        <div className="text-3xl md:text-4xl font-bold text-neon-blue">
           {portfolioData.name.split(' ')[0]}
-        </motion.div>
-        <p className="text-gray-400 text-sm tracking-widest uppercase">Portfolio</p>
+        </div>
+        <div className="mt-4 flex justify-center">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 0.8, repeat: Infinity }}
+            className="w-2 h-2 bg-neon-blue rounded-full"
+          />
+        </div>
       </motion.div>
-
-      {/* Progress bar */}
-      <div className="relative z-10 mt-12 w-64">
-        <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            className="h-full bg-gradient-to-r from-neon-blue via-neon-cyan to-neon-purple"
-            style={{ boxShadow: '0 0 10px rgba(0, 255, 255, 0.8)' }}
-          />
-        </div>
-        <div className="flex justify-between mt-2 text-xs text-gray-500">
-          <span>Loading</span>
-          <span>{progress}%</span>
-        </div>
-      </div>
-
-      {/* Loading dots */}
-      <div className="relative z-10 mt-8 flex gap-2">
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
-            transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.2 }}
-            className="w-2 h-2 bg-neon-cyan rounded-full"
-          />
-        ))}
-      </div>
     </motion.div>
   );
 };
@@ -730,7 +672,12 @@ export default function App() {
 
   return (
     <>
-      {/* Loading Screen */}
+      {/* Skip to main content link for accessibility */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
+      {/* Loading Screen - Simplified */}
       <AnimatePresence>
         {isLoading && (
           <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
@@ -738,16 +685,13 @@ export default function App() {
       </AnimatePresence>
 
       <div className="bg-cyber-darker text-gray-100 min-h-screen font-sans antialiased relative overflow-x-hidden">
-        {/* Scanline effect overlay */}
-        <div className="scanline fixed inset-0 pointer-events-none z-[100]" />
-
         <Header
           currentPage={currentPage}
           navigateTo={navigateTo}
           pages={pages}
         />
 
-        <main className="pt-20 relative z-10">
+        <main id="main-content" className="pt-20 relative z-10">
           <Routes>
             <Route path="/" element={
               <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
@@ -879,27 +823,25 @@ const Header = ({ currentPage, navigateTo, pages }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const NavLink = ({ page, children, isMobile = false }) => (
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+    <button
       onClick={() => {
         navigateTo(page);
         setIsMobileMenuOpen(false);
       }}
-      className={`transition-all duration-300 ${isMobile
-        ? 'block w-full text-left px-4 py-3 rounded-lg text-lg'
-        : 'px-2 lg:px-3 py-1.5 rounded-md text-xs lg:text-sm font-medium'
+      className={`transition-all duration-200 ${isMobile
+        ? 'block w-full text-left px-4 py-3 rounded-lg'
+        : 'px-3 py-2 rounded-md text-sm font-medium'
         } ${currentPage === page
           ? (isMobile
-            ? 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50'
-            : 'bg-neon-blue/20 text-neon-cyan border border-neon-blue/50 shadow-neon-blue')
+            ? 'bg-neon-blue/10 text-neon-blue'
+            : 'text-neon-blue')
           : (isMobile
-            ? 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30'
-            : 'text-gray-300 hover:bg-neon-blue/10 hover:text-neon-cyan hover:border hover:border-neon-blue/30')
+            ? 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+            : 'text-gray-400 hover:text-white')
         }`}
     >
       {children}
-    </motion.button>
+    </button>
   );
 
   // Page labels for tooltips
@@ -917,26 +859,25 @@ const Header = ({ currentPage, navigateTo, pages }) => {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 glass z-50 border-b border-neon-blue/30"
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50 bg-cyber-darker/80 backdrop-blur-md border-b border-gray-800/50"
     >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pr-8 lg:pr-12">
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ opacity: 0.8 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => navigateTo('Hero')}
-              className="text-2xl font-bold text-neon-cyan transition-all"
+              className="text-xl font-bold text-white transition-all"
             >
-              {portfolioData.name}.
+              {portfolioData.name.split(' ').slice(0, 2).join(' ')}.
             </motion.button>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:block">
             <div className="ml-4 lg:ml-8 flex items-baseline space-x-1 lg:space-x-2">
-              <NavLink page="Hero">Home</NavLink>
               <NavLink page="About">About</NavLink>
               <NavLink page="Experience">Experience</NavLink>
               <NavLink page="Projects">Projects</NavLink>
@@ -948,34 +889,18 @@ const Header = ({ currentPage, navigateTo, pages }) => {
 
           {/* Right side controls */}
           <div className="hidden md:flex items-center gap-3 mr-4">
-            {/* Progress Dots - only on xl screens */}
-            <div className="hidden xl:flex items-center gap-2">
-              {pages.map((page) => (
-                <motion.button
-                  key={page}
-                  whileHover={{ scale: 1.3 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => navigateTo(page)}
-                  className={`progress-dot ${currentPage === page ? 'active' : ''}`}
-                  title={pageLabels[page]}
-                  aria-label={`Navigate to ${pageLabels[page]}`}
-                />
-              ))}
-            </div>
-
             {/* Resume Button */}
             <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               href="https://drive.google.com/file/d/1gnyOl0OWglBntwKF54ow30mpnh4n2Dd6/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium glass rounded-lg border border-neon-cyan/30 text-neon-cyan hover:text-white hover:border-neon-cyan/60 hover:shadow-neon-cyan transition-all"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-gray-700 text-gray-300 hover:text-neon-blue hover:border-neon-blue transition-all"
             >
               <FileDown className="w-4 h-4" />
               Resume
             </motion.a>
-
           </div>
 
           {/* Mobile Menu Button */}
@@ -1000,9 +925,9 @@ const Header = ({ currentPage, navigateTo, pages }) => {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden border-t border-neon-blue/30 overflow-hidden"
+            className="md:hidden border-t border-gray-800 overflow-hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 glass-strong">
+            <div className="px-4 pt-3 pb-4 space-y-1 bg-cyber-panel">
               <NavLink page="Hero" isMobile>Home</NavLink>
               <NavLink page="About" isMobile>About</NavLink>
               <NavLink page="Experience" isMobile>Experience</NavLink>
@@ -1011,20 +936,18 @@ const Header = ({ currentPage, navigateTo, pages }) => {
               <NavLink page="Education" isMobile>Education</NavLink>
               <NavLink page="Contact" isMobile>Contact</NavLink>
 
-              {/* Mobile Progress Dots */}
-              <div className="flex items-center justify-center gap-3 pt-4 pb-2 border-t border-neon-blue/20 mt-2">
-                {pages.map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => {
-                      navigateTo(page);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`progress-dot ${currentPage === page ? 'active' : ''}`}
-                    aria-label={`Navigate to ${pageLabels[page]}`}
-                  />
-                ))}
-
+              {/* Mobile Resume Link */}
+              <div className="pt-3 mt-2 border-t border-gray-800">
+                <a
+                  href="https://drive.google.com/file/d/1gnyOl0OWglBntwKF54ow30mpnh4n2Dd6/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-3 text-gray-300 hover:text-neon-blue transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <FileDown className="w-4 h-4" />
+                  Download Resume
+                </a>
               </div>
             </div>
           </motion.div>
@@ -1406,238 +1329,110 @@ const LinksPage = () => {
  */
 const Hero = ({ navigateTo, openAgentModal }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[75vh] py-20 relative overflow-hidden">
-      {/* Cyber grid background */}
-      <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
+    <div className="flex flex-col items-center justify-center min-h-[85vh] py-20 px-6 relative overflow-hidden">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cyber-darker via-cyber-dark to-cyber-darker opacity-50" />
 
-      <div className="relative w-full max-w-5xl mx-auto">
-        {/* Animated neon orbs - Optimized for performance (static with opacity pulse) */}
+      {/* Single subtle animated orb */}
+      <motion.div
+        animate={{ opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-neon-blue rounded-full mix-blend-screen filter blur-[120px]"
+      />
+
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
+        {/* Profile image */}
         <motion.div
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 5, repeat: Infinity }}
-          className="absolute -top-40 -left-40 w-72 h-72 md:w-96 md:h-96 bg-neon-blue rounded-full mix-blend-screen filter blur-3xl"
-        />
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <motion.img
+            whileHover={{ scale: 1.02 }}
+            src={portfolioData.profileImageUrl}
+            alt={portfolioData.name}
+            className="w-36 h-36 md:w-44 md:h-44 rounded-full object-cover object-top border-2 border-neon-blue/30 hover:border-neon-blue/50 transition-all duration-300"
+            onError={(e) => { e.target.src = 'https://placehold.co/256x256/0a0a0b/3b82f6?text=Image'; }}
+          />
+        </motion.div>
+
+        {/* Name and tagline */}
         <motion.div
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 7, repeat: Infinity, delay: 1 }}
-          className="absolute -bottom-40 -right-40 w-72 h-72 md:w-96 md:h-96 bg-neon-purple rounded-full mix-blend-screen filter blur-3xl"
-        />
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight tracking-tight">
+            Hello, I'm{' '}
+            <span className="text-neon-blue">
+              {portfolioData.name.split(' ').slice(0, 3).join(' ')}
+            </span>
+          </h1>
 
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 text-center md:text-left">
-          {/* Profile image with glow */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex-shrink-0"
-          >
-            <motion.img
-              whileHover={{ scale: 1.05 }}
-              src={portfolioData.profileImageUrl}
-              alt={portfolioData.name}
-              className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover object-top border-4 border-neon-cyan/30 hover:border-neon-cyan/50 transition-all duration-500 shadow-lg"
-              onError={(e) => { e.target.src = 'https://placehold.co/256x256/050816/00d9ff?text=Image+Not+Found'; }}
-            />
-          </motion.div>
-
-          {/* Text Content */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex-1"
+            className="mt-6 text-xl md:text-2xl text-gray-400 font-medium"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-2">
-              Hello, I'm{' '}
-              <span className="text-neon-cyan">
-                {portfolioData.name}
-              </span>
-            </h1>
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="mt-6 text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 max-w-3xl mx-auto md:mx-0"
-            >
-              {portfolioData.tagline}
-            </motion.h2>
+            AI Agent Engineer & Data Scientist
+          </motion.p>
 
-            {/* Resume Download Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start"
-            >
-              <motion.a
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                href="/resume.pdf"
-                download="Muhammad_Iqbal_Resume.pdf"
-                className="group flex items-center gap-2 px-6 py-3 bg-neon-blue text-white font-semibold rounded-lg border border-neon-cyan/50 shadow-lg hover:shadow-neon-cyan transition-all duration-300"
-              >
-                <Download className="w-5 h-5 group-hover:animate-bounce" />
-                Download Resume
-              </motion.a>
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={openAgentModal}
-                className="flex items-center gap-2 px-6 py-3 glass rounded-lg border border-neon-purple/40 text-neon-purple hover:border-neon-purple hover:shadow-neon-purple transition-all duration-300"
-              >
-                <Sparkles className="w-5 h-5" />
-                Ask My AI Agent
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-4 text-base md:text-lg text-gray-500 max-w-2xl mx-auto"
+          >
+            Building intelligent systems that solve real-world problems with AI
+          </motion.p>
+        </motion.div>
 
-      {/* Stats Counter Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="w-full max-w-4xl mx-auto mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
-      >
-        {[
-          { value: 7, suffix: '+', label: 'Projects Completed' },
-          { value: 4, suffix: '', label: 'AI / ML Projects' },
-          { value: 2, suffix: '', label: 'Full-Stack Apps' },
-          { value: 2, suffix: '', label: 'Data Analytics' },
-        ].map((stat, index) => (
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="mt-10 flex flex-wrap gap-4 justify-center"
+        >
+          <motion.a
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            href="/resume.pdf"
+            download="Muhammad_Iqbal_Resume.pdf"
+            className="flex items-center gap-2 px-6 py-3 bg-neon-blue text-white font-medium rounded-lg hover:bg-neon-blue/90 transition-all duration-200"
+          >
+            <Download className="w-5 h-5" />
+            Download Resume
+          </motion.a>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={openAgentModal}
+            className="flex items-center gap-2 px-6 py-3 bg-transparent rounded-lg border border-gray-700 text-gray-300 hover:border-neon-blue hover:text-neon-blue transition-all duration-200"
+          >
+            <Sparkles className="w-5 h-5" />
+            Ask My AI Agent
+          </motion.button>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600"
+        >
+          <span className="text-xs uppercase tracking-widest">Scroll</span>
           <motion.div
-            key={index}
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 * index, duration: 0.5 }}
-            className="glass p-4 md:p-6 rounded-xl border border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-neon-cyan transition-all duration-300 text-center"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <AnimatedCounter
-              value={stat.value}
-              prefix={stat.prefix}
-              suffix={stat.suffix}
-              decimals={stat.decimals}
-            />
-            <p className="text-gray-400 text-xs md:text-sm mt-2">{stat.label}</p>
+            <ChevronDown className="w-5 h-5" />
           </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Featured Projects */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="w-full max-w-5xl mx-auto mt-10 md:mt-16"
-      >
-        <div className="flex items-center justify-between mb-4 md:mb-6">
-          <h3 className="text-lg md:text-xl font-semibold text-neon-cyan flex items-center gap-2">
-            <Briefcase className="w-5 h-5" /> Featured Projects
-          </h3>
-          <button
-            onClick={() => navigateTo('Projects')}
-            className="text-xs md:text-sm text-gray-400 hover:text-neon-cyan transition-colors flex items-center gap-1"
-          >
-            View All <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="grid gap-4 md:grid-cols-3">
-          {portfolioData.projects.slice(0, 3).map((project, i) => (
-            <motion.div
-              key={project.slug}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3 + i * 0.1 }}
-              whileHover={{ y: -5 }}
-              onClick={() => navigateTo('Projects')}
-              className="glass p-4 rounded-lg border border-neon-blue/20 hover:border-neon-cyan/50 cursor-pointer transition-all"
-            >
-              <h4 className="font-semibold text-white text-sm mb-2 line-clamp-1">{project.title}</h4>
-              <div className="flex flex-wrap gap-1">
-                {project.technologies.slice(0, 3).map((tech, j) => (
-                  <span key={j} className="text-xs px-2 py-0.5 rounded-full bg-neon-cyan/10 text-neon-cyan">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Tech Stack */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
-        className="w-full max-w-4xl mx-auto mt-10 md:mt-12"
-      >
-        <h3 className="text-lg md:text-xl font-semibold text-neon-purple text-center mb-4 md:mb-6 flex items-center justify-center gap-2">
-          <Cpu className="w-5 h-5" /> Tech Stack
-        </h3>
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-          {['Python', 'SQL', 'OpenAI', 'LangChain', 'RAG', 'CrewAI', 'FastAPI', 'React', 'Docker', 'AWS', 'GCP', 'Azure', 'Terraform'].map((tech, i) => (
-            <motion.span
-              key={tech}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.5 + i * 0.05 }}
-              whileHover={{ scale: 1.1, y: -2 }}
-              className="px-3 py-1.5 md:px-4 md:py-2 glass rounded-full border border-neon-purple/30 text-gray-300 text-xs md:text-sm hover:border-neon-purple/60 hover:text-white transition-all cursor-default"
-            >
-              {tech}
-            </motion.span>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Recent Articles */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.6, duration: 0.6 }}
-        className="w-full max-w-4xl mx-auto mt-10 md:mt-12 mb-10 md:mb-0"
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg md:text-xl font-semibold text-neon-green flex items-center gap-2">
-            <MessageSquare className="w-5 h-5" /> Recent Articles
-          </h3>
-          <button
-            onClick={() => navigateTo('Articles')}
-            className="text-xs md:text-sm text-gray-400 hover:text-neon-green transition-colors flex items-center gap-1"
-          >
-            View All <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="space-y-3">
-          {portfolioData.articles.slice(0, 2).map((article, i) => (
-            <motion.a
-              key={i}
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.7 + i * 0.1 }}
-              whileHover={{ x: 5 }}
-              className="block glass p-3 md:p-4 rounded-lg border border-neon-green/20 hover:border-neon-green/50 transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-white text-xs md:text-sm font-medium group-hover:text-neon-green transition-colors line-clamp-1">
-                  {article.title}
-                </span>
-                <span className="text-[10px] md:text-xs text-gray-500 flex-shrink-0 ml-2">{article.readTime}</span>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };
@@ -1666,89 +1461,130 @@ const Section = ({ title, icon, children }) => (
 
 /**
  * About Page
- * Bio with LinkedIn badge on the side and holographic skill cards.
+ * Bio with stats, organized skills, and LinkedIn badge.
  */
-const About = () => (
-  <div>
-    {/* About Me Section - Two Column Layout */}
-    <section className="mb-20">
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
+const About = () => {
+  // Organized skill categories
+  const skillCategories = [
+    {
+      title: "AI & Machine Learning",
+      skills: ["Agentic AI", "Multi-agent Systems", "LangGraph / CrewAI", "RAG", "NLP", "Machine Learning"]
+    },
+    {
+      title: "Data Science",
+      skills: ["Predictive Analytics", "Data Visualization", "Tableau / Power BI", "Feature Engineering"]
+    },
+    {
+      title: "Engineering",
+      skills: ["Python", "SQL", "FastAPI", "React", "TypeScript"]
+    },
+    {
+      title: "Cloud & DevOps",
+      skills: ["AWS", "GCP", "Azure", "Docker", "Terraform"]
+    }
+  ];
+
+  const stats = [
+    { value: "7+", label: "Projects Completed" },
+    { value: "4", label: "AI/ML Projects" },
+    { value: "2", label: "Full-Stack Apps" },
+    { value: "2", label: "Data Analytics" }
+  ];
+
+  return (
+    <div className="max-w-5xl mx-auto px-6">
+      {/* Stats Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-3xl md:text-4xl font-bold text-neon-cyan mb-8"
+        transition={{ duration: 0.5 }}
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
       >
-        About Me
-      </motion.h2>
-
-      {/* Two Column Layout: Bio Left, Badge Right */}
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-        {/* Bio Content - Left Side */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex-1 space-y-6 text-lg text-gray-300 max-w-2xl"
-        >
-          {portfolioData.bio.map((paragraph, index) => (
-            <motion.p
-              key={index}
-              initial={{ x: -30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
-            >
-              {paragraph}
-            </motion.p>
-          ))}
-        </motion.div>
-
-        {/* LinkedIn Badge - Right Side */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex-shrink-0 flex justify-center lg:justify-end"
-        >
-          <div className="glass p-4 rounded-xl border border-neon-cyan/20 hover:border-neon-cyan/40 transition-all duration-300">
-            <LinkedInBadge />
-          </div>
-        </motion.div>
-      </div>
-    </section >
-
-    {/* Core Skills Section */}
-    < section >
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-3xl md:text-4xl font-bold text-neon-cyan mb-12"
-      >
-        Core Skills
-      </motion.h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-        {portfolioData.skills.map((skill, index) => (
+        {stats.map((stat, index) => (
           <motion.div
             key={index}
-            initial={{ scale: 0, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.05 }}
-            whileHover={{
-              scale: 1.05,
-              rotateY: 10,
-              transition: { duration: 0.3 }
-            }}
-            className="glass p-4 md:p-6 rounded-lg shadow-glass flex flex-col items-center justify-center text-center transition-all duration-300 hover:shadow-neon-blue hover:border-neon-cyan cyber-card holographic-bg"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: index * 0.1 }}
+            className="text-center p-6 rounded-lg border border-gray-800 bg-cyber-panel/50"
           >
-            {React.cloneElement(skill.icon, { className: 'w-8 h-8 md:w-10 md:h-10 mb-3 md:mb-4 text-neon-cyan' })}
-            <span className="text-sm md:text-base font-medium text-white">{skill.name}</span>
+            <div className="text-3xl md:text-4xl font-bold text-neon-blue">{stat.value}</div>
+            <div className="text-sm text-gray-500 mt-2">{stat.label}</div>
           </motion.div>
         ))}
-      </div>
-    </section >
-  </div >
-);
+      </motion.div>
+
+      {/* About Section */}
+      <section className="mb-16">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl md:text-3xl font-bold text-white mb-6"
+        >
+          About Me
+        </motion.h2>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="space-y-4 text-gray-400 leading-relaxed"
+        >
+          {portfolioData.bio.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Skills Section - Organized by Category */}
+      <section className="mb-16">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl md:text-3xl font-bold text-white mb-8"
+        >
+          Core Skills
+        </motion.h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {skillCategories.map((category, catIndex) => (
+            <motion.div
+              key={catIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: catIndex * 0.1 }}
+              className="p-6 rounded-lg border border-gray-800 bg-cyber-panel/30"
+            >
+              <h3 className="text-lg font-semibold text-neon-blue mb-4">{category.title}</h3>
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill, skillIndex) => (
+                  <span
+                    key={skillIndex}
+                    className="px-3 py-1.5 text-sm rounded-full bg-gray-800/50 text-gray-300 border border-gray-700"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* LinkedIn Badge Section */}
+      <section>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex justify-center md:justify-start"
+        >
+          <LinkedInBadge />
+        </motion.div>
+      </section>
+    </div>
+  );
+};
 
 /**
  * Experience Page
@@ -2090,21 +1926,18 @@ const Projects = () => {
       </div>
 
       {/* Project Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.title}
               layout
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{
-                y: -10,
-                transition: { duration: 0.3 }
-              }}
-              className="glass rounded-lg shadow-glass overflow-hidden flex flex-col transition-all duration-300 hover:shadow-neon-cyan cyber-card border border-neon-blue/30"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              whileHover={{ y: -4 }}
+              className="rounded-lg overflow-hidden flex flex-col bg-cyber-panel border border-gray-800 hover:border-neon-blue/50 transition-all duration-200"
             >
               {/* Image with zoom effect */}
               <div className="relative project-image-container group">
@@ -2126,9 +1959,9 @@ const Projects = () => {
                 )}
               </div>
 
-              <div className="p-6 flex-grow flex flex-col">
+              <div className="p-5 flex-grow flex flex-col">
                 <Link to={`/projects/${project.slug}`} className="group">
-                  <h3 className="text-2xl font-semibold text-neon-cyan mb-1 group-hover:text-white transition-colors">
+                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-neon-blue transition-colors line-clamp-2">
                     {project.title}
                   </h3>
                 </Link>
@@ -2139,86 +1972,85 @@ const Projects = () => {
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
-                        className={`w-4 h-4 ${i < Math.ceil(project.complexity / 2) ? 'text-yellow-400' : 'text-gray-600'}`}
+                        className={`w-3.5 h-3.5 ${i < Math.ceil(project.complexity / 2) ? 'text-neon-blue' : 'text-gray-700'}`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
-                    <span className="text-xs text-gray-400 ml-1">({project.complexity}/10)</span>
+                    <span className="text-xs text-gray-500 ml-1">({project.complexity}/10)</span>
                   </div>
                 )}
 
-                {/* Technology Tags */}
+                {/* Technology Tags - Limited to 4 visible + overflow indicator */}
                 {project.technologies && project.technologies.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech, i) => (
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.technologies.slice(0, 4).map((tech, i) => (
                       <span
                         key={i}
-                        className={`tech-pill ${i % 3 === 1 ? 'purple' : i % 3 === 2 ? 'green' : ''}`}
+                        className="px-2 py-1 text-xs rounded bg-gray-800 text-gray-400 border border-gray-700"
                       >
                         {tech}
                       </span>
                     ))}
+                    {project.technologies.length > 4 && (
+                      <span className="px-2 py-1 text-xs rounded bg-gray-800 text-gray-500">
+                        +{project.technologies.length - 4}
+                      </span>
+                    )}
                   </div>
                 )}
 
                 <p
-                  className="text-gray-300 text-base mb-6 flex-grow line-clamp-4"
-                  dangerouslySetInnerHTML={{ __html: project.description }}
+                  className="text-gray-500 text-sm mb-4 flex-grow line-clamp-3"
+                  dangerouslySetInnerHTML={{ __html: project.description.replace(/<strong>/g, '').replace(/<\/strong>/g, '') }}
                 />
 
-                <div className="flex items-center justify-between gap-3 mt-auto flex-wrap">
+                <div className="flex items-center justify-between gap-3 mt-auto pt-4 border-t border-gray-800">
                   {/* View Details Link */}
                   <Link
                     to={`/projects/${project.slug}`}
-                    className="text-sm text-neon-cyan hover:text-white transition-colors flex items-center gap-1"
+                    className="text-sm text-neon-blue hover:text-white transition-colors flex items-center gap-1"
                   >
                     View Details
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2">
                     {project.demoLinks ? (
-                      project.demoLinks.map((link, i) => (
-                        <motion.a
+                      project.demoLinks.slice(0, 2).map((link, i) => (
+                        <a
                           key={i}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-4 py-2 bg-neon-blue text-white text-xs font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
+                          className="px-3 py-1.5 bg-neon-blue text-white text-xs font-medium rounded hover:bg-neon-blue/80 transition-colors"
                         >
                           {link.label}
-                        </motion.a>
+                        </a>
                       ))
                     ) : (
                       project.demoUrl && (
-                        <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                        <a
                           href={project.demoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-5 py-2 bg-neon-blue text-white text-sm font-semibold rounded-lg shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan"
+                          className="px-3 py-1.5 bg-neon-blue text-white text-xs font-medium rounded hover:bg-neon-blue/80 transition-colors"
                         >
-                          View Demo
-                        </motion.a>
+                          Demo ↗
+                        </a>
                       )
                     )}
                     {project.repoUrl && (
-                      <motion.a
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                      <a
                         href={project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2 glass text-neon-purple text-sm font-semibold rounded-lg shadow-glass border border-neon-purple/50 transition-all hover:shadow-neon-purple"
+                        className="px-3 py-1.5 text-gray-400 text-xs font-medium rounded border border-gray-700 hover:text-white hover:border-gray-600 transition-colors"
                       >
-                        {project.demoUrl ? "View Repo" : "Explore Project"}
-                      </motion.a>
+                        Repo ↗
+                      </a>
                     )}
                   </div>
                 </div>

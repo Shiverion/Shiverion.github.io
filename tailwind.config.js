@@ -10,19 +10,24 @@ export default {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
       colors: {
-        // GitHub Dark theme mapping for existing "neon" classes
+        // Refined color palette - single accent for cleaner look
         neon: {
-          blue: '#58a6ff', // GitHub Blue
-          cyan: '#58a6ff', // GitHub Blue (mapped)
-          purple: '#bc8cff', // GitHub Purple
-          magenta: '#bc8cff', // GitHub Purple (mapped)
-          pink: '#ff7b72', // GitHub Red
-          green: '#238636', // GitHub Green
+          blue: '#3b82f6', // Primary accent - vibrant blue
+          cyan: '#3b82f6', // Unified to single accent
+          purple: '#3b82f6', // Unified to single accent (was purple, now blue for consistency)
+          magenta: '#3b82f6', // Unified to single accent
+          pink: '#ef4444', // Red for errors/alerts only
+          green: '#22c55e', // Green for success states
         },
         cyber: {
-          dark: '#0d1117', // GitHub BG
-          darker: '#010409', // GitHub Darker BG
-          panel: '#161b22', // GitHub Card BG
+          dark: '#0a0a0b', // Deeper background
+          darker: '#050505', // Near black
+          panel: '#141414', // Warmer dark gray for cards
+        },
+        // Text colors
+        text: {
+          primary: '#e4e4e7', // Brighter for readability
+          muted: '#71717a', // Muted gray
         }
       },
       keyframes: {

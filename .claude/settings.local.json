@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__MCP_DOCKER__browser_navigate",
+      "Bash(dir \"C:\\\\Users\\\\miqba\\\\projects\\\\my-portfolio-project\\\\src\" /s /b)",
+      "mcp__MCP_DOCKER__browser_take_screenshot",
+      "mcp__MCP_DOCKER__browser_resize",
+      "mcp__MCP_DOCKER__browser_click",
+      "mcp__MCP_DOCKER__browser_snapshot",
+      "WebSearch",
+      "mcp__MCP_DOCKER__browser_close",
+      "Bash(timeout:*)",
+      "mcp__MCP_DOCKER__browser_press_key"
+    ]
+  }
+}

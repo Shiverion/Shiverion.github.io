@@ -8,16 +8,47 @@ html {
   scroll-behavior: smooth;
 }
 
-/* GitHub Dark Theme Body */
+/* Refined Dark Theme Body */
 body {
   font-family: theme('fontFamily.sans');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0d1117;
-  color: #c9d1d9;
+  background-color: #0a0a0b;
+  color: #e4e4e7;
   position: relative;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  line-height: 1.7;
+}
+
+/* Skip to main content link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b82f6;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  z-index: 9999;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 10px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Subtle Grid Background (GitHub style) */
@@ -430,17 +461,29 @@ body::before {
   }
 }
 
-/* Dark/Light mode CSS variables (for future toggle) */
+/* Dark/Light mode CSS variables */
 :root {
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-tertiary: #010409;
-  --text-primary: #c9d1d9;
-  --text-secondary: #8b949e;
-  --accent-blue: #58a6ff;
-  --accent-purple: #bc8cff;
-  --accent-green: #3fb950;
-  --border-color: #30363d;
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #141414;
+  --bg-tertiary: #050505;
+  --text-primary: #e4e4e7;
+  --text-secondary: #71717a;
+  --accent-blue: #3b82f6;
+  --accent-purple: #3b82f6;
+  --accent-green: #22c55e;
+  --border-color: #27272a;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+  --space-16: 8rem;
 }
 
 /* Light mode variables (to be activated via toggle) */
