@@ -1174,8 +1174,56 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) =>
 };
 
 /**
+ * LinkedIn Badge Component
+ * Dynamically loads LinkedIn profile badge script
+ */
+const LinkedInBadge = () => {
+  const badgeRef = useRef(null);
+
+  useEffect(() => {
+    // Load LinkedIn badge script
+    const script = document.createElement('script');
+    script.src = 'https://platform.linkedin.com/badges/js/profile.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup script on unmount
+      const existingScript = document.querySelector('script[src="https://platform.linkedin.com/badges/js/profile.js"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={badgeRef} className="linkedin-badge-wrapper">
+      <div
+        className="badge-base LI-profile-badge"
+        data-locale="en_US"
+        data-size="medium"
+        data-theme="dark"
+        data-type="VERTICAL"
+        data-vanity="izzulhaq-iqbal"
+        data-version="v1"
+      >
+        <a
+          className="badge-base__link LI-simple-link"
+          href="https://id.linkedin.com/in/izzulhaq-iqbal?trk=profile-badge"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Muhammad Iqbal Hilmy Izzulhaq
+        </a>
+      </div>
+    </div>
+  );
+};
+
+/**
  * Footer Component
- * Cyber-themed footer with glowing social icons.
+ * Cyber-themed footer with glowing social icons and LinkedIn badge.
  */
 const Footer = ({ navigateTo }) => {
   const { socialLinks, copyrightName } = portfolioData;
@@ -1209,22 +1257,33 @@ const Footer = ({ navigateTo }) => {
 
   return (
     <footer className="glass-strong border-t border-neon-blue/30 mt-20 relative z-0">
-      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
-        <div className="flex justify-center space-x-6">
-          <SocialIcon href={socialLinks.linkedin} aria-label="LinkedIn">
-            <Linkedin className="h-6 w-6" />
-          </SocialIcon>
-          <SocialIcon href={socialLinks.github} aria-label="GitHub">
-            <Github className="h-6 w-6" />
-          </SocialIcon>
-          <SocialIcon href={socialLinks.instagram} aria-label="Instagram">
-            <Instagram className="h-6 w-6" />
-          </SocialIcon>
-          <TextLink href={socialLinks.huggingface}>Hugging Face</TextLink>
-          <TextLink href={socialLinks.medium}>Medium</TextLink>
-        </div>
-        <div className="text-center text-gray-500 text-sm">
-          © {new Date().getFullYear()} {copyrightName}.
+      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        {/* Main Footer Content */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+          {/* Social Links */}
+          <div className="flex justify-center space-x-6">
+            <SocialIcon href={socialLinks.linkedin} aria-label="LinkedIn">
+              <Linkedin className="h-6 w-6" />
+            </SocialIcon>
+            <SocialIcon href={socialLinks.github} aria-label="GitHub">
+              <Github className="h-6 w-6" />
+            </SocialIcon>
+            <SocialIcon href={socialLinks.instagram} aria-label="Instagram">
+              <Instagram className="h-6 w-6" />
+            </SocialIcon>
+            <TextLink href={socialLinks.huggingface}>Hugging Face</TextLink>
+            <TextLink href={socialLinks.medium}>Medium</TextLink>
+          </div>
+
+          {/* LinkedIn Badge */}
+          <div className="flex justify-center">
+            <LinkedInBadge />
+          </div>
+
+          {/* Copyright */}
+          <div className="text-center text-gray-500 text-sm">
+            © {new Date().getFullYear()} {copyrightName}.
+          </div>
         </div>
       </div>
     </footer>

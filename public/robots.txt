@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://shiverion-github-io.vercel.app/sitemap.xml
+Sitemap: https://shiverion.com/sitemap.xml
