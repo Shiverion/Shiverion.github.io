@@ -114,6 +114,29 @@ const portfolioData = {
   ],
   projects: [
     {
+      slug: "procuremind",
+      title: "ProcureMind - AI Procurement Assistant",
+      description: "An <strong>AI-powered procurement assistant</strong> designed to streamline the Request for Quote (RFQ) process. Features <strong>AI Parser</strong> for raw RFQ emails, <strong>Semantic Search</strong> for historical product matching, and <strong>Google Gemini 2.5 Flash</strong> integration for analyzing pricing and drafting professional responses. Built as a wrapper allowing users to bring their own API keys.",
+      technologies: ["Streamlit", "Python", "Supabase", "Gemini 2.5 Flash", "AI Agents"],
+      complexity: 8.5,
+      date: "2026-01",
+      metrics: ["AI RFQ Parser", "Semantic Search", "Gemini 2.5 Flash"],
+      demoUrl: "https://procuremind-ntobghbnsfksgtkcpeoewv.streamlit.app/RFQ_Manager",
+      repoUrl: "https://github.com/Shiverion/ProcureMind",
+      imageUrl: "/images/Procuremind/Thumbnail/Procuremind.png",
+      gallery: [
+        { type: "image", url: "/images/Procuremind/Gallery/Procuremind.png", caption: "RFQ Manager Interface" },
+        { type: "image", url: "/images/Procuremind/Gallery/AI Email Drafter.png", caption: "AI Email Drafter" },
+        { type: "image", url: "/images/Procuremind/Gallery/draft output.png", caption: "AI Generated Email Draft" },
+        { type: "image", url: "/images/Procuremind/Gallery/Finalization.png", caption: "Finalization & PO Generation" },
+      ],
+      caseStudy: {
+        problem: "Manual RFQ processing is tedious, involving parsing raw emails, searching through history for matches, and drafting repetitive responses.",
+        approach: "Built a Streamlit application wrapping Google Gemini 2.5 Flash and Supabase. Implemented semantic search for historical data, AI parsing for unstructured emails, and an automated drafter for professional communication.",
+        results: "Streamlined the RFQ process with a one-stop dashboard. Users can parse emails, comparison shop with historical data, and generate POs/emails in minutes."
+      }
+    },
+    {
       slug: "ucp-agent",
       title: "Universal Commerce Protocol (UCP) Agent",
       description: "A production-ready AI Agent implementation of the Universal Commerce Protocol (UCP). Features a <strong>federated multi-shop architecture</strong> with 3 independent stores (Main, Budget, Luxury) and an intelligent <strong>shopping agent powered by Gemini 2.5-Flash</strong>. The agent handles decentralized search, real-time inventory checks, and conversational checkout.",
@@ -397,53 +420,84 @@ const portfolioData = {
   ],
   certifications: [
     {
-      name: "Generative AI with Large Language Models",
-      issuer: "Amazon Web Services (AWS)",
-      date: "Credential ID: 56TNN6IUU883",
-      description: "Gain foundational knowledge, practical skills, and a functional understanding of how generative AI works. Dive into the latest research on Gen AI to understand how companies are creating value with cutting-edge technology. Instruction from expert AWS AI practitioners who actively build and deploy AI in business use-cases today.",
-      url: "https://coursera.org/share/8f7f2759c003ca4a755c74b7c85feff3"
-    },
-    {
-      name: "Tools for Data Science",
-      issuer: "IBM",
-      date: "Credential ID: O46IVC8SUCD6",
-      description: "Describe the Data Scientist’s tool kit which includes: Libraries & Packages, Data sets, Machine learning models, and Big Data tools. Utilize languages commonly used by data scientists like Python, R, and SQL. Demonstrate working knowledge of tools such as Jupyter notebooks and RStudio and utilize their various features. Create and manage source code for data science using Git repositories and GitHub.",
-      url: "https://www.coursera.org/account/accomplishments/records/O46IVC8SUCD6"
-    },
-    {
-      name: "AI Engineer MLOps Track: Deploy Gen AI & Agentic AI at Scale",
+      name: "Complete Agentic AI Engineering Course (2025)",
       issuer: "Udemy",
-      date: "Credential ID: UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3",
-      description: "Built and deployed production-grade LLM SaaS applications across major cloud platforms, designing scalable cloud architectures and CI/CD pipelines. Integrated leading commercial and open-source models, automated multi-environment deployments, and delivered secure, observable, enterprise-ready AI systems including multi-agent and agentic workflows.",
-      url: "https://www.udemy.com/certificate/UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3/"
-    },
-    {
-      name: "MLOps with Vertex AI: Model Evaluation",
-      issuer: "Google",
-      date: "Credential ID: 20598469",
-      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
-      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469"
-    },
-    {
-      name: "Artificial Intelligence Fundamentals",
-      issuer: "IBM",
-      date: "Verified Credential",
-      description: "Comprehensive AI concepts including NLP, computer vision, deep learning, neural networks, and AI ethics. Practical experience with IBM Watson Studio.",
-      url: "https://www.credly.com/badges/727eb3d7-8c1d-4f63-80b4-edb20ca832ee/public_url"
+      date: "Certificate ID: UC-0bac03ce-c247-4102-b92a-74fab96ca0fe2",
+      description: "End-to-end agentic AI development including multi-agent systems, tool integration, memory management, and production deployment strategies.",
+      url: "https://ude.my/UC-0bac03ce-c247-4102-b92a-74fab96ca0fe3",
+      categories: ["Agentic AI"]
     },
     {
       name: "LLM Engineering, RAG, QLoRA, Agents",
       issuer: "Udemy - I Engineer Core Track",
       date: "Certificate ID: UC-bab4e4c3-5eee-4003-b4a3-6cdee24c48812",
       description: "Advanced LLM engineering covering Retrieval-Augmented Generation (RAG), QLoRA fine-tuning, and building autonomous AI agents with modern frameworks.",
-      url: "https://ude.my/UC-bab4e4c3-5eee-4003-b4a3-6cdee24c48813"
+      url: "https://ude.my/UC-bab4e4c3-5eee-4003-b4a3-6cdee24c48813",
+      categories: ["Agentic AI"]
     },
     {
-      name: "Complete Agentic AI Engineering Course (2025)",
+      name: "AI Engineer MLOps Track: Deploy Gen AI & Agentic AI at Scale",
       issuer: "Udemy",
-      date: "Certificate ID: UC-0bac03ce-c247-4102-b92a-74fab96ca0fe2",
-      description: "End-to-end agentic AI development including multi-agent systems, tool integration, memory management, and production deployment strategies.",
-      url: "https://ude.my/UC-0bac03ce-c247-4102-b92a-74fab96ca0fe3"
+      date: "Credential ID: UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3",
+      description: "Built and deployed production-grade LLM SaaS applications across major cloud platforms, designing scalable cloud architectures and CI/CD pipelines.",
+      url: "https://www.udemy.com/certificate/UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3/",
+      categories: ["Agentic AI", "Cloud & MLOps"]
+    },
+    {
+      name: "Generative AI with Large Language Models",
+      issuer: "Amazon Web Services (AWS)",
+      date: "Credential ID: 56TNN6IUU883",
+      description: "Gain foundational knowledge, practical skills, and a functional understanding of how generative AI works. Dive into the latest research on Gen AI.",
+      url: "https://coursera.org/share/8f7f2759c003ca4a755c74b7c85feff3",
+      categories: ["Agentic AI"]
+    },
+    {
+      name: "MLOps with Vertex AI: Model Evaluation",
+      issuer: "Google",
+      date: "Credential ID: 20598469",
+      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
+      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469",
+      categories: ["Cloud & MLOps"]
+    },
+    {
+      name: "Databases and SQL for Data Science with Python",
+      issuer: "IBM",
+      date: "Credential ID: SSRDL58C2CD7",
+      description: "Master end-to-end relational database development and data analysis using SQL and Python, including advanced querying, database design, and production-level operations.",
+      url: "https://www.coursera.org/account/accomplishments/records/SSRDL58C2CD7",
+      categories: ["Data Science", "Fundamentals"]
+    },
+    {
+      name: "Python Project for Data Science",
+      issuer: "IBM",
+      date: "Credential ID: SOUP112W5LRV",
+      description: "Worked as a Data Scientist/Data Analyst on a real-world project, applying Python fundamentals and data structures to analyze data and build interactive dashboards using Pandas, BeautifulSoup, and Plotly in Jupyter Notebooks.",
+      url: "https://www.coursera.org/account/accomplishments/records/SOUP112W5LRV",
+      categories: ["Data Science", "Fundamentals"]
+    },
+    {
+      name: "Python for Data Science, AI & Development",
+      issuer: "IBM",
+      date: "Credential ID: JSKYQBK82UWZ",
+      description: "Built a strong foundation in Python programming, applying core logic, data structures, and object-oriented concepts. Gained hands-on experience with Pandas and NumPy in Jupyter Notebooks, and worked with external data sources through REST APIs and web scraping.",
+      url: "https://www.coursera.org/account/accomplishments/records/JSKYQBK82UWZ",
+      categories: ["Data Science", "Fundamentals"]
+    },
+    {
+      name: "Tools for Data Science",
+      issuer: "IBM",
+      date: "Credential ID: O46IVC8SUCD6",
+      description: "Describe the Data Scientist’s tool kit which includes: Libraries & Packages, Data sets, Machine learning models, and Big Data tools. Utilize languages commonly used by data scientists like Python, R, and SQL.",
+      url: "https://www.coursera.org/account/accomplishments/records/O46IVC8SUCD6",
+      categories: ["Data Science", "Fundamentals"]
+    },
+    {
+      name: "Artificial Intelligence Fundamentals",
+      issuer: "IBM",
+      date: "Verified Credential",
+      description: "Comprehensive AI concepts including NLP, computer vision, deep learning, neural networks, and AI ethics. Practical experience with IBM Watson Studio.",
+      url: "https://www.credly.com/badges/727eb3d7-8c1d-4f63-80b4-edb20ca832ee/public_url",
+      categories: ["Fundamentals"]
     }
   ],
   contactEmail: "miqbal.izzulhaq@gmail.com",
@@ -2394,14 +2448,26 @@ const Articles = () => (
  */
 const Education = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [activeCertFilter, setActiveCertFilter] = useState('All');
   const itemsPerPage = 4;
 
-  const totalPages = Math.ceil(portfolioData.certifications.length / itemsPerPage);
+  const certFilterCategories = ['All', 'Agentic AI', 'Data Science', 'Fundamentals', 'Cloud & MLOps'];
 
-  const currentCertificates = portfolioData.certifications.slice(
+  const filteredCertificates = activeCertFilter === 'All'
+    ? portfolioData.certifications
+    : portfolioData.certifications.filter(cert => cert.categories && cert.categories.includes(activeCertFilter));
+
+  const totalPages = Math.ceil(filteredCertificates.length / itemsPerPage);
+
+  const currentCertificates = filteredCertificates.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
+
+  // Reset page when filter changes
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [activeCertFilter]);
 
   return (
     <Section title="Education & Certifications" icon={<GraduationCap />}>
@@ -2438,7 +2504,7 @@ const Education = () => {
 
         {/* Certifications */}
         <div>
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <motion.h3
               initial={{ x: -30, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
@@ -2446,8 +2512,30 @@ const Education = () => {
               transition={{ duration: 0.6 }}
               className="text-2xl font-semibold text-neon-cyan"
             >
-              Featured Certifications
+              Certifications
             </motion.h3>
+
+            {/* Filter Buttons */}
+            <div className="flex flex-wrap gap-2">
+              {certFilterCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCertFilter(category)}
+                  className={`px-3 py-1 text-xs rounded-full transition-all duration-300 ${activeCertFilter === category
+                    ? 'bg-neon-blue text-white shadow-neon-blue'
+                    : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700'
+                    }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm text-gray-500">
+              {filteredCertificates.length} {filteredCertificates.length === 1 ? 'result' : 'results'}
+            </div>
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
@@ -2498,7 +2586,18 @@ const Education = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="text-lg font-semibold text-white group-hover:text-neon-cyan transition-colors line-clamp-2">{cert.name}</h4>
-                        <p className="text-sm text-neon-purple font-medium mt-1">{cert.issuer}</p>
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mt-1 gap-2">
+                          <p className="text-sm text-neon-purple font-medium">{cert.issuer}</p>
+                          {cert.categories && (
+                            <div className="flex flex-wrap gap-1">
+                              {cert.categories.map((cat, i) => (
+                                <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-gray-800 text-gray-300 border border-gray-700">
+                                  {cat}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-neon-purple transition-colors flex-shrink-0" />
                     </div>
