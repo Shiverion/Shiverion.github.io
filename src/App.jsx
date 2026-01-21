@@ -677,15 +677,26 @@ const LoadingScreen = ({ onLoadingComplete }) => {
         transition={{ duration: 0.3 }}
         className="text-center"
       >
-        <div className="text-3xl md:text-4xl font-bold text-neon-blue">
-          {portfolioData.name.split(' ')[0]}
+        <div className="text-2xl md:text-3xl font-bold text-white tracking-wide px-4">
+          Muhammad Iqbal Hilmy Izzulhaq
         </div>
-        <div className="mt-4 flex justify-center">
-          <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 0.8, repeat: Infinity }}
-            className="w-2 h-2 bg-neon-blue rounded-full"
-          />
+        <div className="text-sm md:text-base text-neon-cyan mt-2 font-medium tracking-widest uppercase">
+          AI Engineer & Data Scientist
+        </div>
+        <div className="mt-4 flex justify-center gap-2">
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeInOut"
+              }}
+              className="w-2 h-2 bg-neon-blue rounded-full"
+            />
+          ))}
         </div>
       </motion.div>
     </motion.div>
