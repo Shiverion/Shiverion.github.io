@@ -2627,6 +2627,17 @@ const Articles = () => (
  * Timeline with glowing markers.
  */
 const Education = () => {
+  // Inject Credly script locally to ensure badges load on mount
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "//cdn.credly.com/assets/utilities/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      try { document.body.removeChild(script); } catch (e) { }
+    };
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [activeCertFilter, setActiveCertFilter] = useState('All');
   const itemsPerPage = 4;
