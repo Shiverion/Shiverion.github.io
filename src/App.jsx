@@ -1452,7 +1452,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight tracking-tight">
             Hello, I'm{' '}
             <span className="text-neon-blue">
-              {portfolioData.name.split(' ').slice(0, 3).join(' ')}
+              {portfolioData.name}
             </span>
           </h1>
 
@@ -1503,6 +1503,201 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           </motion.button>
         </motion.div>
 
+        {/* Stats Section - Moving to Hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl"
+        >
+          {[
+            { value: 7, suffix: "+", label: "Projects Completed" },
+            { value: 4, label: "AI/ML Projects" },
+            { value: 2, label: "Full-Stack Apps" },
+            { value: 2, label: "Data Analytics" }
+          ].map((stat, index) => (
+            <div key={index} className="flex flex-col items-center p-4 bg-cyber-panel/30 border border-neon-blue/20 rounded-xl backdrop-blur-sm hover:border-neon-blue/50 transition-colors">
+              <AnimatedCounter value={stat.value} suffix={stat.suffix || ""} />
+              <span className="text-xs md:text-sm text-gray-400 mt-1">{stat.label}</span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Core Skills Preview */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 w-full max-w-4xl text-center"
+        >
+          <h2 className="text-3xl font-bold text-white mb-8">Technical Arsenals</h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {['Agentic AI', 'Multi-agent Systems', 'RAG', 'Python', 'React', 'TensorFlow', 'Google Cloud', 'AWS'].map((skill, i) => (
+              <motion.span
+                key={i}
+                whileHover={{ scale: 1.05 }}
+                className="px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-full text-gray-300 hover:text-neon-cyan hover:border-neon-cyan/50 transition-all cursor-default"
+              >
+                {skill}
+              </motion.span>
+            ))}
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              onClick={() => navigateTo('About')}
+              className="px-4 py-2 bg-neon-blue/10 border border-neon-blue/30 rounded-full text-neon-blue hover:bg-neon-blue/20 cursor-pointer transition-all flex items-center gap-1"
+            >
+              + Many More
+            </motion.span>
+          </div>
+        </motion.div>
+
+
+
+
+        {/* Trusted By / Experience Strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mt-24 w-full max-w-5xl"
+        >
+          <p className="text-center text-sm text-gray-500 uppercase tracking-widest mb-6">Trusted By & Previous Experience</p>
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+            {portfolioData.experiences.map((exp, i) => (
+              <div key={i} className="text-xl md:text-2xl font-bold text-gray-400 hover:text-white transition-colors">
+                {exp.company}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center mt-8">
+            <button onClick={() => navigateTo('Experience')} className="text-neon-cyan hover:text-neon-blue text-sm font-medium flex items-center gap-2 transition-colors">
+              View Full Experience <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Top Projects Preview */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-32 w-full max-w-5xl"
+        >
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-white">Featured Work</h2>
+              <p className="text-gray-400 mt-2">Selected projects that define my expertise</p>
+            </div>
+            <button onClick={() => navigateTo('Projects')} className="hidden md:flex text-neon-cyan hover:text-neon-blue text-sm font-medium items-center gap-2 transition-colors">
+              View All Projects <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {portfolioData.projects.slice(0, 2).map((project, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                className="group bg-cyber-panel/30 border border-gray-800 rounded-xl overflow-hidden hover:border-neon-blue/50 transition-all"
+              >
+                <div className="h-48 overflow-hidden relative">
+                  <img
+                    src={project.imageUrl || (project.gallery && project.gallery[0] ? project.gallery[0].url : 'https://placehold.co/600x400/1e1e2e/3b82f6?text=Project')}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">{project.title}</h3>
+                  <p className="text-gray-400 text-sm line-clamp-2 mb-4" dangerouslySetInnerHTML={{ __html: project.description }} />
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.slice(0, 3).map((tech, tIndex) => (
+                      <span key={tIndex} className="text-xs px-2 py-1 bg-neon-blue/10 text-neon-blue rounded">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="flex md:hidden justify-center mt-8">
+            <button onClick={() => navigateTo('Projects')} className="text-neon-cyan hover:text-neon-blue text-sm font-medium flex items-center gap-2 transition-colors">
+              View All Projects <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </motion.div>
+
+
+
+        {/* Certifications Strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-32 w-full max-w-5xl border-y border-gray-800 py-12 bg-cyber-panel/10"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 px-4">
+            <div className="text-center md:text-left">
+              <h3 className="text-2xl font-bold text-white">Certified Expertise</h3>
+              <p className="text-sm text-gray-400 mt-1">Validated by industry leaders</p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-8 items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+              {['Google', 'AWS', 'IBM', 'Udemy'].map((issuer, i) => (
+                <span key={i} className="text-lg font-bold text-gray-300">{issuer}</span>
+              ))}
+            </div>
+            <button onClick={() => navigateTo('Education')} className="px-6 py-2 border border-gray-600 rounded-full text-sm hover:border-neon-cyan hover:text-neon-cyan transition-all">
+              View Credentials
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Latest Thought / Article */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-32 w-full max-w-3xl mb-20"
+        >
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-white">Latest Thoughts</h2>
+          </div>
+          {[portfolioData.articles.find(a => a.title.includes("When Machines Meet the Cosmos")) || portfolioData.articles[0]]
+            .map((article, i) => (
+
+              <motion.a
+                key={i}
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.01 }}
+                className="block p-8 rounded-2xl bg-gradient-to-br from-cyber-panel to-transparent border border-gray-800 hover:border-neon-purple/50 transition-all group"
+              >
+                <div className="flex flex-col md:flex-row gap-6 items-start">
+                  <div className="flex-1">
+                    <span className="text-xs font-bold text-neon-purple px-2 py-1 bg-neon-purple/10 rounded mb-3 inline-block">Latest Article</span>
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-neon-purple transition-colors">{article.title}</h3>
+                    <p className="text-gray-400 mb-4">{article.excerpt}</p>
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <span>{article.date}</span>
+                      <span>•</span>
+                      <span>{article.readTime}</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 md:mt-0">
+                    <span className="flex items-center gap-2 text-neon-purple font-medium group-hover:gap-3 transition-all">
+                      Read Article <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          <div className="text-center mt-8">
+            <button onClick={() => navigateTo('Articles')} className="text-gray-400 hover:text-white text-sm">Browse All Articles</button>
+          </div>
+        </motion.div>
+
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -1510,7 +1705,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           transition={{ delay: 1, duration: 0.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600"
         >
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
+
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
@@ -1570,36 +1765,10 @@ const About = () => {
     }
   ];
 
-  const stats = [
-    { value: "7+", label: "Projects Completed" },
-    { value: "4", label: "AI/ML Projects" },
-    { value: "2", label: "Full-Stack Apps" },
-    { value: "2", label: "Data Analytics" }
-  ];
+
 
   return (
     <div className="max-w-5xl mx-auto px-6">
-      {/* Stats Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
-      >
-        {stats.map((stat, index) => (
-          <motion.div
-            key={index}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: index * 0.1 }}
-            className="text-center p-6 rounded-lg border border-gray-800 bg-cyber-panel/50"
-          >
-            <div className="text-3xl md:text-4xl font-bold text-neon-blue">{stat.value}</div>
-            <div className="text-sm text-gray-500 mt-2">{stat.label}</div>
-          </motion.div>
-        ))}
-      </motion.div>
-
       {/* About Section */}
       <section className="mb-16">
         <motion.h2
@@ -1668,7 +1837,7 @@ const About = () => {
           <LinkedInBadge />
         </motion.div>
       </section>
-    </div>
+    </div >
   );
 };
 
@@ -2662,6 +2831,27 @@ const Education = () => {
             View All Certificates
             <ExternalLink className="w-4 h-4" />
           </motion.a>
+        </motion.div>
+
+        {/* Verified Badges Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-20 w-full"
+        >
+          <div className="text-center mb-8">
+            <h3 className="text-xl font-bold text-white mb-2">Verified Badges</h3>
+            <div className="h-1 w-20 bg-neon-purple mx-auto rounded-full"></div>
+          </div>
+          <div className="flex flex-wrap justify-center gap-6 items-center">
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6ffe66dd-76ac-477e-a8a1-29c015f47ab0" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="a45579c5-c70f-49f5-a7eb-cc335de00ff1" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8af2d978-2c8e-4bd7-b1ae-61727f36d9ad" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="727eb3d7-8c1d-4f63-80b4-edb20ca832ee" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8ad3ef41-c0a9-4045-9000-28e1032a6e01" data-share-badge-host="https://www.credly.com"></div>
+          </div>
         </motion.div>
       </div>
 

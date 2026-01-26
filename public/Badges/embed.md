@@ -1,0 +1,9 @@
+1. <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6ffe66dd-76ac-477e-a8a1-29c015f47ab0" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+2. <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="a45579c5-c70f-49f5-a7eb-cc335de00ff1" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+3. <<div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8af2d978-2c8e-4bd7-b1ae-61727f36d9ad" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+4. <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="727eb3d7-8c1d-4f63-80b4-edb20ca832ee" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+5. <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8ad3ef41-c0a9-4045-9000-28e1032a6e01" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
