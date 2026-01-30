@@ -17,7 +17,9 @@ const AdminDashboard = ({ onClose }) => {
     // UI State
     const [searchTerm, setSearchTerm] = useState('');
     const [filterDevice, setFilterDevice] = useState('all'); // 'all' | 'mobile' | 'desktop'
-    const [filterTime, setFilterTime] = useState('all'); // 'all' | 'today' | '24h'
+    const [filterTime, setFilterTime] = useState('all'); // 'all' | 'today' | '24h' | 'custom'
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [filterCity, setFilterCity] = useState('all');
     const [expandedIps, setExpandedIps] = useState(new Set());
 
@@ -162,7 +164,17 @@ const AdminDashboard = ({ onClose }) => {
         if (filterTime !== 'all') {
             const now = new Date();
             filtered = filtered.filter(item => {
-                const ts = item.timestamp?.toDate() || item.createdAt?.toDate() || new Date();
+                const ts = item.timestamp?.toDate() || item.createdAt?.toDate() || new Date(item.timestamp || item.createdAt || 0);
+
+                if (filterTime === 'custom') {
+                    if (!startDate && !endDate) return true;
+                    const start = startDate ? new Date(startDate) : new Date(0);
+                    const end = endDate ? new Date(endDate) : new Date();
+                    // Set end of day for endDate
+                    if (endDate) end.setHours(23, 59, 59, 999);
+                    return ts >= start && ts <= end;
+                }
+
                 const diffMs = now - ts;
                 if (filterTime === 'today') {
                     return ts.toDateString() === now.toDateString();
@@ -202,7 +214,7 @@ const AdminDashboard = ({ onClose }) => {
                     <div className="text-center text-gray-500 py-10 flex flex-col items-center gap-4">
                         <Search className="w-12 h-12 opacity-20" />
                         <p>No matches found with current filters.</p>
-                        <button onClick={() => { setSearchTerm(''); setFilterDevice('all'); setFilterTime('all'); setFilterCity('all'); }} className="text-neon-cyan text-sm underline">Clear all filters</button>
+                        <button onClick={() => { setSearchTerm(''); setFilterDevice('all'); setFilterTime('all'); setFilterCity('all'); setStartDate(''); setEndDate(''); }} className="text-neon-cyan text-sm underline">Clear all filters</button>
                     </div>
                 )}
                 {sortedCountries.map(([country, countryData]) => {
@@ -292,7 +304,7 @@ const AdminDashboard = ({ onClose }) => {
                     <ShieldCheck className="w-12 h-12 text-neon-green mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-white mb-2">Admin Access</h2>
                     <p className="text-gray-400 mb-6 text-sm">Sign in securely to view visitors & chats.</p>
-                    <button onClick={handleGoogleLogin} className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center gap-2">
+                    <button onClick={handleGoogleLogin} className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center gap-2" >
                         <img src="https://www.google.com/favicon.ico" className="w-5 h-5" alt="G" /> Sign in with Google
                     </button>
                     {error && <p className="text-neon-pink text-sm mt-4">{error}</p>}
@@ -324,7 +336,7 @@ const AdminDashboard = ({ onClose }) => {
 
                 <div className="flex flex-col gap-3">
                     {/* Device & Time Filters */}
-                    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                    <div className="flex gap-2 items-center flex-wrap">
                         <div className="flex gap-1 bg-black/40 p-1 rounded-lg border border-gray-800">
                             {['all', 'mobile', 'desktop'].map(d => (
                                 <button key={d} onClick={() => setFilterDevice(d)} className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all ${filterDevice === d ? 'bg-neon-cyan text-black' : 'text-gray-500 hover:text-gray-300'}`}>
@@ -333,12 +345,30 @@ const AdminDashboard = ({ onClose }) => {
                             ))}
                         </div>
                         <div className="flex gap-1 bg-black/40 p-1 rounded-lg border border-gray-800">
-                            {['all', 'today', '24h'].map(t => (
+                            {['all', 'today', '24h', 'custom'].map(t => (
                                 <button key={t} onClick={() => setFilterTime(t)} className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all ${filterTime === t ? 'bg-neon-blue text-white shadow-[0_0_10px_rgba(0,100,255,0.3)]' : 'text-gray-500 hover:text-gray-300'}`}>
                                     {t === 'all' ? <Calendar className="w-3 h-3" /> : t}
                                 </button>
                             ))}
                         </div>
+
+                        {/* Custom Date Range Picker */}
+                        {filterTime === 'custom' && (
+                            <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border border-gray-800 ml-auto sm:ml-0">
+                                <input
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="bg-transparent text-[10px] text-white outline-none focus:text-neon-cyan border-r border-gray-800 pr-2"
+                                />
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="bg-transparent text-[10px] text-white outline-none focus:text-neon-cyan pl-1"
+                                />
+                            </motion.div>
+                        )}
                     </div>
 
                     {/* City Filter Chips */}
