@@ -3,6 +3,7 @@ import { Routes, Route, Link, useNavigate, useParams, useLocation } from 'react-
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { saveChatToFirebase } from './firebase';
+import { Helmet } from 'react-helmet-async';
 import {
   Briefcase,
   Lightbulb,
@@ -805,42 +806,89 @@ export default function App() {
         <main id="main-content" className="pt-20 relative z-10">
           <Routes>
             <Route path="/" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="Home"
+                seoDescription="Muhammad Iqbal - AI Engineer & Data Scientist. Specializing in Autonomous Agents, NLP, and RAG systems."
+              >
                 <Hero navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} />
               </PageWrapper>
             } />
             <Route path="/about" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="About Me"
+                seoDescription="Learn more about my background, skills, and journey as an AI Engineer and Data Scientist."
+              >
                 <About />
               </PageWrapper>
             } />
             <Route path="/experience" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="Experience"
+                seoDescription="My professional experience working with leading companies to build AI solutions and data systems."
+              >
                 <Experience />
               </PageWrapper>
             } />
             <Route path="/projects" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="Projects"
+                seoDescription="Explore my portfolio of AI, Data Science, and Engineering projects."
+              >
                 <Projects />
               </PageWrapper>
             } />
             <Route path="/projects/:slug" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={null}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={null}
+              // SEO handled internally by ProjectDetail
+              >
                 <ProjectDetail />
               </PageWrapper>
             } />
             <Route path="/articles" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="Articles"
+                seoDescription="Read my latest articles on AI, Machine Learning, and Technology."
+              >
                 <Articles />
               </PageWrapper>
             } />
             <Route path="/education" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={getNextPage()}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="Education"
+                seoDescription="My academic background, certifications, and continuous learning journey."
+              >
                 <Education />
               </PageWrapper>
             } />
             <Route path="/contact" element={
-              <PageWrapper navigateTo={navigateTo} openAgentModal={() => setIsAgentModalOpen(true)} nextPage={null}>
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={null}
+                seoTitle="Contact"
+                seoDescription="Get in touch for collaborations, projects, or just to say hello."
+              >
                 <Contact />
               </PageWrapper>
             } />
@@ -884,12 +932,38 @@ export default function App() {
 }
 
 /**
- * PageWrapper Component
- * Wraps page content with navigation buttons
+ * SEO Component
+ * Manages head tags for search engines and social media
  */
-const PageWrapper = ({ children, navigateTo, nextPage }) => {
+const SEO = ({ title, description, canonical }) => {
+  const siteTitle = "Muhammad Iqbal | AI Engineer & Data Scientist";
+  const fullTitle = title === "Home" ? siteTitle : `${title} | Muhammad Iqbal`;
+  const siteUrl = "https://shiverion.com";
+  const currentUrl = canonical ? canonical : `${siteUrl}${window.location.pathname}`;
+
+  return (
+    <Helmet>
+      <title>{fullTitle}</title>
+      <meta name="description" content={description} />
+      <link rel="canonical" href={currentUrl} />
+
+      {/* Open Graph */}
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+      <meta property="og:url" content={currentUrl} />
+      <meta property="og:type" content="website" />
+    </Helmet>
+  );
+};
+
+/**
+ * PageWrapper Component
+ * Wraps page content with navigation buttons and SEO tags
+ */
+const PageWrapper = ({ children, navigateTo, nextPage, seoTitle, seoDescription }) => {
   return (
     <div className="min-h-screen">
+      <SEO title={seoTitle || "Home"} description={seoDescription || "Portfolio of Muhammad Iqbal Hilmy Izzulhaq, an AI Engineer and Data Scientist specializing in Autonomous Agents, NLP, and RAG systems."} />
       {children}
 
       {/* Next Section Button */}
@@ -2518,8 +2592,11 @@ const ProjectDetail = () => {
     );
   }
 
+  const seoDescription = project.description.replace(/<[^>]*>?/gm, '');
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <SEO title={project.title} description={seoDescription} />
       {/* Back Button */}
       <motion.button
         initial={{ opacity: 0, x: -20 }}
