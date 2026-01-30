@@ -1073,9 +1073,14 @@ const Header = ({ currentPage, navigateTo, pages }) => {
               whileHover={{ opacity: 0.8 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => navigateTo('Hero')}
-              className="text-2xl font-bold text-white transition-all tracking-tight"
+              className="text-2xl font-bold text-white transition-all tracking-tight flex items-center gap-3"
             >
-              {portfolioData.name.split(' ').slice(0, 2).join(' ')}<span className="text-neon-blue">.</span>
+              <img
+                src="/images/logo-new.png"
+                alt="Logo"
+                className="w-10 h-10 rounded-full border border-neon-cyan/30 shadow-[0_0_15px_rgba(0,217,255,0.3)] hover:shadow-neon-cyan transition-shadow duration-300"
+              />
+              <span>{portfolioData.name.split(' ').slice(0, 2).join(' ')}<span className="text-neon-blue">.</span></span>
             </motion.button>
           </div>
 
