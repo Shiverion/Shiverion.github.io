@@ -41,8 +41,6 @@ import { logVisitor } from './firebase'; // Import logger
 import AdminDashboard from './components/AdminDashboard'; // Import Dashboard
 
 // --- YOUR CUSTOM DATA HERE ---
-import { logVisitor } from './firebase'; // Import logger
-import AdminDashboard from './components/AdminDashboard'; // Import Dashboard
 
 const portfolioData = {
   name: "Muhammad Iqbal Hilmy Izzulhaq",
