@@ -1609,8 +1609,8 @@ const FloatingParticles = () => {
   const particles = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
-    delay: Math.random() * 12,
-    duration: 10 + Math.random() * 8,
+    delay: -Math.random() * 20, // Negative delay to start mid-animation
+    duration: 10 + Math.random() * 10,
     size: 2 + Math.random() * 3,
   }));
 
