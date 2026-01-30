@@ -19,21 +19,60 @@ const db = getFirestore(app);
 /**
  * Get visitor's IP and location info
  */
+/**
+ * Get visitor's IP and location info from our secure backend
+ */
 const getVisitorInfo = async () => {
     try {
-        const response = await fetch('https://ipapi.co/json/');
+        const response = await fetch('/api/geo');
         const data = await response.json();
-        return {
-            ip: data.ip || 'unknown',
-            city: data.city || 'unknown',
-            region: data.region || 'unknown',
-            country: data.country_name || 'unknown',
-            countryCode: data.country_code || 'unknown',
-            timezone: data.timezone || 'unknown'
-        };
+        return data; // Returns ip, city, region, country, etc.
     } catch (error) {
         console.error("Error fetching visitor info:", error);
         return { ip: 'unknown', city: 'unknown', country: 'unknown' };
+    }
+};
+
+/**
+ * Log a new visitor to Firestore
+ * @returns {Promise<void>}
+ */
+export const logVisitor = async () => {
+    try {
+        // Prevent duplicate logging in same session
+        if (sessionStorage.getItem('visitor_logged')) return;
+
+        const info = await getVisitorInfo();
+
+        await addDoc(collection(db, "visitor_logs"), {
+            ip: info.ip,
+            location: {
+                city: info.city,
+                region: info.region,
+                country: info.country,
+                countryCode: info.countryCode,
+                latitude: info.latitude,
+                longitude: info.longitude,
+                timezone: info.timezone
+            },
+            device: {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform || 'unknown',
+                language: navigator.language || 'unknown',
+                screenSize: `${window.screen.width}x${window.screen.height}`,
+                isMobile: /Mobi|Android/i.test(navigator.userAgent)
+            },
+            page: {
+                url: window.location.href,
+                referrer: document.referrer || 'direct'
+            },
+            timestamp: serverTimestamp()
+        });
+
+        sessionStorage.setItem('visitor_logged', 'true');
+        console.log("Visitor logged successfully");
+    } catch (error) {
+        console.error("Error logging visitor:", error);
     }
 };
 

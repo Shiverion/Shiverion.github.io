@@ -37,8 +37,13 @@ import {
   Trash2,
   Copy
 } from 'lucide-react';
+import { logVisitor } from './firebase'; // Import logger
+import AdminDashboard from './components/AdminDashboard'; // Import Dashboard
 
 // --- YOUR CUSTOM DATA HERE ---
+import { logVisitor } from './firebase'; // Import logger
+import AdminDashboard from './components/AdminDashboard'; // Import Dashboard
+
 const portfolioData = {
   name: "Muhammad Iqbal Hilmy Izzulhaq",
   tagline: "Autonomous AI Agent Engineer | NLP & RAG Specialist | Data Scientist",
@@ -953,6 +958,20 @@ export default function App() {
         {isAgentModalOpen && (
           <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
         )}
+
+        {/* Admin Dashboard */}
+        <AnimatePresence>
+          {isAdminOpen && (
+            <AdminDashboard onClose={() => setIsAdminOpen(false)} />
+          )}
+        </AnimatePresence>
+
+        {/* Admin Dashboard */}
+        <AnimatePresence>
+          {isAdminOpen && (
+            <AdminDashboard onClose={() => setIsAdminOpen(false)} />
+          )}
+        </AnimatePresence>
 
         {/* Global Noise Overlay */}
         <div className="noise-overlay" />
