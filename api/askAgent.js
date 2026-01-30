@@ -23,15 +23,16 @@ export default async function handler(request, response) {
     }
 
     // 4. Initialize Gemini on the SERVER, using your secret key
+    // 4. Initialize Gemini on the SERVER
     const genAI = new GoogleGenerativeAI(apiKey);
 
+    // User requested "gemini 3 flash" - using verified preview ID (Jan 2026)
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-3-flash-preview",
       systemInstruction,
     });
 
-    // 5. Build conversation history for multi-turn context
-    // Convert our format {role: 'user'|'agent', text} to Gemini format {role: 'user'|'model', parts}
+    // 5. Build conversation history
     const chatHistory = (history || [])
       .filter(msg => msg.role === 'user' || msg.role === 'agent')
       .map(msg => ({
@@ -39,22 +40,34 @@ export default async function handler(request, response) {
         parts: [{ text: msg.text }]
       }));
 
-    // Start chat with history for context memory
     const chat = model.startChat({
       history: chatHistory
     });
 
-    const result = await chat.sendMessage(message);
-    const text = result.response?.text?.();
+    const result = await chat.sendMessageStream(message);
 
-    if (!text) {
-      return response.status(502).json({ error: 'Empty response from AI provider.' });
+    // 6. Stream the response back to client
+    response.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache, no-transform',
+      'Connection': 'keep-alive',
+    });
+
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      response.write(chunkText);
     }
 
-    // 6. Send the AI's response back to the frontend
-    return response.status(200).json({ text });
+    response.end();
+
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    return response.status(502).json({ error: `Failed to communicate with the AI agent. (Details: ${error.message})` });
+    // If headers haven't been sent, send error JSON
+    if (!response.headersSent) {
+      return response.status(502).json({ error: `Failed to communicate with the AI agent. (Details: ${error.message})` });
+    } else {
+      // If streaming started, we can't send JSON. End string.
+      response.end();
+    }
   }
 }

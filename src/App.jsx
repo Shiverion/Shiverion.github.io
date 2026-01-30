@@ -3511,25 +3511,57 @@ const AgentChatModal = ({ closeModal }) => {
         throw new Error(errData.error || `Server error: ${response.status}`);
       }
 
-      const data = await response.json();
-      let agentText = data.text;
+      // Initialize empty agent message
+      setMessages(prev => [...prev, { role: 'agent', text: "" }]);
 
-      // Check if agent wants to send email
-      if (agentText && agentText.includes('[SEND_EMAIL]')) {
-        agentText = agentText.replace('[SEND_EMAIL]', '').trim();
-        setShowContactForm(true);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let agentText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        agentText += chunk;
+
+        // Update the last message (agent's response) with current accumulated text
+        setMessages(prev => {
+          const newMsgs = [...prev];
+          // Safety check: ensure last message is from agent
+          const lastMsg = newMsgs[newMsgs.length - 1];
+          if (lastMsg.role === 'agent') {
+            lastMsg.text = agentText;
+          }
+          return newMsgs;
+        });
       }
 
-      if (agentText) {
-        setMessages(prev => [...prev, { role: 'agent', text: agentText }]);
-      } else {
-        throw new Error("Invalid response structure from API.");
+      // Final processing after stream checks
+      if (agentText.includes('[SEND_EMAIL]')) {
+        const cleanText = agentText.replace('[SEND_EMAIL]', '').trim();
+        setMessages(prev => {
+          const newMsgs = [...prev];
+          newMsgs[newMsgs.length - 1].text = cleanText;
+          return newMsgs;
+        });
+        setShowContactForm(true);
       }
 
     } catch (error) {
       console.error("Agent API call failed:", error);
       const errorMessage = `My apologies, the agent is temporarily unavailable. Please try again shortly. (Details: ${error.message})`;
-      setMessages(prev => [...prev, { role: 'agent', text: errorMessage }]);
+      // If we already added an empty agent message, replace it on error
+      setMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = newMsgs[newMsgs.length - 1];
+        if (lastMsg.role === 'agent') {
+          lastMsg.text = errorMessage;
+        } else {
+          newMsgs.push({ role: 'agent', text: errorMessage });
+        }
+        return newMsgs;
+      });
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -3634,8 +3666,8 @@ const AgentChatModal = ({ closeModal }) => {
               </motion.div>
             ))}
 
-            {/* Loading Indicator */}
-            {isLoading && (
+            {/* Loading Indicator - Hide if we have started streaming (last msg is agent) */}
+            {isLoading && messages[messages.length - 1]?.role !== 'agent' && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
