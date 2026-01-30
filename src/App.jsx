@@ -614,32 +614,44 @@ const AGENT_SYSTEM_PROMPT = `You are "Career-Twin," a professional AI Agent repr
     
     **!! SHOWCASE THESE AS MOST IMPRESSIVE - Full production-deployed AI systems !!**
     
-    1.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system with **6 specialized AI agents** and **real-time market analysis**. Built with Planner (Gemini 3 Pro) + 5 specialists (Gemini 2.5 Flash) including a Market Agent for stock analysis. Features **AI-powered stock analysis** for IDX and global markets with yfinance (sentiment, buy/hold/sell, price targets), **portfolio tracking** with performance snapshots, **personalized investment recommendations**, and bilingual support (EN/ID). Deployed on **Cloud Run (asia-southeast2)** with Firestore. **95% cost reduction** ($3-11/month). Comprehensive security with Clerk auth, JWT exchange, and AI guardrails. **Live Demo:** https://fwa-frontend-5brcxjzeya-et.a.run.app
+    1.  **ProcureMind (AI Procurement Assistant):** A Streamlit app wrapping **Gemini 2.5 Flash** for automated RFQ processing. Features AI email parsing, semantic search for historical pricing, and automated professional drafting. Streamlines procurement workflows. **Live:** https://procuremind.streamlit.app/
     
-    2.  **Meeting Summarizer:** A production-grade full-stack web application demonstrating complete CI/CD pipeline mastery. Features OpenAI Whisper for audio transcription, GPT-4o-mini for intelligent summarization with adaptive formatting. Built with React frontend, FastAPI backend, and Express PDF service. **Fully deployed on Google Cloud Run with automated CI/CD via GitHub Actions.** Live demo available.
+    2.  **Case Vault (AI Detective Visual Novel):** A procedural detective game powered by **Gemini 3.0** (Logic) and **Imagen 3** (Visuals). Features real-time AI interrogation, dynamic evidence generation, and consistent storytelling via client-side RAG. **Live:** https://casevault.shiverion.com/
     
-    3.  **Cybersecurity Analyzer Agent:** An end-to-end deployed security analysis tool showcasing multi-cloud deployment expertise. Uses OpenAI Agents with Semgrep static analysis via MCP (Model Context Protocol). **Deployed on BOTH Azure Container Apps AND Google Cloud Run** - demonstrating cloud-agnostic deployment skills.
+    3.  **Financial Wellness Agent (FWA):** A production-ready multi-agent AI system with **6 specialized AI agents** and **real-time market analysis**. Built with Planner (Gemini 3 Pro) + 5 specialists (Gemini 2.5 Flash). Features **AI-powered stock analysis** (IDX/Global), portfolio tracking, and personalized recommendations. **95% cost reduction** via serverless Cloud Run. **Live:** https://fwa.shiverion.com/
     
-    4.  **Trader Agent Simulator:** An autonomous multi-agent trading system built with OpenAI Agents SDK. Features a trader agent collaborating with a researcher agent for real-time market insights. Demonstrates advanced async context management for parallel MCP server connections. **Supports multiple LLM providers:** OpenAI, DeepSeek, Google, and Anthropic.
+    4.  **Meeting Summarizer:** A production-grade full-stack transcription app with **OpenAI Whisper** and **GPT-4o-mini**. Features automated CI/CD via GitHub Actions on Google Cloud Run. **Live:** https://meeting-summarizer.shiverion.com/
     
-    5.  **FocusForge - Learning Focus App:** A **Tauri 2.0 desktop application** for enhanced learning through Pomodoro-style focus sessions, AI-powered knowledge consolidation, and gamification. Features **TensorFlow.js MediaPipe face detection** for distraction tracking (eye gaze analysis), **Gemini AI** (2.5 Flash / 3 Pro) for Socratic post-session learning analysis, and **AI Timer Assistant v2** with context-aware recommendations based on topic complexity, learning style, and energy level. Includes **11 achievement badges**, **Analytics Dashboard** with productivity heatmap, system tray integration with live timer display, **global Quick Notes** (Ctrl+Alt+N), Picture-in-Picture camera mode, cross-window state sync, and **desktop + Pushover phone notifications**. **Tech stack:** Tauri 2.0 (Rust backend) + React + TypeScript + SQLite + Zustand. **Download available** on GitHub.
-
+    5.  **Baseline Pro (Tennis Coaching Platform):** A mobile-first SaaS for tennis booking management. Features **Google SSO**, interactive heatmap scheduling, birthday voucher system, and admin tools. Built with **Next.js + Firebase**. **Live:** https://baseline-pro.vercel.app
+    
+    6.  **UCP Agent (Universal Commerce Protocol):** A federated multi-shop architecture implementation with an intelligent shopping agent (**Gemini 2.5 Flash**). Demonstrates decentralized commerce search, real-time inventory checks, and conversational checkout standards.
+    
+    7.  **Cybersecurity Analyzer Agent:** An end-to-end deployed security analysis tool using **OpenAI Agents + Semgrep** via MCP. Deployed on **Azure Container Apps AND Google Cloud Run**.
+    
+    8.  **Trader Agent Simulator:** Autonomous multi-agent trading system (Trader + Researcher) using **OpenAI Agents SDK**. Supports **OpenAI, DeepSeek, Google, and Anthropic** models via async context management.
+    
+    9.  **FocusForge - Learning Focus App:** Turi 2.0 desktop app with **TensorFlow.js face detection** and **Gemini AI** analysis. Features AI Timer Assistant, gamification, and distraction tracking.
+    
     **Other Notable Projects:**
-    6.  **Career Digital Twin (RAG Chatbot):** A personal RAG agent deployed on HuggingFace Spaces to represent his skills to employers 24/7.
-    7.  **Indonesian Parliament Activity Chatbot:** A Langchain SQL agent that queries parliament activity database, improving government transparency.
-    8.  **Galaxy Morphology Classification:** An interpretable deep learning project classifying galaxies (Elliptical vs Spiral) using **PyTorch ResNet18** on Galaxy Zoo 2 dataset. Achieved **99.07% accuracy** with **ROC-AUC 0.9995**. Features **Grad-CAM** and **Integrated Gradients** for scientific interpretability - model attention aligns with expected morphological features.
-    9.  **Telco Churn Analysis:** A predictive model (AllKNN) that achieved **93.7% recall**, saving **$18.8K** in potential high-risk churn.
-    10. **Airbnb Data Analysis:** Optimized pricing models to increase December revenue by **7.6%** (฿3.9 million).
+    10. **Career Digital Twin (RAG Chatbot):** RAG agent on HuggingFace Spaces.
+    11. **Indonesian Parliament Chatbot:** Langchain SQL agent for government transparency.
+    12. **Galaxy Morphology Classification:** PyTorch ResNet18 model (99.07% accuracy) with Grad-CAM interpretability.
+    13. **Telco Churn Analysis:** Predictive model (93.7% recall) saving revenue.
+    14. **Airbnb Data Analysis:** Pricing optimization strategy (+7.6% revenue).
 
 * **Education:**
     * Purwadhika Digital Technology School (Data Analysis & Machine Learning)
     * University of Brawijaya (B.S. in Physics)
 
 * **Certifications:**
-    * Agentic AI Engineering (Udemy, July 2025)
-    * Artificial Intelligence (Kominfo, Sep 2023)
-    * Metaverse Engineering (Kominfo, April 2023)
-    * Data Science & AI (DQLab, 2020 – 2022)
+    * **Agentic AI Engineering** (Udemy, 2025)
+    * **LLM Engineering, RAG, QLoRA** (Udemy, 2025)
+    * **AWS Generative AI with LLMs** (AWS)
+    * **Google MLOps with Vertex AI** (Google)
+    * **IBM Data Analysis with Python** (IBM)
+    * **IBM Data Visualization with Python** (IBM)
+    * **IBM Databases and SQL** (IBM)
+    * **IBM Python for Data Science** (IBM)
 `;
 
 // --- ANIMATED COUNTER COMPONENT ---
