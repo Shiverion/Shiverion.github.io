@@ -137,6 +137,26 @@ const portfolioData = {
       }
     },
     {
+      slug: "case-vault",
+      title: "Case Vault - AI Detective Visual Novel",
+      description: "A limitless, AI-generated noir detective visual novel where every case, suspect, and clue is uniquely created by <strong>Gemini 3.0</strong>. Features <strong>procedural storytelling</strong>, <strong>real-time AI interrogation</strong> with personality-driven suspects, <strong>dynamic visuals via Imagen 3</strong>, and <strong>episodic progression</strong> across 6 episodes. Built for the <strong>Google AI Hackathon</strong>.",
+      technologies: ["JavaScript", "Gemini 3.0 Flash", "Gemini 3.0 Pro", "Imagen 3", "RAG", "Vite"],
+      complexity: 9,
+      date: "2026-01",
+      isHackathon: true,
+      hackathonName: "Google AI Hackathon",
+      metrics: ["Procedural Mysteries", "AI Interrogation", "3 Difficulty Modes"],
+      demoUrl: null,
+      repoUrl: "https://github.com/Shiverion/case-vault",
+      imageUrl: "/images/CaseVault/Thumbnail/case-vault.png",
+      gallery: [],
+      caseStudy: {
+        problem: "Classic detective games lose replay value once solved. Users crave infinite mysteries with coherent, solvable cases.",
+        approach: "Built a browser-based visual novel with Gemini 3.0 (Flash for conversations, Pro for story logic) and Imagen 3 for dynamic visuals. Implemented client-side RAG with a 'Truth File' JSON to prevent AI hallucinations. Designed an episode system with dynamic suspect arrivals and evidence unlocks.",
+        results: "Created a game with win/lose states, dynamic difficulty (3-6 suspects), multilingual support, and seamless latency hiding through 'Approaching...' transitions. Runs entirely client-side."
+      }
+    },
+    {
       slug: "ucp-agent",
       title: "Universal Commerce Protocol (UCP) Agent",
       description: "A production-ready AI Agent implementation of the Universal Commerce Protocol (UCP). Features a <strong>federated multi-shop architecture</strong> with 3 independent stores (Main, Budget, Luxury) and an intelligent <strong>shopping agent powered by Gemini 2.5-Flash</strong>. The agent handles decentralized search, real-time inventory checks, and conversational checkout.",
@@ -2322,6 +2342,13 @@ const Projects = () => {
               <div className="relative image-zoom-enhanced group">
                 <ProjectMedia src={project.imageUrl} alt={project.title} />
                 <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Hackathon Badge */}
+                {project.isHackathon && (
+                  <span className="absolute top-3 right-3 px-2.5 py-1 text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full backdrop-blur-sm flex items-center gap-1 z-10">
+                    🏆 Hackathon
+                  </span>
+                )}
 
                 {/* Metrics overlay on hover */}
                 {project.metrics && project.metrics.length > 0 && (
