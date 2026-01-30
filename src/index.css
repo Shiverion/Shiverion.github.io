@@ -395,9 +395,10 @@ body::before {
 /* Mobile floating button adjustments */
 @media (max-width: 768px) {
   .floating-button {
-    bottom: 80px;
-    /* Moved higher to not overlap with back-to-top button */
-    right: 16px;
+    bottom: 16px;
+    right: auto;
+    left: 16px;
+    /* Move to left side on mobile to avoid overlap */
   }
 
   .floating-button button {
