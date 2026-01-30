@@ -33,7 +33,9 @@ import {
   ExternalLink,
   Home,
   AlertTriangle,
-  Music
+  Music,
+  Trash2,
+  Copy
 } from 'lucide-react';
 
 // --- YOUR CUSTOM DATA HERE ---
@@ -3582,119 +3584,152 @@ const AgentChatModal = ({ closeModal }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
         onClick={closeModal}
       >
         <motion.div
-          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          initial={{ scale: 0.95, opacity: 0, y: 50 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          transition={{ duration: 0.3 }}
-          className="glass-strong rounded-2xl shadow-neon-cyan w-full max-w-2xl h-[80vh] flex flex-col overflow-hidden border border-neon-cyan/50"
+          exit={{ scale: 0.95, opacity: 0, y: 50 }}
+          transition={{ duration: 0.3, type: "spring", damping: 25 }}
+          className="glass-strong rounded-t-3xl sm:rounded-2xl shadow-2xl shadow-neon-cyan/20 w-full sm:max-w-2xl h-[90vh] sm:h-[80vh] flex flex-col overflow-hidden border border-neon-cyan/40"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-neon-blue/30 flex-shrink-0 bg-cyber-dark/50">
-            <div className="flex items-center space-x-3">
-              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/50">
-                <span className="flex h-full w-full items-center justify-center rounded-full bg-neon-blue/20 text-neon-cyan">
-                  <Bot className="w-6 h-6" />
+          {/* Enhanced Header */}
+          <div className="flex items-center justify-between px-4 sm:px-5 py-4 border-b border-neon-cyan/20 flex-shrink-0 bg-gradient-to-r from-cyber-dark/80 to-cyber-darker/80">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <span className="flex h-11 w-11 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/60 shadow-lg shadow-neon-cyan/20">
+                  <span className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-neon-blue/30 to-neon-cyan/20 text-neon-cyan">
+                    <Bot className="w-6 h-6" />
+                  </span>
                 </span>
-              </span>
+                {/* Online indicator */}
+                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-neon-green rounded-full border-2 border-cyber-dark animate-pulse" />
+              </div>
               <div>
-                <p className="text-lg font-semibold text-neon-cyan">Career-Twin</p>
-                <p className="text-sm text-neon-blue">Iqbal's AI Agent</p>
+                <p className="text-lg font-bold text-white">Career-Twin</p>
+                <p className="text-xs text-neon-cyan/80 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-neon-green rounded-full" />
+                  {isLoading ? "Thinking..." : "Online • Gemini 3 Flash"}
+                </p>
               </div>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={closeModal}
-              className="text-gray-400 hover:text-neon-cyan transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </motion.button>
+            <div className="flex items-center gap-2">
+              {messages.length > 1 && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={clearHistory}
+                  className="p-2 rounded-lg text-gray-400 hover:text-neon-pink hover:bg-neon-pink/10 transition-all"
+                  title="Clear chat"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </motion.button>
+              )}
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={closeModal}
+                className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <X className="w-5 h-5" />
+              </motion.button>
+            </div>
           </div>
 
-          {/* Chat Messages */}
-          <div className="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar">
+          {/* Chat Messages Area */}
+          <div className="flex-grow px-3 sm:px-4 py-4 space-y-4 overflow-y-auto custom-scrollbar bg-gradient-to-b from-transparent to-cyber-darker/30">
             {messages.map((msg, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.3, delay: index === messages.length - 1 ? 0.1 : 0 }}
+                className={`flex items-end gap-2 sm:gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'agent' && (
-                  <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/50">
+                  <span className="relative flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 overflow-hidden rounded-full border border-neon-cyan/40 mb-1">
                     <span className="flex h-full w-full items-center justify-center rounded-full bg-cyber-dark text-neon-cyan">
-                      <Bot className="w-5 h-5" />
+                      <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
                     </span>
                   </span>
                 )}
 
-                <div
-                  className={`max-w-[75%] rounded-2xl ${msg.role === 'user'
-                    ? 'bg-neon-blue/80 text-white rounded-br-none p-3 shadow-neon-blue'
-                    : 'glass text-gray-200 rounded-bl-none border border-neon-cyan/30'
-                    }`}
-                >
-                  {msg.role === 'agent' ? (
-                    <ReactMarkdown
-                      className="prose prose-invert prose-sm p-3"
-                      components={{
-                        a: ({ node, ...props }) => (
-                          <a {...props} target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:text-neon-blue" />
-                        )
-                      }}
-                    >
-                      {msg.text}
-                    </ReactMarkdown>
-                  ) : (
-                    <p className="text-base">{msg.text}</p>
-                  )}
+                <div className={`group relative max-w-[85%] sm:max-w-[75%] ${msg.role === 'user' ? 'order-first' : ''}`}>
+                  <div
+                    className={`rounded-2xl ${msg.role === 'user'
+                      ? 'bg-gradient-to-br from-neon-blue to-neon-blue/80 text-white rounded-br-md px-4 py-2.5 shadow-lg shadow-neon-blue/20'
+                      : 'glass text-gray-100 rounded-bl-md border border-neon-cyan/20 shadow-lg shadow-neon-cyan/5'
+                      }`}
+                  >
+                    {msg.role === 'agent' ? (
+                      <div className="relative">
+                        <ReactMarkdown
+                          className="prose prose-invert prose-sm max-w-none px-3 sm:px-4 py-2.5 [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ul]:pl-4 [&>ol]:mb-2 [&>ol]:pl-4 [&_li]:mb-1 [&_strong]:text-neon-cyan [&_code]:bg-cyber-dark [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-neon-pink"
+                          components={{
+                            a: ({ node, ...props }) => (
+                              <a {...props} target="_blank" rel="noopener noreferrer" className="text-neon-cyan hover:text-neon-blue underline underline-offset-2" />
+                            ),
+                            code: ({ node, inline, ...props }) => (
+                              inline ? <code {...props} /> : <code className="block bg-cyber-dark p-3 rounded-lg overflow-x-auto" {...props} />
+                            )
+                          }}
+                        >
+                          {msg.text || " "}
+                        </ReactMarkdown>
+                        {/* Streaming cursor */}
+                        {isLoading && index === messages.length - 1 && msg.role === 'agent' && (
+                          <motion.span
+                            animate={{ opacity: [1, 0] }}
+                            transition={{ duration: 0.5, repeat: Infinity }}
+                            className="inline-block w-2 h-4 bg-neon-cyan ml-0.5 align-middle"
+                          />
+                        )}
+                        {/* Copy button */}
+                        {msg.text && !isLoading && (
+                          <button
+                            onClick={() => navigator.clipboard.writeText(msg.text)}
+                            className="absolute -bottom-1 right-2 opacity-0 group-hover:opacity-100 p-1.5 rounded-md bg-cyber-dark/80 text-gray-400 hover:text-neon-cyan transition-all text-xs"
+                            title="Copy message"
+                          >
+                            <Copy className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-sm sm:text-base leading-relaxed">{msg.text}</p>
+                    )}
+                  </div>
                 </div>
 
                 {msg.role === 'user' && (
-                  <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-neon-blue/50">
+                  <span className="relative flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 overflow-hidden rounded-full border border-neon-blue/40 mb-1">
                     <span className="flex h-full w-full items-center justify-center rounded-full bg-cyber-dark text-neon-blue">
-                      <User className="w-5 h-5" />
+                      <User className="w-4 h-4 sm:w-5 sm:h-5" />
                     </span>
                   </span>
                 )}
               </motion.div>
             ))}
 
-            {/* Loading Indicator - Hide if we have started streaming (last msg is agent) */}
+            {/* Loading Indicator - Only show before agent starts responding */}
             {isLoading && messages[messages.length - 1]?.role !== 'agent' && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-start gap-3 justify-start"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-end gap-2 sm:gap-3 justify-start"
               >
-                <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border-2 border-neon-cyan/50">
+                <span className="relative flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 overflow-hidden rounded-full border border-neon-cyan/40 mb-1">
                   <span className="flex h-full w-full items-center justify-center rounded-full bg-cyber-dark text-neon-cyan">
-                    <Bot className="w-5 h-5" />
+                    <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
                   </span>
                 </span>
-                <div className="max-w-[75%] p-3 rounded-2xl glass text-gray-200 rounded-bl-none border border-neon-cyan/30">
-                  <div className="flex items-center space-x-2">
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity }}
-                      className="w-2 h-2 bg-neon-cyan rounded-full"
-                    />
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                      className="w-2 h-2 bg-neon-cyan rounded-full"
-                    />
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                      className="w-2 h-2 bg-neon-cyan rounded-full"
-                    />
+                <div className="px-4 py-3 rounded-2xl rounded-bl-md glass border border-neon-cyan/20">
+                  <div className="flex items-center gap-1.5">
+                    <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 0.5, repeat: Infinity, delay: 0 }} className="w-2 h-2 bg-neon-cyan rounded-full" />
+                    <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 0.5, repeat: Infinity, delay: 0.15 }} className="w-2 h-2 bg-neon-cyan rounded-full" />
+                    <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 0.5, repeat: Infinity, delay: 0.3 }} className="w-2 h-2 bg-neon-cyan rounded-full" />
                   </div>
                 </div>
               </motion.div>
@@ -3703,51 +3738,51 @@ const AgentChatModal = ({ closeModal }) => {
             {/* Inline Contact Form */}
             {showContactForm && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mx-3 p-4 rounded-xl glass border border-neon-green/40"
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                className="mx-1 p-4 rounded-xl glass border border-neon-green/30 shadow-lg shadow-neon-green/10"
               >
-                <p className="text-neon-green text-sm font-medium mb-3 flex items-center gap-2">
-                  <Mail className="w-4 h-4" /> Quick Contact Form
+                <p className="text-neon-green text-sm font-semibold mb-3 flex items-center gap-2">
+                  <Mail className="w-4 h-4" /> Quick Contact
                 </p>
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   <input
                     type="text"
                     placeholder="Your Name"
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg bg-cyber-dark/50 border border-neon-blue/30 text-white text-sm focus:outline-none focus:border-neon-cyan"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-cyber-dark/60 border border-neon-green/20 text-white text-sm focus:outline-none focus:border-neon-green/50 focus:ring-1 focus:ring-neon-green/30 transition-all placeholder:text-gray-500"
                   />
                   <input
                     type="email"
                     placeholder="Your Email"
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg bg-cyber-dark/50 border border-neon-blue/30 text-white text-sm focus:outline-none focus:border-neon-cyan"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-cyber-dark/60 border border-neon-green/20 text-white text-sm focus:outline-none focus:border-neon-green/50 focus:ring-1 focus:ring-neon-green/30 transition-all placeholder:text-gray-500"
                   />
                   <textarea
                     placeholder="Your Message"
                     rows={2}
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg bg-cyber-dark/50 border border-neon-blue/30 text-white text-sm focus:outline-none focus:border-neon-cyan resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-cyber-dark/60 border border-neon-green/20 text-white text-sm focus:outline-none focus:border-neon-green/50 focus:ring-1 focus:ring-neon-green/30 transition-all resize-none placeholder:text-gray-500"
                   />
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 pt-1">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={sendEmailToIqbal}
                       disabled={sendingEmail}
-                      className="flex-1 py-2 rounded-lg bg-neon-green text-black font-medium text-sm flex items-center justify-center gap-2 hover:bg-neon-green/90 transition-colors disabled:opacity-50"
+                      className="flex-1 py-2.5 rounded-lg bg-neon-green text-black font-semibold text-sm flex items-center justify-center gap-2 hover:bg-neon-green/90 transition-all disabled:opacity-50 shadow-md shadow-neon-green/20"
                     >
                       {sendingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                      {sendingEmail ? 'Sending...' : 'Send Email'}
+                      {sendingEmail ? 'Sending...' : 'Send'}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setShowContactForm(false)}
-                      className="px-4 py-2 rounded-lg border border-gray-600 text-gray-400 text-sm hover:text-white transition-colors"
+                      className="px-4 py-2.5 rounded-lg border border-gray-600 text-gray-400 text-sm hover:text-white hover:border-gray-500 transition-all"
                     >
                       Cancel
                     </motion.button>
@@ -3762,68 +3797,71 @@ const AgentChatModal = ({ closeModal }) => {
           {/* Error Display */}
           {error && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 border-t border-neon-pink/30 bg-neon-pink/10 text-neon-pink text-sm"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="px-4 py-3 border-t border-neon-pink/30 bg-neon-pink/10 text-neon-pink text-sm flex items-center gap-2"
             >
-              <strong>Error:</strong> {error}
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              <span className="line-clamp-2">{error}</span>
             </motion.div>
           )}
 
-          {/* Suggested Questions */}
-          {messages.length <= 2 && (
-            <div className="px-4 py-2 border-t border-neon-blue/20 flex-shrink-0">
-              <p className="text-xs text-gray-500 mb-2">Quick questions:</p>
+          {/* Suggested Questions - Show only at start */}
+          {messages.length <= 2 && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="px-3 sm:px-4 py-3 border-t border-neon-blue/15 flex-shrink-0 bg-cyber-dark/30"
+            >
+              <p className="text-xs text-gray-500 mb-2.5 font-medium">💡 Try asking:</p>
               <div className="flex flex-wrap gap-2">
                 {SUGGESTED_QUESTIONS.map((q, i) => (
                   <motion.button
                     key={i}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.03, y: -1 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => askAgent(q)}
                     disabled={isLoading}
-                    className="px-3 py-1.5 text-xs rounded-full glass border border-neon-cyan/30 text-neon-cyan hover:border-neon-cyan/60 transition-all disabled:opacity-50"
+                    className="px-3 py-1.5 text-xs rounded-full glass border border-neon-cyan/25 text-neon-cyan/90 hover:border-neon-cyan/50 hover:text-neon-cyan hover:shadow-sm hover:shadow-neon-cyan/10 transition-all disabled:opacity-50"
                   >
                     {q}
                   </motion.button>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
-          {/* Input Form */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-neon-blue/30 flex-shrink-0 bg-cyber-dark/50">
-            <div className="flex items-center space-x-3">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about my projects, skills..."
-                disabled={isLoading}
-                className="w-full px-4 py-3 rounded-lg glass border border-neon-blue/30 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:border-neon-cyan disabled:opacity-50 transition-all"
-              />
+          {/* Enhanced Input Form */}
+          <form onSubmit={handleSubmit} className="p-3 sm:p-4 border-t border-neon-blue/20 flex-shrink-0 bg-gradient-to-t from-cyber-dark/90 to-cyber-dark/70">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask me anything..."
+                  disabled={isLoading}
+                  className="w-full px-4 py-3 pr-10 rounded-xl glass border border-neon-blue/25 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan/50 focus:border-neon-cyan/50 disabled:opacity-50 transition-all placeholder:text-gray-500 text-sm sm:text-base"
+                />
+                {input.trim() && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-2 h-2 bg-neon-cyan rounded-full"
+                  />
+                )}
+              </div>
               <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="p-3 bg-neon-blue text-white rounded-full transition-all hover:bg-neon-cyan shadow-neon-blue hover:shadow-neon-cyan disabled:bg-gray-600 disabled:opacity-50"
+                className="p-3 bg-gradient-to-br from-neon-blue to-neon-cyan text-white rounded-xl transition-all hover:shadow-lg hover:shadow-neon-cyan/30 disabled:from-gray-600 disabled:to-gray-700 disabled:opacity-50 disabled:shadow-none"
               >
-                <Send className="w-6 h-6" />
+                <Send className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
             </div>
-            {/* Clear History */}
-            {messages.length > 1 && (
-              <div className="mt-2 flex justify-end">
-                <button
-                  type="button"
-                  onClick={clearHistory}
-                  className="text-xs text-gray-500 hover:text-neon-pink transition-colors"
-                >
-                  Clear chat history
-                </button>
-              </div>
-            )}
           </form>
         </motion.div>
       </motion.div>
