@@ -850,6 +850,9 @@ export default function App() {
         {isAgentModalOpen && (
           <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
         )}
+
+        {/* Global Noise Overlay */}
+        <div className="noise-overlay" />
       </div>
     </>
   );
@@ -916,7 +919,7 @@ const Header = ({ currentPage, navigateTo, pages }) => {
       }}
       className={`transition-all duration-200 ${isMobile
         ? 'block w-full text-left px-4 py-3 rounded-lg'
-        : 'px-3 py-2 rounded-md text-sm font-medium'
+        : `px-3 py-2 text-sm font-medium nav-link-animated ${currentPage === page ? 'active' : ''}`
         } ${currentPage === page
           ? (isMobile
             ? 'bg-neon-blue/10 text-neon-blue'
@@ -946,24 +949,24 @@ const Header = ({ currentPage, navigateTo, pages }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-cyber-darker/80 backdrop-blur-md border-b border-gray-800/50"
+      className="fixed top-0 left-0 right-0 z-50 bg-cyber-darker/60 backdrop-blur-xl border-b border-white/5 supports-[backdrop-filter]:bg-cyber-darker/60"
     >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
             <motion.button
               whileHover={{ opacity: 0.8 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => navigateTo('Hero')}
-              className="text-xl font-bold text-white transition-all"
+              className="text-2xl font-bold text-white transition-all tracking-tight"
             >
-              {portfolioData.name.split(' ').slice(0, 2).join(' ')}.
+              {portfolioData.name.split(' ').slice(0, 2).join(' ')}<span className="text-neon-blue">.</span>
             </motion.button>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:block">
-            <div className="ml-4 lg:ml-8 flex items-baseline space-x-1 lg:space-x-2">
+            <div className="ml-10 flex items-baseline space-x-1">
               <NavLink page="About">About</NavLink>
               <NavLink page="Experience">Experience</NavLink>
               <NavLink page="Projects">Projects</NavLink>
@@ -974,15 +977,15 @@ const Header = ({ currentPage, navigateTo, pages }) => {
           </div>
 
           {/* Right side controls */}
-          <div className="hidden md:flex items-center gap-3 mr-4">
+          <div className="hidden md:flex items-center gap-4">
             {/* Resume Button */}
             <motion.a
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="https://drive.google.com/file/d/1gnyOl0OWglBntwKF54ow30mpnh4n2Dd6/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-gray-700 text-gray-300 hover:text-neon-blue hover:border-neon-blue transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all ring-1 ring-white/5 hover:ring-neon-blue/50"
             >
               <FileDown className="w-4 h-4" />
               Resume
@@ -994,7 +997,7 @@ const Header = ({ currentPage, navigateTo, pages }) => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-neon-cyan hover:text-neon-blue p-2 rounded-md transition-colors"
+              className="text-gray-300 hover:text-white p-2 rounded-md transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -1011,9 +1014,9 @@ const Header = ({ currentPage, navigateTo, pages }) => {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden border-t border-gray-800 overflow-hidden"
+            className="md:hidden border-t border-gray-800 bg-cyber-darker/95 backdrop-blur-xl overflow-hidden shadow-2xl"
           >
-            <div className="px-4 pt-3 pb-4 space-y-1 bg-cyber-panel">
+            <div className="px-4 pt-4 pb-6 space-y-2">
               <NavLink page="Hero" isMobile>Home</NavLink>
               <NavLink page="About" isMobile>About</NavLink>
               <NavLink page="Experience" isMobile>Experience</NavLink>
@@ -1023,12 +1026,12 @@ const Header = ({ currentPage, navigateTo, pages }) => {
               <NavLink page="Contact" isMobile>Contact</NavLink>
 
               {/* Mobile Resume Link */}
-              <div className="pt-3 mt-2 border-t border-gray-800">
+              <div className="pt-4 mt-4 border-t border-gray-700/50">
                 <a
                   href="https://drive.google.com/file/d/1gnyOl0OWglBntwKF54ow30mpnh4n2Dd6/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-3 text-gray-300 hover:text-neon-blue transition-colors"
+                  className="flex items-center gap-2 w-full px-4 py-3 text-center justify-center rounded-lg bg-neon-blue/10 text-neon-blue font-medium border border-neon-blue/20"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <FileDown className="w-4 h-4" />
@@ -1040,6 +1043,122 @@ const Header = ({ currentPage, navigateTo, pages }) => {
         )}
       </AnimatePresence>
     </motion.header>
+  );
+};
+
+// ... PageContainer ... (omitting strict check, assuming PageContainer follows Header)
+
+/**
+ * Footer Component
+ * Clean, structured 4-column footer layout.
+ */
+const Footer = ({ navigateTo }) => {
+  const { name, socialLinks, copyrightName } = portfolioData;
+
+  const SocialLink = ({ href, icon: Icon, label }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 hover:bg-neon-blue hover:text-white text-gray-400 transition-all duration-300"
+      aria-label={label}
+    >
+      <Icon className="w-5 h-5" />
+    </a>
+  );
+
+  const FooterLink = ({ page, children }) => (
+    <li>
+      <button
+        onClick={() => navigateTo(page)}
+        className="text-gray-400 hover:text-neon-cyan transition-colors text-sm"
+      >
+        {children}
+      </button>
+    </li>
+  );
+
+  const ExternalFooterLink = ({ href, children }) => (
+    <li>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-400 hover:text-neon-cyan transition-colors text-sm flex items-center gap-1"
+      >
+        {children} <ExternalLink className="w-3 h-3 opacity-50" />
+      </a>
+    </li>
+  );
+
+  return (
+    <footer className="relative mt-32 z-10 border-t border-white/5 bg-cyber-darker">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+
+          {/* Brand Column */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-white tracking-tight">
+              {name.split(' ')[0]}<span className="text-neon-blue">.</span>
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
+              Building intelligent autonomous agents and scalable data systems. Turning complex problems into elegant solutions.
+            </p>
+            <div className="flex gap-4 pt-2">
+              <SocialLink href={socialLinks.linkedin} icon={Linkedin} label="LinkedIn" />
+              <SocialLink href={socialLinks.github} icon={Github} label="GitHub" />
+              <SocialLink href={socialLinks.instagram} icon={Instagram} label="Instagram" />
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-white font-semibold mb-6">Quick Links</h4>
+            <ul className="space-y-3">
+              <FooterLink page="Hero">Home</FooterLink>
+              <FooterLink page="About">About Me</FooterLink>
+              <FooterLink page="Projects">Projects</FooterLink>
+              <FooterLink page="Contact">Contact</FooterLink>
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h4 className="text-white font-semibold mb-6">Resources</h4>
+            <ul className="space-y-3">
+              <FooterLink page="Articles">Latest Articles</FooterLink>
+              <ExternalFooterLink href={socialLinks.medium}>Medium Blog</ExternalFooterLink>
+              <ExternalFooterLink href="https://huggingface.co/Shiverion">Hugging Face Models</ExternalFooterLink>
+              <ExternalFooterLink href="/resume.pdf">Download Resume</ExternalFooterLink>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h4 className="text-white font-semibold mb-6">Stay Connected</h4>
+            <p className="text-gray-400 text-sm mb-4">
+              Open for collaborations and interesting projects.
+            </p>
+            <button
+              onClick={() => navigateTo('Contact')}
+              className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white text-sm font-medium transition-all w-full md:w-auto"
+            >
+              Get in Touch
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} {copyrightName}. All rights reserved.
+          </p>
+          <p className="text-gray-600 text-xs">
+            Designed & Built with <span className="text-neon-blue">♥</span> and AI
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 };
 
@@ -1198,69 +1317,7 @@ const LinkedInBadge = () => {
   );
 };
 
-/**
- * Footer Component
- * Cyber-themed footer with glowing social icons and LinkedIn badge.
- */
-const Footer = ({ navigateTo }) => {
-  const { socialLinks, copyrightName } = portfolioData;
 
-  const SocialIcon = ({ href, 'aria-label': ariaLabel, children }) => (
-    <motion.a
-      whileHover={{ scale: 1.2, rotate: 5 }}
-      whileTap={{ scale: 0.9 }}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={ariaLabel}
-      className="text-gray-400 hover:text-neon-cyan transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(0,255,255,0.8)]"
-    >
-      {children}
-    </motion.a>
-  );
-
-  const TextLink = ({ href, children }) => (
-    <motion.a
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-sm font-medium text-gray-400 hover:text-neon-cyan transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(0,255,255,0.8)]"
-    >
-      {children}
-    </motion.a>
-  );
-
-  return (
-    <footer className="glass-strong border-t border-neon-blue/30 mt-20 relative z-0">
-      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-          {/* Social Links */}
-          <div className="flex justify-center space-x-6">
-            <SocialIcon href={socialLinks.linkedin} aria-label="LinkedIn">
-              <Linkedin className="h-6 w-6" />
-            </SocialIcon>
-            <SocialIcon href={socialLinks.github} aria-label="GitHub">
-              <Github className="h-6 w-6" />
-            </SocialIcon>
-            <SocialIcon href={socialLinks.instagram} aria-label="Instagram">
-              <Instagram className="h-6 w-6" />
-            </SocialIcon>
-            <TextLink href={socialLinks.huggingface}>Hugging Face</TextLink>
-            <TextLink href={socialLinks.medium}>Medium</TextLink>
-          </div>
-
-          {/* Copyright */}
-          <div className="text-center text-gray-500 text-sm">
-            © {new Date().getFullYear()} {copyrightName}.
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-};
 
 // --- PAGE COMPONENTS ---
 
@@ -1413,17 +1470,60 @@ const LinksPage = () => {
  * Hero (Home) Page
  * Futuristic landing with glowing elements and cyber grid.
  */
+// Floating Particles Component for Hero
+const FloatingParticles = () => {
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    delay: Math.random() * 15,
+    duration: 15 + Math.random() * 10,
+    size: 2 + Math.random() * 4,
+  }));
+
+  return (
+    <div className="particles-bg">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="particle"
+          style={{
+            left: p.left,
+            width: p.size,
+            height: p.size,
+            animationDelay: `${p.delay}s`,
+            animationDuration: `${p.duration}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const Hero = ({ navigateTo, openAgentModal }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[85vh] py-20 px-6 relative overflow-hidden">
+      {/* Floating Particles */}
+      <FloatingParticles />
+
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-cyber-darker via-cyber-dark to-cyber-darker opacity-50" />
 
-      {/* Single subtle animated orb */}
+      {/* Animated gradient orbs */}
       <motion.div
-        animate={{ opacity: [0.15, 0.25, 0.15] }}
+        animate={{
+          opacity: [0.15, 0.25, 0.15],
+          scale: [1, 1.1, 1],
+        }}
         transition={{ duration: 8, repeat: Infinity }}
         className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-neon-blue rounded-full mix-blend-screen filter blur-[120px]"
+      />
+      <motion.div
+        animate={{
+          opacity: [0.1, 0.2, 0.1],
+          scale: [1.1, 1, 1.1],
+        }}
+        transition={{ duration: 10, repeat: Infinity, delay: 2 }}
+        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500 rounded-full mix-blend-screen filter blur-[100px]"
       />
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -1451,7 +1551,7 @@ const Hero = ({ navigateTo, openAgentModal }) => {
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight tracking-tight">
             Hello, I'm{' '}
-            <span className="text-neon-blue">
+            <span className="gradient-text">
               {portfolioData.name}
             </span>
           </h1>
@@ -1483,24 +1583,45 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           className="mt-10 flex flex-wrap gap-4 justify-center"
         >
           <motion.a
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             href="/resume.pdf"
             download="Muhammad_Iqbal_Resume.pdf"
-            className="flex items-center gap-2 px-6 py-3 bg-neon-blue text-white font-medium rounded-lg hover:bg-neon-blue/90 transition-all duration-200"
+            className="btn-premium flex items-center gap-2 px-6 py-3 bg-neon-blue text-white font-medium rounded-lg hover:bg-neon-blue/90 transition-all duration-200 glow-on-hover"
           >
             <Download className="w-5 h-5" />
             Download Resume
           </motion.a>
           <motion.button
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={openAgentModal}
-            className="flex items-center gap-2 px-6 py-3 bg-transparent rounded-lg border border-gray-700 text-gray-300 hover:border-neon-blue hover:text-neon-blue transition-all duration-200"
+            className="btn-premium flex items-center gap-2 px-6 py-3 bg-transparent rounded-lg border border-gray-700 text-gray-300 hover:border-neon-blue hover:text-neon-blue transition-all duration-200"
           >
             <Sparkles className="w-5 h-5" />
             Ask My AI Agent
           </motion.button>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+          className="mt-12 flex flex-col items-center gap-2"
+        >
+          <span className="text-xs text-gray-500 uppercase tracking-widest">Scroll to explore</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center pt-2"
+          >
+            <motion.div
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1.5 h-1.5 bg-neon-blue rounded-full"
+            />
+          </motion.div>
         </motion.div>
 
         {/* Stats Section - Moving to Hero */}
@@ -1516,10 +1637,14 @@ const Hero = ({ navigateTo, openAgentModal }) => {
             { value: 2, label: "Full-Stack Apps" },
             { value: 2, label: "Data Analytics" }
           ].map((stat, index) => (
-            <div key={index} className="flex flex-col items-center p-4 bg-cyber-panel/30 border border-neon-blue/20 rounded-xl backdrop-blur-sm hover:border-neon-blue/50 transition-colors">
+            <motion.div
+              key={index}
+              whileHover={{ y: -4 }}
+              className="stats-card flex flex-col items-center"
+            >
               <AnimatedCounter value={stat.value} suffix={stat.suffix || ""} />
               <span className="text-xs md:text-sm text-gray-400 mt-1">{stat.label}</span>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
 
@@ -1535,8 +1660,8 @@ const Hero = ({ navigateTo, openAgentModal }) => {
             {['Agentic AI', 'Multi-agent Systems', 'RAG', 'Python', 'React', 'TensorFlow', 'Google Cloud', 'AWS'].map((skill, i) => (
               <motion.span
                 key={i}
-                whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-full text-gray-300 hover:text-neon-cyan hover:border-neon-cyan/50 transition-all cursor-default"
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="skill-badge-enhanced"
               >
                 {skill}
               </motion.span>
@@ -2191,13 +2316,12 @@ const Projects = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              whileHover={{ y: -4 }}
-              className="rounded-lg overflow-hidden flex flex-col bg-cyber-panel border border-gray-800 hover:border-neon-blue/50 transition-all duration-200"
+              className="project-card-enhanced rounded-xl overflow-hidden flex flex-col"
             >
-              {/* Image with zoom effect */}
-              <div className="relative project-image-container group">
+              {/* Image with enhanced zoom effect */}
+              <div className="relative image-zoom-enhanced group">
                 <ProjectMedia src={project.imageUrl} alt={project.title} />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Metrics overlay on hover */}
                 {project.metrics && project.metrics.length > 0 && (
