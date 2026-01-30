@@ -14,8 +14,18 @@ const AdminDashboard = ({ onClose }) => {
     const [error, setError] = useState('');
     const [selectedChat, setSelectedChat] = useState(null);
 
-    // Search State
+    // Search and Expansion State
     const [searchTerm, setSearchTerm] = useState('');
+    const [expandedIps, setExpandedIps] = useState(new Set());
+
+    const toggleIpExpansion = (ipKey) => {
+        setExpandedIps(prev => {
+            const next = new Set(prev);
+            if (next.has(ipKey)) next.delete(ipKey);
+            else next.add(ipKey);
+            return next;
+        });
+    };
 
     // 🔒 Authorized Emails
     const ALLOWED_EMAILS = [
@@ -165,42 +175,59 @@ const AdminDashboard = ({ onClose }) => {
                                         </div>
 
                                         <div className="space-y-2">
-                                            {Object.entries(cityData.ips).map(([ip, items]) => (
-                                                <div key={ip} className="ml-2 bg-black/40 rounded-lg p-3 border border-gray-800">
-                                                    <div className="text-xs font-mono text-gray-500 mb-2 flex justify-between items-center bg-gray-900/50 p-1.5 rounded">
-                                                        <span>IP: {ip}</span>
-                                                        <span className="bg-neon-blue/10 text-neon-blue px-1.5 rounded">{items.length} {activeTab === 'visitors' ? 'Visits' : 'Chats'}</span>
-                                                    </div>
+                                            {Object.entries(cityData.ips).map(([ip, items]) => {
+                                                const ipKey = `${country}-${city}-${ip}`;
+                                                const isExpanded = expandedIps.has(ipKey);
 
-                                                    <div className="space-y-2">
-                                                        {items.map(item => (
-                                                            <div key={item.id} onClick={() => activeTab === 'chats' && setSelectedChat(item)} className={`flex justify-between items-start text-sm ${activeTab === 'chats' ? 'cursor-pointer hover:bg-white/5 p-2 rounded transition-colors' : ''}`}>
-                                                                <div className="flex-1">
-                                                                    {activeTab === 'visitors' ? (
-                                                                        <div className="flex flex-col gap-0.5">
-                                                                            <div className="flex items-center gap-2 text-white/90">
-                                                                                {item.device?.isMobile ? <Smartphone className="w-3 h-3 text-neon-pink" /> : <Monitor className="w-3 h-3 text-neon-blue" />}
-                                                                                <span className="font-medium truncate max-w-[200px]">{new URL(item.page?.url || 'https://site.com').pathname}</span>
-                                                                            </div>
-                                                                            <span className="text-[10px] text-gray-500">{item.device?.platform}</span>
-                                                                        </div>
-                                                                    ) : (
-                                                                        <div className="flex items-center gap-2">
-                                                                            <MessageSquare className="w-3 h-3 text-neon-green" />
-                                                                            <span className="truncate max-w-[200px] text-gray-300">
-                                                                                {item.messages?.find(m => m.role === 'user')?.text || 'No msg'}
-                                                                            </span>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                <span className="text-[10px] text-gray-500 whitespace-nowrap ml-2 flex items-center gap-1">
-                                                                    {getTime(item.timestamp || item.createdAt)}
-                                                                </span>
+                                                return (
+                                                    <div key={ip} className="ml-2 bg-black/40 rounded-lg overflow-hidden border border-gray-800">
+                                                        {/* IP Header - Collapsible */}
+                                                        <div
+                                                            onClick={() => toggleIpExpansion(ipKey)}
+                                                            className="text-xs font-mono text-gray-500 flex justify-between items-center bg-gray-900/50 p-2.5 cursor-pointer hover:bg-gray-800/50 transition-colors"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                {isExpanded ? <ChevronDown className="w-3 h-3 text-neon-cyan" /> : <ChevronRight className="w-3 h-3 text-gray-600" />}
+                                                                <span className={isExpanded ? 'text-neon-cyan' : ''}>IP: {ip}</span>
                                                             </div>
-                                                        ))}
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-[10px] text-gray-600 italic">{isExpanded ? 'Click to collapse' : 'Click to expand'}</span>
+                                                                <span className="bg-neon-blue/10 text-neon-blue px-1.5 rounded">{items.length} {activeTab === 'visitors' ? 'Visits' : 'Chats'}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        {isExpanded && (
+                                                            <div className="p-3 space-y-2 border-t border-gray-800/50 animate-in slide-in-from-top-1 duration-200">
+                                                                {items.map(item => (
+                                                                    <div key={item.id} onClick={() => activeTab === 'chats' && setSelectedChat(item)} className={`flex justify-between items-start text-sm ${activeTab === 'chats' ? 'cursor-pointer hover:bg-white/5 p-2 rounded transition-colors' : ''}`}>
+                                                                        <div className="flex-1">
+                                                                            {activeTab === 'visitors' ? (
+                                                                                <div className="flex flex-col gap-0.5">
+                                                                                    <div className="flex items-center gap-2 text-white/90">
+                                                                                        {item.device?.isMobile ? <Smartphone className="w-3 h-3 text-neon-pink" /> : <Monitor className="w-3 h-3 text-neon-blue" />}
+                                                                                        <span className="font-medium truncate max-w-[200px]">{new URL(item.page?.url || 'https://site.com').pathname}</span>
+                                                                                    </div>
+                                                                                    <span className="text-[10px] text-gray-500">{item.device?.platform}</span>
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div className="flex items-center gap-2">
+                                                                                    <MessageSquare className="w-3 h-3 text-neon-green" />
+                                                                                    <span className="truncate max-w-[200px] text-gray-300">
+                                                                                        {item.messages?.find(m => m.role === 'user')?.text || 'No msg'}
+                                                                                    </span>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                        <span className="text-[10px] text-gray-500 whitespace-nowrap ml-2 flex items-center gap-1">
+                                                                            {getTime(item.timestamp || item.createdAt)}
+                                                                        </span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 ))}
