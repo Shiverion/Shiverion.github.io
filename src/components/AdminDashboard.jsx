@@ -1,9 +1,124 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db, auth, provider, signInWithPopup, signOut, onAuthStateChanged } from '../firebase';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
-import { Lock, Smartphone, Monitor, Globe, Clock, ShieldCheck, X, LogOut, MessageSquare, List, User, ChevronRight, ChevronDown, MapPin, Search, Filter, Calendar } from 'lucide-react';
+import { Lock, Smartphone, Monitor, Globe, Clock, ShieldCheck, X, LogOut, MessageSquare, List, User, ChevronLeft, ChevronRight, ChevronDown, MapPin, Search, Filter, Calendar, AlertTriangle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+
+const CalendarPicker = ({ startDate, endDate, onSelect, onClose }) => {
+    const [viewDate, setViewDate] = useState(new Date());
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+    const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
+
+    const currentYear = viewDate.getFullYear();
+    const currentMonth = viewDate.getMonth();
+
+    const days = useMemo(() => {
+        const totalDays = getDaysInMonth(currentYear, currentMonth);
+        const firstDay = getFirstDayOfMonth(currentYear, currentMonth);
+        const prevMonthDays = getDaysInMonth(currentYear, currentMonth - 1);
+
+        const dateArr = [];
+        // Previous month days
+        for (let i = firstDay - 1; i >= 0; i--) {
+            dateArr.push({ day: prevMonthDays - i, month: currentMonth - 1, year: currentYear, current: false });
+        }
+        // Current month days
+        for (let i = 1; i <= totalDays; i++) {
+            dateArr.push({ day: i, month: currentMonth, year: currentYear, current: true });
+        }
+        // Next month days
+        const remaining = 42 - dateArr.length;
+        for (let i = 1; i <= remaining; i++) {
+            dateArr.push({ day: i, month: currentMonth + 1, year: currentYear, current: false });
+        }
+        return dateArr;
+    }, [currentYear, currentMonth]);
+
+    const handleDateClick = (d) => {
+        const clicked = new Date(d.year, d.month, d.day);
+        if (!startDate || (startDate && endDate)) {
+            onSelect(clicked, null);
+        } else if (clicked >= startDate) {
+            onSelect(startDate, clicked);
+        } else {
+            onSelect(clicked, null);
+        }
+    };
+
+    const isSelected = (d) => {
+        const current = new Date(d.year, d.month, d.day);
+        return (startDate && current.toDateString() === startDate.toDateString()) ||
+            (endDate && current.toDateString() === endDate.toDateString());
+    };
+
+    const isInRange = (d) => {
+        if (!startDate || !endDate) return false;
+        const current = new Date(d.year, d.month, d.day);
+        return current > startDate && current < endDate;
+    };
+
+    const changeMonth = (offset) => {
+        setViewDate(new Date(currentYear, currentMonth + offset, 1));
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute top-full right-0 mt-2 z-[100] bg-cyber-darker border border-gray-800 rounded-2xl p-4 shadow-2xl w-[300px]"
+        >
+            <div className="flex justify-between items-center mb-4 px-1">
+                <h4 className="text-white font-bold text-sm">
+                    {new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(viewDate)}
+                </h4>
+                <div className="flex gap-1">
+                    <button onClick={() => changeMonth(-1)} className="p-1.5 hover:bg-white/5 rounded-lg text-gray-400 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+                    <button onClick={() => changeMonth(1)} className="p-1.5 hover:bg-white/5 rounded-lg text-gray-400 transition-colors"><ChevronRight className="w-4 h-4" /></button>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-7 gap-1 mb-2">
+                {daysOfWeek.map(d => (
+                    <div key={d} className="text-center text-[10px] text-gray-600 font-bold py-1 uppercase">{d}</div>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-1">
+                {days.map((d, i) => {
+                    const selected = isSelected(d);
+                    const inRange = isInRange(d);
+                    return (
+                        <button
+                            key={i}
+                            onClick={() => handleDateClick(d)}
+                            className={`
+                                aspect-square rounded-lg text-xs transition-all relative flex items-center justify-center
+                                ${d.current ? 'text-gray-300' : 'text-gray-600'}
+                                ${selected ? 'bg-neon-cyan text-black font-bold shadow-[0_0_15px_rgba(0,255,255,0.3)]' : 'hover:bg-white/5'}
+                                ${inRange ? 'bg-neon-cyan/10 text-neon-cyan' : ''}
+                            `}
+                        >
+                            {d.day}
+                        </button>
+                    );
+                })}
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-gray-800 flex justify-between items-center">
+                <div className="text-[10px] text-gray-500">
+                    {startDate ? (
+                        <span>{startDate.toLocaleDateString()} {endDate ? `→ ${endDate.toLocaleDateString()}` : '...'}</span>
+                    ) : 'Select range'}
+                </div>
+                <button onClick={onClose} className="px-3 py-1 bg-neon-cyan/10 text-neon-cyan rounded-lg text-[10px] font-bold hover:bg-neon-cyan/20 transition-all border border-neon-cyan/20">DONE</button>
+            </div>
+        </motion.div>
+    );
+};
 
 const AdminDashboard = ({ onClose }) => {
     const [activeTab, setActiveTab] = useState('visitors'); // 'visitors' | 'chats'
@@ -18,10 +133,11 @@ const AdminDashboard = ({ onClose }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterDevice, setFilterDevice] = useState('all'); // 'all' | 'mobile' | 'desktop'
     const [filterTime, setFilterTime] = useState('all'); // 'all' | 'today' | '24h' | 'custom'
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [filterCity, setFilterCity] = useState('all');
     const [expandedIps, setExpandedIps] = useState(new Set());
+    const [showCalendar, setShowCalendar] = useState(false);
 
     const toggleIpExpansion = (ipKey) => {
         setExpandedIps(prev => {
@@ -168,10 +284,11 @@ const AdminDashboard = ({ onClose }) => {
 
                 if (filterTime === 'custom') {
                     if (!startDate && !endDate) return true;
+                    // Clone dates to avoid mutation and set time
                     const start = startDate ? new Date(startDate) : new Date(0);
+                    start.setHours(0, 0, 0, 0);
                     const end = endDate ? new Date(endDate) : new Date();
-                    // Set end of day for endDate
-                    if (endDate) end.setHours(23, 59, 59, 999);
+                    end.setHours(23, 59, 59, 999);
                     return ts >= start && ts <= end;
                 }
 
@@ -214,7 +331,7 @@ const AdminDashboard = ({ onClose }) => {
                     <div className="text-center text-gray-500 py-10 flex flex-col items-center gap-4">
                         <Search className="w-12 h-12 opacity-20" />
                         <p>No matches found with current filters.</p>
-                        <button onClick={() => { setSearchTerm(''); setFilterDevice('all'); setFilterTime('all'); setFilterCity('all'); setStartDate(''); setEndDate(''); }} className="text-neon-cyan text-sm underline">Clear all filters</button>
+                        <button onClick={() => { setSearchTerm(''); setFilterDevice('all'); setFilterTime('all'); setFilterCity('all'); setStartDate(null); setEndDate(null); }} className="text-neon-cyan text-sm underline">Clear all filters</button>
                     </div>
                 )}
                 {sortedCountries.map(([country, countryData]) => {
@@ -352,22 +469,31 @@ const AdminDashboard = ({ onClose }) => {
                             ))}
                         </div>
 
-                        {/* Custom Date Range Picker */}
+                        {/* Custom Date Range Trigger */}
                         {filterTime === 'custom' && (
-                            <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border border-gray-800 ml-auto sm:ml-0">
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    className="bg-transparent text-[10px] text-white outline-none focus:text-neon-cyan border-r border-gray-800 pr-2"
-                                />
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                    className="bg-transparent text-[10px] text-white outline-none focus:text-neon-cyan pl-1"
-                                />
-                            </motion.div>
+                            <div className="relative ml-auto sm:ml-0">
+                                <button
+                                    onClick={() => setShowCalendar(!showCalendar)}
+                                    className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-gray-800 hover:border-neon-cyan transition-all text-[10px] font-bold text-white whitespace-nowrap"
+                                >
+                                    <Calendar className="w-3 h-3 text-neon-cyan" />
+                                    {startDate ? (
+                                        <span>{startDate.toLocaleDateString()} {endDate ? `→ ${endDate.toLocaleDateString()}` : '...'}</span>
+                                    ) : 'Pick Dates'}
+                                    <ChevronDown className={`w-3 h-3 transition-transform ${showCalendar ? 'rotate-180' : ''}`} />
+                                </button>
+
+                                <AnimatePresence>
+                                    {showCalendar && (
+                                        <CalendarPicker
+                                            startDate={startDate}
+                                            endDate={endDate}
+                                            onSelect={(start, end) => { setStartDate(start); setEndDate(end); }}
+                                            onClose={() => setShowCalendar(false)}
+                                        />
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         )}
                     </div>
 
