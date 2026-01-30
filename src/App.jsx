@@ -473,7 +473,7 @@ const portfolioData = {
       name: "Generative AI with Large Language Models",
       issuer: "Amazon Web Services (AWS)",
       date: "Credential ID: 56TNN6IUU883",
-      description: "Gain foundational knowledge, practical skills, and a functional understanding of how generative AI works. Dive into the latest research on Gen AI.",
+      description: "Build core GenAI skills, learn from real-world research, and get hands-on guidance from AWS experts deploying AI in production.",
       url: "https://coursera.org/share/8f7f2759c003ca4a755c74b7c85feff3",
       categories: ["Agentic AI"]
     },
