@@ -121,7 +121,7 @@ const portfolioData = {
       complexity: 8.5,
       date: "2026-01",
       metrics: ["AI RFQ Parser", "Semantic Search", "Gemini 2.5 Flash"],
-      demoUrl: "https://procuremind-ntobghbnsfksgtkcpeoewv.streamlit.app/RFQ_Manager",
+      demoUrl: "https://procuremind.streamlit.app/",
       repoUrl: "https://github.com/Shiverion/ProcureMind",
       imageUrl: "/images/Procuremind/Thumbnail/Procuremind.png",
       gallery: [
