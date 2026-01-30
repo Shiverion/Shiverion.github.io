@@ -344,9 +344,9 @@ body::before {
 
 .floating-button-pulse {
   position: absolute;
-  inset: -4px;
+  inset: -3px;
   border-radius: 50%;
-  background: rgba(88, 166, 255, 0.4);
+  background: rgba(88, 166, 255, 0.2);
   animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
@@ -396,9 +396,7 @@ body::before {
 @media (max-width: 768px) {
   .floating-button {
     bottom: 16px;
-    right: auto;
-    left: 16px;
-    /* Move to left side on mobile to avoid overlap */
+    right: 16px;
   }
 
   .floating-button button {

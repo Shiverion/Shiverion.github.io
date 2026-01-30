@@ -1392,7 +1392,7 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) =>
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => navigateTo('Hero')}
-            className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-40"
+            className="hidden sm:block fixed bottom-4 sm:bottom-6 right-4 sm:right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-40"
             aria-label="Back to Top"
           >
             <ChevronUp className="h-6 w-6" />
