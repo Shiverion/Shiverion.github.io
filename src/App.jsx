@@ -932,6 +932,7 @@ export default function App() {
               </PageWrapper>
             } />
             <Route path="/links" element={<LinksPage />} />
+            <Route path="/admin" element={<div />} />
             <Route path="*" element={<NotFound navigateTo={navigateTo} />} />
           </Routes>
         </main>
@@ -962,13 +963,6 @@ export default function App() {
         {isAgentModalOpen && (
           <AgentChatModal closeModal={() => setIsAgentModalOpen(false)} />
         )}
-
-        {/* Admin Dashboard */}
-        <AnimatePresence>
-          {isAdminOpen && (
-            <AdminDashboard onClose={() => setIsAdminOpen(false)} />
-          )}
-        </AnimatePresence>
 
         {/* Admin Dashboard */}
         <AnimatePresence>
