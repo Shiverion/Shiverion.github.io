@@ -486,6 +486,22 @@ const portfolioData = {
       categories: ["Cloud & MLOps"]
     },
     {
+      name: "Data Analysis with Python",
+      issuer: "IBM",
+      date: "Credential ID: PAOYDTZO8GTP",
+      description: "Demonstrated proficiency in Python for data cleaning, exploratory data analysis (EDA), and dataframe-based data operations, including handling missing values, normalization, correlation analysis, and pipeline construction. Developed and evaluated regression models using Scikit-learn to generate predictions and support data-driven decision-making.",
+      url: "https://www.coursera.org/account/accomplishments/records/PAOYDTZO8GTP",
+      categories: ["Data Science", "Python"]
+    },
+    {
+      name: "Data Visualization with Python",
+      issuer: "IBM",
+      date: "Credential ID: LCKSVTMUEOPS",
+      description: "Built data visualizations in Python using Matplotlib, Seaborn, Folium, Plotly, and Dash to create static, advanced, and interactive charts including statistical plots, geospatial maps, and dashboards for storytelling and insight discovery.",
+      url: "https://www.coursera.org/account/accomplishments/records/LCKSVTMUEOPS",
+      categories: ["Data Science", "Python"]
+    },
+    {
       name: "Databases and SQL for Data Science with Python",
       issuer: "IBM",
       date: "Credential ID: SSRDL58C2CD7",
