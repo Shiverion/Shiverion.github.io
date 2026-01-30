@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db, auth, provider, signInWithPopup, signOut, onAuthStateChanged } from '../firebase';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
-import { Lock, Smartphone, Monitor, Globe, Clock, ShieldCheck, X, LogOut, MessageSquare, List, User } from 'lucide-react';
+import { Lock, Smartphone, Monitor, Globe, Clock, ShieldCheck, X, LogOut, MessageSquare, List, User, ChevronRight, ChevronDown, MapPin, Search } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 const AdminDashboard = ({ onClose }) => {
@@ -14,11 +14,15 @@ const AdminDashboard = ({ onClose }) => {
     const [error, setError] = useState('');
     const [selectedChat, setSelectedChat] = useState(null);
 
+    // Search State
+    const [searchTerm, setSearchTerm] = useState('');
+
     // 🔒 Authorized Emails
     const ALLOWED_EMAILS = [
         'miqbal.hilmy@gmail.com',
         'shiverion@gmail.com',
-        'miqbal.hilmy@ui.ac.id'
+        'miqbal.hilmy@ui.ac.id',
+        'miqbal.izzulhaq@gmail.com'
     ];
 
     // Monitor Auth State
@@ -27,7 +31,7 @@ const AdminDashboard = ({ onClose }) => {
             if (currentUser && ALLOWED_EMAILS.includes(currentUser.email)) {
                 setUser(currentUser);
             } else if (currentUser) {
-                setError("Access Denied: Email not authorized.");
+                setError(`Access Denied: ${currentUser.email} is not authorized.`);
                 signOut(auth);
             } else {
                 setUser(null);
@@ -44,7 +48,7 @@ const AdminDashboard = ({ onClose }) => {
         let unsubscribe;
 
         if (activeTab === 'visitors') {
-            const q = query(collection(db, "visitor_logs"), orderBy("timestamp", "desc"), limit(50));
+            const q = query(collection(db, "visitor_logs"), orderBy("timestamp", "desc"), limit(100)); // Increased limit for better grouping
             unsubscribe = onSnapshot(q, (snapshot) => {
                 setLogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
                 setLoading(false);
@@ -74,6 +78,138 @@ const AdminDashboard = ({ onClose }) => {
         return new Intl.DateTimeFormat('en-US', {
             month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
         }).format(timestamp.toDate());
+    };
+
+    // Helper to group data
+    const groupData = (data, type) => {
+        const grouped = {};
+        data.forEach(item => {
+            // Helper to get field from either location object (Visitor) or root (Chat)
+            const getField = (field) => item.location?.[field] || item[field];
+
+            const country = getField('country') || 'Unknown Country';
+            const city = getField('city') || 'Unknown City';
+            const ip = item.ip || 'Unknown IP';
+            const countryCode = getField('countryCode') || 'XX';
+
+            if (!grouped[country]) grouped[country] = { code: countryCode, cities: {} };
+            if (!grouped[country].cities[city]) grouped[country].cities[city] = { ips: {} };
+            if (!grouped[country].cities[city].ips[ip]) grouped[country].cities[city].ips[ip] = [];
+
+            grouped[country].cities[city].ips[ip].push(item);
+        });
+        return grouped;
+    };
+
+    // Filter Logic
+    const getFilteredData = (data) => {
+        if (!searchTerm) return data;
+        const lowerTerm = searchTerm.toLowerCase();
+        return data.filter(item => {
+            // Helper to get field
+            const getField = (field) => item.location?.[field] || item[field] || '';
+
+            const country = (getField('country')).toLowerCase();
+            const city = (getField('city')).toLowerCase();
+            const ip = (item.ip || '').toLowerCase();
+            const text = activeTab === 'chats'
+                ? (item.messages?.map(m => m.text).join(' ') || '').toLowerCase()
+                : (item.page?.url || '').toLowerCase();
+
+            return country.includes(lowerTerm) ||
+                city.includes(lowerTerm) ||
+                ip.includes(lowerTerm) ||
+                text.includes(lowerTerm);
+        });
+    };
+
+    const filteredLogs = getFilteredData(activeTab === 'visitors' ? logs : chats);
+    const groupedLogs = groupData(filteredLogs, activeTab);
+
+    // Recursive component for rendering groups (Sorted by Count)
+    const GroupedView = ({ data }) => {
+        // Sort countries by total activity (descending)
+        const sortedCountries = Object.entries(data).sort(([, a], [, b]) => {
+            const countA = Object.values(a.cities).reduce((acc, city) =>
+                acc + Object.values(city.ips).reduce((sum, ip) => sum + ip.length, 0), 0);
+            const countB = Object.values(b.cities).reduce((acc, city) =>
+                acc + Object.values(city.ips).reduce((sum, ip) => sum + ip.length, 0), 0);
+            return countB - countA;
+        });
+
+        return (
+            <div className="space-y-4">
+                {sortedCountries.length === 0 && (
+                    <div className="text-center text-gray-500 py-10">No results found matching "{searchTerm}"</div>
+                )}
+                {sortedCountries.map(([country, countryData]) => {
+                    const totalCount = Object.values(countryData.cities).reduce((acc, city) =>
+                        acc + Object.values(city.ips).reduce((sum, ip) => sum + ip.length, 0), 0);
+
+                    return (
+                        <div key={country} className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/30">
+                            {/* Country Header */}
+                            <div className="bg-gray-800/50 px-4 py-3 flex items-center justify-between font-bold text-white">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xl">{getFlagEmoji(countryData.code)}</span>
+                                    <span>{country}</span>
+                                </div>
+                                <span className="text-xs bg-neon-cyan/10 text-neon-cyan px-2 py-1 rounded-full">{totalCount} events</span>
+                            </div>
+
+                            <div className="p-2 space-y-2">
+                                {Object.entries(countryData.cities).map(([city, cityData]) => (
+                                    <div key={city} className="ml-2 pl-2 border-l-2 border-neon-cyan/20">
+                                        <div className="text-sm font-semibold text-neon-cyan mb-2 flex items-center gap-1">
+                                            <MapPin className="w-3 h-3" /> {city}
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            {Object.entries(cityData.ips).map(([ip, items]) => (
+                                                <div key={ip} className="ml-2 bg-black/40 rounded-lg p-3 border border-gray-800">
+                                                    <div className="text-xs font-mono text-gray-500 mb-2 flex justify-between items-center bg-gray-900/50 p-1.5 rounded">
+                                                        <span>IP: {ip}</span>
+                                                        <span className="bg-neon-blue/10 text-neon-blue px-1.5 rounded">{items.length} {activeTab === 'visitors' ? 'Visits' : 'Chats'}</span>
+                                                    </div>
+
+                                                    <div className="space-y-2">
+                                                        {items.map(item => (
+                                                            <div key={item.id} onClick={() => activeTab === 'chats' && setSelectedChat(item)} className={`flex justify-between items-start text-sm ${activeTab === 'chats' ? 'cursor-pointer hover:bg-white/5 p-2 rounded transition-colors' : ''}`}>
+                                                                <div className="flex-1">
+                                                                    {activeTab === 'visitors' ? (
+                                                                        <div className="flex flex-col gap-0.5">
+                                                                            <div className="flex items-center gap-2 text-white/90">
+                                                                                {item.device?.isMobile ? <Smartphone className="w-3 h-3 text-neon-pink" /> : <Monitor className="w-3 h-3 text-neon-blue" />}
+                                                                                <span className="font-medium truncate max-w-[200px]">{new URL(item.page?.url || 'https://site.com').pathname}</span>
+                                                                            </div>
+                                                                            <span className="text-[10px] text-gray-500">{item.device?.platform}</span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="flex items-center gap-2">
+                                                                            <MessageSquare className="w-3 h-3 text-neon-green" />
+                                                                            <span className="truncate max-w-[200px] text-gray-300">
+                                                                                {item.messages?.find(m => m.role === 'user')?.text || 'No msg'}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <span className="text-[10px] text-gray-500 whitespace-nowrap ml-2 flex items-center gap-1">
+                                                                    {getTime(item.timestamp || item.createdAt)}
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        );
     };
 
     // --- Auth Screen ---
@@ -121,6 +257,20 @@ const AdminDashboard = ({ onClose }) => {
                 </div>
             </div>
 
+            {/* Search Bar */}
+            <div className="px-4 pb-3 pt-3 bg-cyber-darker/90 border-b border-gray-800 sticky top-[57px] z-10">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Search IP, City, Country, URL, or Message..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full bg-black/50 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors"
+                    />
+                </div>
+            </div>
+
             {/* Tabs */}
             <div className="flex border-b border-gray-800">
                 <button
@@ -138,62 +288,11 @@ const AdminDashboard = ({ onClose }) => {
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 pb-20">
+            <div className="flex-1 overflow-y-auto p-4 pb-20">
                 {loading ? (
                     <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-neon-cyan"></div></div>
-                ) : activeTab === 'visitors' ? (
-                    // VISITOR LOGS
-                    <AnimatePresence>
-                        {logs.map(log => (
-                            <motion.div key={log.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 hover:border-neon-blue/30">
-                                <div className="flex justify-between items-start mb-2">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-2xl">{log.location?.countryCode ? getFlagEmoji(log.location.countryCode) : '🌍'}</span>
-                                        <div>
-                                            <p className="text-sm font-bold text-white">{log.location?.city || 'Unknown'}, {log.location?.country}</p>
-                                            <p className="text-xs text-neon-cyan/80 font-mono mt-0.5">{log.ip}</p>
-                                        </div>
-                                    </div>
-                                    <span className="text-xs text-gray-500 flex items-center gap-1"><Clock className="w-3 h-3" /> {getTime(log.timestamp)}</span>
-                                </div>
-                                <div className="flex justify-between items-center text-xs text-gray-400 mt-2 pt-2 border-t border-gray-800/50">
-                                    <span className="flex items-center gap-1">{log.device?.isMobile ? <Smartphone className="w-3 h-3 text-neon-pink" /> : <Monitor className="w-3 h-3 text-neon-blue" />} {log.device?.platform}</span>
-                                    <span className="bg-white/5 px-2 py-0.5 rounded text-[10px] truncate max-w-[120px]">{new URL(log.page?.url || 'https://site.com').pathname}</span>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
                 ) : (
-                    // CHAT LOGS
-                    <AnimatePresence>
-                        {chats.map(chat => (
-                            <motion.div
-                                key={chat.id}
-                                onClick={() => setSelectedChat(chat)}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 hover:border-neon-pink/30 cursor-pointer active:scale-98 transition-all"
-                            >
-                                <div className="flex justify-between items-start mb-2">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-neon-pink/10 flex items-center justify-center text-neon-pink font-bold border border-neon-pink/20">
-                                            {chat.userMessageCount || 0}
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-bold text-white">Conversation</p>
-                                            <p className="text-xs text-gray-400 mt-0.5 truncate max-w-[150px]">
-                                                {chat.messages?.find(m => m.role === 'user')?.text || 'No messages'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs text-gray-500 block mb-1">{getTime(chat.createdAt)}</span>
-                                        <span className="text-xs text-neon-cyan block">{chat.city}, {chat.countryCode}</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                    <GroupedView data={groupedLogs} />
                 )}
             </div>
 

@@ -11,6 +11,20 @@ export default function handler(req, res) {
     const longitude = req.headers['x-vercel-ip-longitude'] || '0';
     const timezone = req.headers['x-vercel-ip-timezone'] || 'UTC';
 
+    // Mock data for local development (when headers are missing)
+    if (!req.headers['x-vercel-ip-city']) {
+        return res.status(200).json({
+            ip: '127.0.0.1',
+            city: 'Jakarta',
+            region: 'DKI Jakarta',
+            country: 'Indonesia',
+            countryCode: 'ID',
+            latitude: '-6.2088',
+            longitude: '106.8456',
+            timezone: 'Asia/Jakarta'
+        });
+    }
+
     res.status(200).json({
         ip: ip.split(',')[0], // Take the first IP if there are multiple
         city: decodeURIComponent(city),

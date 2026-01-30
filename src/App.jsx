@@ -767,6 +767,12 @@ const LoadingScreen = ({ onLoadingComplete }) => {
  * Manages page state and navigation with React Router.
  */
 export default function App() {
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  useEffect(() => {
+    if (window.location.pathname === '/admin') { setIsAdminOpen(true); }
+    logVisitor();
+    window.addEventListener('popstate', () => logVisitor());
+  }, []);
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();

@@ -32,11 +32,33 @@ export { auth, provider, signInWithPopup, signOut, onAuthStateChanged };
 const getVisitorInfo = async () => {
     try {
         const response = await fetch('/api/geo');
+        const contentType = response.headers.get("content-type");
+        if (!response.ok || !contentType || !contentType.includes("application/json")) {
+            throw new Error("API not available or not returning JSON");
+        }
         const data = await response.json();
-        return data; // Returns ip, city, region, country, etc.
+        return {
+            ip: data.ip || 'unknown',
+            city: data.city || 'Unknown City',
+            region: data.region || 'Unknown Region',
+            country: data.country || 'Unknown Country',
+            countryCode: data.countryCode || 'XX',
+            latitude: data.latitude || 0,
+            longitude: data.longitude || 0,
+            timezone: data.timezone || 'UTC'
+        };
     } catch (error) {
-        console.error("Error fetching visitor info:", error);
-        return { ip: 'unknown', city: 'unknown', country: 'unknown' };
+        console.warn("Visitor info fetch failed (likely local dev), using defaults:", error);
+        return {
+            ip: '127.0.0.1',
+            city: 'Localhost',
+            region: 'Dev',
+            country: 'Local Development',
+            countryCode: 'XX',
+            latitude: 0,
+            longitude: 0,
+            timezone: 'UTC'
+        };
     }
 };
 
@@ -46,8 +68,11 @@ const getVisitorInfo = async () => {
  */
 export const logVisitor = async () => {
     try {
-        // Prevent duplicate logging in same session
-        if (sessionStorage.getItem('visitor_logged')) return;
+        const currentUrl = window.location.href;
+        const storageKey = `logged_${currentUrl}`;
+
+        // Prevent duplicate logging for the exact same URL in this session
+        if (sessionStorage.getItem(storageKey)) return;
 
         const info = await getVisitorInfo();
 
@@ -70,14 +95,14 @@ export const logVisitor = async () => {
                 isMobile: /Mobi|Android/i.test(navigator.userAgent)
             },
             page: {
-                url: window.location.href,
+                url: currentUrl,
                 referrer: document.referrer || 'direct'
             },
             timestamp: serverTimestamp()
         });
 
-        sessionStorage.setItem('visitor_logged', 'true');
-        console.log("Visitor logged successfully");
+        sessionStorage.setItem(storageKey, 'true');
+        console.log("Visitor log saved for:", currentUrl);
     } catch (error) {
         console.error("Error logging visitor:", error);
     }
