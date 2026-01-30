@@ -122,6 +122,16 @@ const AdminDashboard = ({ onClose }) => {
         return grouped;
     };
 
+    const getIsMobile = (item) => {
+        if (item.device?.isMobile !== undefined) return item.device.isMobile;
+        const ua = (item.device?.userAgent || item.userAgent || '').toLowerCase();
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    };
+
+    const getPlatform = (item) => {
+        return item.device?.platform || item.platform || 'unknown';
+    };
+
     const getFilteredData = (data) => {
         let filtered = data;
 
@@ -143,7 +153,7 @@ const AdminDashboard = ({ onClose }) => {
         // 2. Device Filter
         if (filterDevice !== 'all') {
             filtered = filtered.filter(item => {
-                const isMobile = item.device?.isMobile;
+                const isMobile = getIsMobile(item);
                 return filterDevice === 'mobile' ? isMobile : !isMobile;
             });
         }
@@ -243,12 +253,12 @@ const AdminDashboard = ({ onClose }) => {
                                                                                 <div className="flex-1">
                                                                                     <div className="flex flex-col gap-0.5">
                                                                                         <div className="flex items-center gap-2 text-white/90">
-                                                                                            {item.device?.isMobile ? <Smartphone className="w-3 h-3 text-neon-pink" /> : <Monitor className="w-3 h-3 text-neon-blue" />}
+                                                                                            {getIsMobile(item) ? <Smartphone className="w-3 h-3 text-neon-pink" /> : <Monitor className="w-3 h-3 text-neon-blue" />}
                                                                                             <span className="font-medium truncate max-w-[200px]">
                                                                                                 {activeTab === 'visitors' ? new URL(item.page?.url || 'https://site.com').pathname : (item.messages?.find(m => m.role === 'user')?.text || 'No message')}
                                                                                             </span>
                                                                                         </div>
-                                                                                        <span className="text-[10px] text-gray-500">{item.device?.platform}</span>
+                                                                                        <span className="text-[10px] text-gray-500">{getPlatform(item)}</span>
                                                                                     </div>
                                                                                 </div>
                                                                                 <span className="text-[10px] text-gray-500 whitespace-nowrap ml-2">

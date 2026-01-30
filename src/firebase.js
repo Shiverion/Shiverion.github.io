@@ -63,6 +63,20 @@ const getVisitorInfo = async () => {
 };
 
 /**
+ * Get unified device info
+ */
+const getDeviceInfo = () => {
+    const ua = navigator.userAgent;
+    return {
+        userAgent: ua,
+        platform: navigator.platform || 'unknown',
+        language: navigator.language || 'unknown',
+        screenSize: `${window.screen.width}x${window.screen.height}`,
+        isMobile: /Mobi|Android|iPhone|iPad|iPod/i.test(ua)
+    };
+};
+
+/**
  * Log a new visitor to Firestore
  * @returns {Promise<void>}
  */
@@ -87,6 +101,7 @@ export const logVisitor = async () => {
         if (sessionStorage.getItem(storageKey)) return;
 
         const info = await getVisitorInfo();
+        const deviceInfo = getDeviceInfo();
 
         await addDoc(collection(db, "visitor_logs"), {
             ip: info.ip,
@@ -99,13 +114,7 @@ export const logVisitor = async () => {
                 longitude: info.longitude,
                 timezone: info.timezone
             },
-            device: {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform || 'unknown',
-                language: navigator.language || 'unknown',
-                screenSize: `${window.screen.width}x${window.screen.height}`,
-                isMobile: /Mobi|Android/i.test(navigator.userAgent)
-            },
+            device: deviceInfo,
             page: {
                 url: currentUrl,
                 referrer: document.referrer || 'direct'
@@ -132,18 +141,15 @@ export const saveChatToFirebase = async (messages) => {
 
         // Get visitor info (IP, location)
         const visitorInfo = await getVisitorInfo();
+        const deviceInfo = getDeviceInfo();
 
         await addDoc(collection(db, "agentChats"), {
             messages: messages,
             messageCount: messages.length,
             userMessageCount: userMessages.length,
             createdAt: serverTimestamp(),
-            // Device info
-            userAgent: navigator.userAgent,
-            platform: navigator.platform || 'unknown',
-            language: navigator.language || 'unknown',
-            screenSize: `${window.screen.width}x${window.screen.height}`,
-            // Visitor location
+            device: deviceInfo,
+            // Legacy/Root properties for backward compatibility if needed in some views
             ip: visitorInfo.ip,
             city: visitorInfo.city,
             region: visitorInfo.region,
