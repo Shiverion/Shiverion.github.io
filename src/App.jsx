@@ -1094,7 +1094,7 @@ const Header = ({ currentPage, navigateTo, pages }) => {
                 alt="Profile"
                 className="w-10 h-10 rounded-full border border-neon-cyan/30 shadow-[0_0_15px_rgba(0,217,255,0.3)] hover:shadow-neon-cyan transition-shadow duration-300 object-cover"
               />
-              <span>{portfolioData.name.split(' ').slice(0, 2).join(' ')}<span className="text-neon-blue">.</span></span>
+              <span>{portfolioData.name.split(' ').slice(0, 2).join(' ')}</span>
             </motion.button>
           </div>
 
@@ -1392,7 +1392,7 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) =>
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => navigateTo('Hero')}
-            className="fixed bottom-24 right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-40"
+            className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-40"
             aria-label="Back to Top"
           >
             <ChevronUp className="h-6 w-6" />
@@ -1606,12 +1606,12 @@ const LinksPage = () => {
  */
 // Floating Particles Component for Hero
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 20 }, (_, i) => ({
+  const particles = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
-    delay: Math.random() * 15,
-    duration: 15 + Math.random() * 10,
-    size: 2 + Math.random() * 4,
+    delay: Math.random() * 12,
+    duration: 10 + Math.random() * 8,
+    size: 2 + Math.random() * 3,
   }));
 
   return (

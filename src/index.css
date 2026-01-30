@@ -395,7 +395,8 @@ body::before {
 /* Mobile floating button adjustments */
 @media (max-width: 768px) {
   .floating-button {
-    bottom: 16px;
+    bottom: 80px;
+    /* Moved higher to not overlap with back-to-top button */
     right: 16px;
   }
 
@@ -890,29 +891,36 @@ body::before {
 
 .particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(59, 130, 246, 0.3);
+  width: 3px;
+  height: 3px;
+  background: rgba(0, 217, 255, 0.5);
   border-radius: 50%;
-  animation: float-particle 15s infinite linear;
+  animation: snow-fall 12s infinite linear;
+  box-shadow: 0 0 6px rgba(0, 217, 255, 0.4);
 }
 
-@keyframes float-particle {
+/* Snow-like falling animation */
+@keyframes snow-fall {
   0% {
-    transform: translateY(100vh) rotate(0deg);
+    transform: translateY(-10vh) translateX(0);
     opacity: 0;
   }
 
   10% {
-    opacity: 1;
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translateY(50vh) translateX(20px);
+    opacity: 0.6;
   }
 
   90% {
-    opacity: 1;
+    opacity: 0.4;
   }
 
   100% {
-    transform: translateY(-100vh) rotate(720deg);
+    transform: translateY(110vh) translateX(-10px);
     opacity: 0;
   }
 }
