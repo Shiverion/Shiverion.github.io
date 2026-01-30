@@ -1357,13 +1357,13 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) =>
     >
       {pageContent}
 
-      {/* Next Section Button */}
+      {/* Next Section Button - Hidden on mobile to avoid overlap */}
       {nextPage && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="flex justify-center mt-8 md:mt-16 relative z-50 pb-8 md:pb-0"
+          className="hidden md:flex justify-center mt-8 md:mt-16 relative z-50 pb-8 md:pb-0"
         >
           <motion.button
             whileHover={{ scale: 1.05, y: -3 }}
@@ -1737,12 +1737,12 @@ const Hero = ({ navigateTo, openAgentModal }) => {
           </motion.button>
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Hidden on mobile */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.5 }}
-          className="mt-12 flex flex-col items-center gap-2"
+          className="hidden sm:flex mt-12 flex-col items-center gap-2"
         >
           <span className="text-xs text-gray-500 uppercase tracking-widest">Scroll to explore</span>
           <motion.div
