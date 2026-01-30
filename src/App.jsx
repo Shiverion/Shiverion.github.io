@@ -1022,7 +1022,7 @@ const PageWrapper = ({ children, navigateTo, nextPage, seoTitle, seoDescription 
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 p-3 glass rounded-full border border-neon-blue/50 text-neon-cyan hover:shadow-neon-blue transition-all z-40"
+        className="hidden sm:block fixed bottom-6 right-6 p-3 glass rounded-full border border-neon-blue/50 text-neon-cyan hover:shadow-neon-blue transition-all z-40"
         aria-label="Back to top"
       >
         <ChevronUp className="w-5 h-5" />
