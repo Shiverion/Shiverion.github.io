@@ -68,6 +68,18 @@ const getVisitorInfo = async () => {
  */
 export const logVisitor = async () => {
     try {
+        const ua = navigator.userAgent.toLowerCase();
+        // Skip bots, crawlers, and headless browsers
+        const isBot = /bot|crawler|spider|lighthouse|inspect|headless|vercel/i.test(ua) ||
+            navigator.webdriver ||
+            !navigator.languages ||
+            navigator.languages.length === 0;
+
+        if (isBot) {
+            console.log("Bot detected, skipping log");
+            return;
+        }
+
         const currentUrl = window.location.href;
         const storageKey = `logged_${currentUrl}`;
 
