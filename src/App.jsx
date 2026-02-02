@@ -547,7 +547,8 @@ const portfolioData = {
       categories: ["Fundamentals"]
     }
   ],
-  contactEmail: "miqbal.izzulhaq@gmail.com",
+  contactEmail: "career.iqbalizzulhaq@shiverion.com",
+  educationEmail: "edu.iqbalizzulhaq@shiverion.com",
   socialLinks: {
     linkedin: "https://www.linkedin.com/in/izzulhaq-iqbal/",
     github: "https://github.com/Shiverion",
@@ -1304,9 +1305,6 @@ const Footer = ({ navigateTo }) => {
           <p className="text-gray-500 text-sm">
             © {new Date().getFullYear()} {copyrightName}. All rights reserved.
           </p>
-          <p className="text-gray-600 text-xs">
-            Designed & Built with <span className="text-neon-blue">♥</span> and AI
-          </p>
         </div>
       </div>
     </footer>
@@ -1478,7 +1476,7 @@ const LinkedInBadge = () => {
  * Accessible at /links route - designed to be shared as a single URL
  */
 const LinksPage = () => {
-  const { name, tagline, profileImageUrl, socialLinks, contactEmail } = portfolioData;
+  const { name, tagline, profileImageUrl, socialLinks, contactEmail, educationEmail } = portfolioData;
 
   // Define all links with icons and labels
   const allLinks = [
@@ -1532,11 +1530,18 @@ const LinksPage = () => {
       hoverColor: 'hover:shadow-neon-cyan'
     },
     {
-      name: 'Email Me',
+      name: 'Career & Inquiries',
       url: `mailto:${contactEmail}`,
-      icon: <Mail className="w-5 h-5" />,
-      color: 'from-red-500 to-red-700',
-      hoverColor: 'hover:shadow-red-500/50'
+      icon: <Briefcase className="w-5 h-5" />,
+      color: 'from-blue-600 to-blue-800',
+      hoverColor: 'hover:shadow-blue-500/50'
+    },
+    {
+      name: 'Education Inquiries',
+      url: `mailto:${portfolioData.educationEmail}`,
+      icon: <GraduationCap className="w-5 h-5" />,
+      color: 'from-green-600 to-green-800',
+      hoverColor: 'hover:shadow-green-500/50'
     }
   ];
 
