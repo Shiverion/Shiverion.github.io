@@ -35,7 +35,8 @@ import {
   AlertTriangle,
   Music,
   Trash2,
-  Copy
+  Copy,
+  Calendar
 } from 'lucide-react';
 import { logVisitor } from './firebase'; // Import logger
 import AdminDashboard from './components/AdminDashboard'; // Import Dashboard
@@ -478,7 +479,16 @@ const portfolioData = {
     }
   ],
   certifications: [
-    // Tier 1: Top Cloud Providers (AWS, Google)
+    // Tier 1: Most Impressive - Professional Certification
+    {
+      name: "IBM Data Science Professional Certificate",
+      issuer: "IBM",
+      date: "Credential ID: YHH2SHOZ9KF8",
+      description: "Mastered practical data science skills and knowledge used in daily professional workflows, learned core tools languages and libraries including Python and SQL, performed data import cleaning analysis visualization and machine learning pipeline development, and applied these skills to real world projects to build a portfolio demonstrating job ready data science proficiency.",
+      url: "https://www.coursera.org/account/accomplishments/professional-cert/certificate/YHH2SHOZ9KF8",
+      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
+    },
+    // Tier 1: Cloud & Agentic AI
     {
       name: "Generative AI with Large Language Models",
       issuer: "Amazon Web Services (AWS)",
@@ -488,31 +498,14 @@ const portfolioData = {
       categories: ["Agentic AI"]
     },
     {
-      name: "MLOps with Vertex AI: Model Evaluation",
-      issuer: "Google",
-      date: "Credential ID: 20598469",
-      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
-      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469",
-      categories: ["Cloud & MLOps"]
+      name: "AI Engineer MLOps Track: Deploy Gen AI & Agentic AI at Scale",
+      issuer: "Udemy",
+      date: "Credential ID: UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3",
+      description: "Built and deployed production-grade LLM SaaS applications across major cloud platforms, designing scalable cloud architectures and CI/CD pipelines.",
+      url: "https://www.udemy.com/certificate/UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3/",
+      categories: ["Agentic AI", "Cloud & MLOps"]
     },
-    // Tier 2: IBM Applied/Capstone (Complex, Real Projects)
-    {
-      name: "Applied Data Science Capstone",
-      issuer: "IBM",
-      date: "Credential ID: I8ATYQCMIF4C",
-      description: "Demonstrated data science and machine learning proficiency using real world datasets by performing data collection wrangling EDA visualization model development and evaluation and delivering stakeholder ready insights through Python based predictive modeling including SVM decision trees and k nearest neighbors while comparing model performance to identify the optimal approach.",
-      url: "https://www.coursera.org/account/accomplishments/records/I8ATYQCMIF4C",
-      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
-    },
-    {
-      name: "Machine Learning with Python",
-      issuer: "IBM",
-      date: "Credential ID: PTWGZCJVTSIY",
-      description: "Demonstrated proficiency in core machine learning concepts and workflows, including supervised and unsupervised methods; implemented regression, classification, clustering, and dimensionality reduction using Python and scikit-learn; evaluated and optimized models with appropriate metrics and validation strategies; and delivered end-to-end ML solutions on real-world datasets through hands-on projects and practical assessments.",
-      url: "https://www.coursera.org/account/accomplishments/records/PTWGZCJVTSIY",
-      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
-    },
-    // Tier 3: Udemy Advanced Tracks (Agentic AI, MLOps)
+    // Tier 2: Agentic AI & LLM Engineering (Hot Topics)
     {
       name: "Complete Agentic AI Engineering Course (2025)",
       issuer: "Udemy",
@@ -529,13 +522,22 @@ const portfolioData = {
       url: "https://ude.my/UC-bab4e4c3-5eee-4003-b4a3-6cdee24c48813",
       categories: ["Agentic AI"]
     },
+    // Tier 3: IBM Applied/Capstone (Complex, Real Projects)
     {
-      name: "AI Engineer MLOps Track: Deploy Gen AI & Agentic AI at Scale",
-      issuer: "Udemy",
-      date: "Credential ID: UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3",
-      description: "Built and deployed production-grade LLM SaaS applications across major cloud platforms, designing scalable cloud architectures and CI/CD pipelines.",
-      url: "https://www.udemy.com/certificate/UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3/",
-      categories: ["Agentic AI", "Cloud & MLOps"]
+      name: "Applied Data Science Capstone",
+      issuer: "IBM",
+      date: "Credential ID: I8ATYQCMIF4C",
+      description: "Demonstrated data science and machine learning proficiency using real world datasets by performing data collection wrangling EDA visualization model development and evaluation and delivering stakeholder ready insights through Python based predictive modeling including SVM decision trees and k nearest neighbors while comparing model performance to identify the optimal approach.",
+      url: "https://www.coursera.org/account/accomplishments/records/I8ATYQCMIF4C",
+      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
+    },
+    {
+      name: "Machine Learning with Python",
+      issuer: "IBM",
+      date: "Credential ID: PTWGZCJVTSIY",
+      description: "Demonstrated proficiency in core machine learning concepts and workflows, including supervised and unsupervised methods; implemented regression, classification, clustering, and dimensionality reduction using Python and scikit-learn; evaluated and optimized models with appropriate metrics and validation strategies; and delivered end-to-end ML solutions on real-world datasets through hands-on projects and practical assessments.",
+      url: "https://www.coursera.org/account/accomplishments/records/PTWGZCJVTSIY",
+      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
     },
     // Tier 4: IBM Intermediate (Data Analysis, Visualization, SQL)
     {
@@ -594,6 +596,31 @@ const portfolioData = {
       description: "Comprehensive AI concepts including NLP, computer vision, deep learning, neural networks, and AI ethics. Practical experience with IBM Watson Studio.",
       url: "https://www.credly.com/badges/727eb3d7-8c1d-4f63-80b4-edb20ca832ee/public_url",
       categories: ["Fundamentals"]
+    },
+    // Tier 6: Career/Soft Skills (Non-Technical)
+    {
+      name: "Data Scientist Career Guide and Interview Preparation",
+      issuer: "IBM",
+      date: "Credential ID: B5FFV3HIKOCD",
+      description: "Outlined the role of a data scientist along with career path options and industry opportunities, built a foundation for an effective job search including job research resume writing and portfolio development, summarized the end to end interview process and interview types, and applied best practices for interview preparation professional presentation and effective question answering.",
+      url: "https://www.coursera.org/account/accomplishments/records/B5FFV3HIKOCD",
+      categories: ["Data Science", "Fundamentals"]
+    },
+    {
+      name: "MLOps with Vertex AI: Model Evaluation",
+      issuer: "Google",
+      date: "Credential ID: 20598469",
+      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
+      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469",
+      categories: ["Cloud & MLOps", "Fundamentals"]
+    },
+    {
+      name: "Generative AI: Elevate Your Data Science Career",
+      issuer: "IBM",
+      date: "Credential ID: 2DPP0EB8WLT2",
+      description: "Leveraged generative AI tools such as GPT 3.5 ChatCSV and tomat ai to query prepare and augment data, explored real world use cases where generative AI enhances data science workflows, and applied these techniques through hands on labs to support machine learning model development and refinement.",
+      url: "https://www.coursera.org/account/accomplishments/records/2DPP0EB8WLT2",
+      categories: ["Agentic AI", "Data Science", "Fundamentals"]
     }
   ],
   organizations: [
@@ -1084,7 +1111,7 @@ export default function App() {
             transition={{ delay: 1, duration: 0.3 }}
             className="floating-button"
           >
-            <div className="floating-button-pulse" />
+
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -1170,17 +1197,6 @@ const PageWrapper = ({ children, navigateTo, nextPage, seoTitle, seoDescription 
         </motion.div>
       )}
 
-      {/* Back to Top Button */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="hidden sm:block fixed bottom-6 right-6 p-3 glass rounded-full border border-neon-blue/50 text-neon-cyan hover:shadow-neon-blue transition-all z-40"
-        aria-label="Back to top"
-      >
-        <ChevronUp className="w-5 h-5" />
-      </motion.button>
     </div>
   );
 }
@@ -1536,23 +1552,6 @@ const PageContainer = ({ currentPage, navigateTo, openAgentModal, nextPage }) =>
         </motion.div>
       )}
 
-      {/* Back to Top Button - positioned higher to not overlap with floating AI button */}
-      <AnimatePresence>
-        {isScrolled && (
-          <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => navigateTo('Hero')}
-            className="hidden sm:block fixed bottom-4 sm:bottom-6 right-4 sm:right-6 bg-neon-blue/80 text-white p-3 rounded-full shadow-neon-blue border border-neon-cyan/50 transition-all hover:shadow-neon-cyan focus:outline-none z-40"
-            aria-label="Back to Top"
-          >
-            <ChevronUp className="h-6 w-6" />
-          </motion.button>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };
@@ -3246,6 +3245,7 @@ const Certifications = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
   const [activeCertFilter, setActiveCertFilter] = useState('All');
+  const [selectedCert, setSelectedCert] = useState(null);
   const itemsPerPage = 6;
 
   const certFilterCategories = ['All', 'Agentic AI', 'Data Science', 'Fundamentals', 'Cloud & MLOps', 'Intermediate'];
@@ -3265,6 +3265,26 @@ const Certifications = () => {
   useEffect(() => {
     setCurrentPage(0);
   }, [activeCertFilter]);
+
+  // Keyboard navigation for modal
+  useEffect(() => {
+    if (!selectedCert) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        const currentIndex = filteredCertificates.findIndex(c => c.name === selectedCert.name);
+        if (currentIndex > 0) setSelectedCert(filteredCertificates[currentIndex - 1]);
+      } else if (e.key === 'ArrowRight') {
+        const currentIndex = filteredCertificates.findIndex(c => c.name === selectedCert.name);
+        if (currentIndex < filteredCertificates.length - 1) setSelectedCert(filteredCertificates[currentIndex + 1]);
+      } else if (e.key === 'Escape') {
+        setSelectedCert(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedCert, filteredCertificates]);
 
   return (
     <Section title="Certifications & Badges" icon={<Award />}>
@@ -3326,16 +3346,14 @@ const Certifications = () => {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {currentCertificates.map((cert, index) => (
-                  <motion.a
+                  <motion.div
                     key={cert.date || index}
-                    href={cert.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={() => setSelectedCert(cert)}
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                    className="group relative glass p-5 rounded-xl hover:shadow-neon-purple transition-all border border-neon-purple/20 hover:border-neon-purple/50 flex flex-col h-full"
+                    className="group relative glass p-5 rounded-xl hover:shadow-neon-purple transition-all border border-neon-purple/20 hover:border-neon-purple/50 flex flex-col h-full cursor-pointer"
                   >
                     <div className="flex items-start gap-4 mb-4">
                       <div className="w-12 h-12 rounded-full bg-neon-purple/20 flex items-center justify-center flex-shrink-0 group-hover:bg-neon-purple/30 transition-colors">
@@ -3361,12 +3379,16 @@ const Certifications = () => {
 
                     <div className="flex-grow">
                       {cert.description && (
-                        <p className="text-sm text-gray-400 line-clamp-2 mb-3">{cert.description}</p>
+                        <p className="text-sm text-gray-400 line-clamp-3 mb-3 group-hover:text-gray-300 transition-colors">{cert.description}</p>
                       )}
+                      <p className="text-xs text-neon-cyan mt-2 opacity-0 group-hover:opacity-100 transition-opacity">Click to view details</p>
                     </div>
 
-                    <p className="text-xs text-gray-500 mt-auto pt-3 border-t border-gray-700/50">{cert.date}</p>
-                  </motion.a>
+                    <p className="text-xs text-gray-500 mt-auto pt-3 border-t border-gray-700/50 flex justify-between w-full">
+                      <span>{cert.date}</span>
+                      <ExternalLink className="w-3 h-3 text-gray-600" />
+                    </p>
+                  </motion.div>
                 ))}
               </motion.div>
             </AnimatePresence>
@@ -3423,15 +3445,135 @@ const Certifications = () => {
             <div className="h-1 w-20 bg-neon-purple mx-auto rounded-full"></div>
           </div>
           <div className="flex flex-wrap justify-center gap-6 items-center">
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6ffe66dd-76ac-477e-a8a1-29c015f47ab0" data-share-badge-host="https://www.credly.com"></div>
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="a45579c5-c70f-49f5-a7eb-cc335de00ff1" data-share-badge-host="https://www.credly.com"></div>
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8af2d978-2c8e-4bd7-b1ae-61727f36d9ad" data-share-badge-host="https://www.credly.com"></div>
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="727eb3d7-8c1d-4f63-80b4-edb20ca832ee" data-share-badge-host="https://www.credly.com"></div>
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8ad3ef41-c0a9-4045-9000-28e1032a6e01" data-share-badge-host="https://www.credly.com"></div>
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f09f86a5-b92d-4af7-b851-2a96f4d2f963" data-share-badge-host="https://www.credly.com"></div>
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="ae7d6b77-3626-4987-8b84-8fcefc0d7f0a" data-share-badge-host="https://www.credly.com"></div>
+            {[
+              "aea76e92-fe50-45a4-9a62-6fa3b79a34b4", // IBM Data Science Professional
+              "ae6dab7c-6c5c-4372-b6a5-60a208fd7a1b", // Generative AI: Elevate Career
+              "6ffe66dd-76ac-477e-a8a1-29c015f47ab0", // Applied Data Science Capstone
+              "a45579c5-c70f-49f5-a7eb-cc335de00ff1", // ML with Python
+              "8af2d978-2c8e-4bd7-b1ae-61727f36d9ad", // Data Analysis
+              "8ad3ef41-c0a9-4045-9000-28e1032a6e01", // Data Visualization
+              "f09f86a5-b92d-4af7-b851-2a96f4d2f963", // Databases and SQL
+              "727eb3d7-8c1d-4f63-80b4-edb20ca832ee", // AI Fundamentals
+              "ae7d6b77-3626-4987-8b84-8fcefc0d7f0a", // Python for Data Science
+              "f3008cb7-49d0-43bb-8ed2-299c6e90af11"  // Career Guide
+            ].map((id) => (
+              <div key={id} className="w-[160px] h-[280px] flex items-center justify-center p-2 rounded-xl bg-gray-900/50 border border-neon-purple/10 hover:border-neon-purple/50 transition-all hover:shadow-[0_0_15px_rgba(139,92,246,0.1)] overflow-hidden">
+                <div
+                  data-iframe-width="150"
+                  data-iframe-height="270"
+                  data-share-badge-id={id}
+                  data-share-badge-host="https://www.credly.com"
+                ></div>
+              </div>
+            ))}
           </div>
         </motion.div>
+
+        {/* Certificate Details Modal */}
+        <AnimatePresence>
+          {selectedCert && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedCert(null)}
+              className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            >
+              <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-4xl flex items-center justify-center gap-4">
+
+                {/* Previous Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const currentIndex = filteredCertificates.findIndex(c => c.name === selectedCert.name);
+                    if (currentIndex > 0) setSelectedCert(filteredCertificates[currentIndex - 1]);
+                  }}
+                  disabled={filteredCertificates.findIndex(c => c.name === selectedCert.name) === 0}
+                  className="hidden md:flex p-3 rounded-full bg-black/40 border border-neon-purple/20 text-white hover:bg-neon-purple/20 hover:text-neon-cyan disabled:opacity-0 disabled:pointer-events-none transition-all"
+                >
+                  <ChevronUp className="w-8 h-8 -rotate-90" />
+                </button>
+
+                <motion.div
+                  key={selectedCert.name}
+                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                  className="relative max-w-2xl w-full glass rounded-2xl p-6 md:p-8 border border-neon-purple/30 shadow-2xl shadow-neon-purple/20 max-h-[90vh] overflow-y-auto"
+                >
+                  <button
+                    onClick={() => setSelectedCert(null)}
+                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+
+                  <div className="flex flex-col md:flex-row md:items-start gap-6 mb-6">
+                    <div className="w-20 h-20 rounded-full bg-neon-purple/20 flex items-center justify-center flex-shrink-0 border border-neon-purple/30">
+                      <Award className="w-10 h-10 text-neon-purple" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-2 leading-tight">{selectedCert.name}</h3>
+                      <p className="text-neon-purple font-medium text-lg mb-1">{selectedCert.issuer}</p>
+                      <p className="text-sm text-gray-400 flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        {selectedCert.date}
+                      </p>
+
+                      {selectedCert.categories && (
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          {selectedCert.categories.map((cat, i) => (
+                            <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-neon-blue/10 text-neon-blue border border-neon-blue/20">
+                              {cat}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="prose prose-invert max-w-none mb-8">
+                    <h4 className="text-lg font-semibold text-gray-200 mb-2">Description</h4>
+                    <p className="text-gray-300 leading-relaxed whitespace-pre-wrap text-sm md:text-base">
+                      {selectedCert.description}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-end gap-3 pt-4 border-t border-gray-700/50">
+                    <button
+                      onClick={() => setSelectedCert(null)}
+                      className="px-5 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors font-medium"
+                    >
+                      Close
+                    </button>
+                    <a
+                      href={selectedCert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-neon-purple text-white hover:bg-neon-purple/80 hover:scale-105 transition-all shadow-lg shadow-neon-purple/25 font-medium"
+                    >
+                      Verify Credential <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </motion.div>
+
+                {/* Next Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const currentIndex = filteredCertificates.findIndex(c => c.name === selectedCert.name);
+                    if (currentIndex < filteredCertificates.length - 1) setSelectedCert(filteredCertificates[currentIndex + 1]);
+                  }}
+                  disabled={filteredCertificates.findIndex(c => c.name === selectedCert.name) === filteredCertificates.length - 1}
+                  className="hidden md:flex p-3 rounded-full bg-black/40 border border-neon-purple/20 text-white hover:bg-neon-purple/20 hover:text-neon-cyan disabled:opacity-0 disabled:pointer-events-none transition-all"
+                >
+                  <ChevronUp className="w-8 h-8 rotate-90" />
+                </button>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Section>
   );
