@@ -64,6 +64,34 @@ const portfolioData = {
     { name: "Machine Learning", icon: <Cpu /> },
     { name: "Feature Engineering", icon: <Cpu /> },
   ],
+  extendedSkills: [
+    // AI & ML
+    { name: "Deep Learning", icon: <Cpu /> },
+    { name: "Transformers", icon: <Cpu /> },
+    { name: "LLMs", icon: <Cpu /> },
+    { name: "Prompt Engineering", icon: <Cpu /> },
+    { name: "Fine Tuning", icon: <Cpu /> },
+    { name: "Reinforcement Learning", icon: <Cpu /> },
+    { name: "Chatbot Development", icon: <Cpu /> },
+    // Cloud & DevOps
+    { name: "GCP", icon: <BarChart2 /> },
+    { name: "AWS", icon: <BarChart2 /> },
+    { name: "Azure", icon: <BarChart2 /> },
+    { name: "Terraform", icon: <BarChart2 /> },
+    { name: "CI/CD", icon: <BarChart2 /> },
+    { name: "Docker", icon: <BarChart2 /> },
+    // Data Science
+    { name: "Pandas", icon: <BarChart2 /> },
+    { name: "Scikit-learn", icon: <Cpu /> },
+    { name: "Time Series Forecasting", icon: <BarChart2 /> },
+    { name: "Statistical Analysis", icon: <BarChart2 /> },
+    { name: "Recommender Systems", icon: <Cpu /> },
+    // Tools & Frameworks
+    { name: "LangChain", icon: <Cpu /> },
+    { name: "Apache Spark", icon: <BarChart2 /> },
+    { name: "Git / GitHub", icon: <BarChart2 /> },
+    { name: "R", icon: <BarChart2 /> },
+  ],
   experiences: [
     {
       role: "AI Tech & Data for Corporate Training (Project-Based)",
@@ -450,6 +478,41 @@ const portfolioData = {
     }
   ],
   certifications: [
+    // Tier 1: Top Cloud Providers (AWS, Google)
+    {
+      name: "Generative AI with Large Language Models",
+      issuer: "Amazon Web Services (AWS)",
+      date: "Credential ID: 56TNN6IUU883",
+      description: "Build core GenAI skills, learn from real-world research, and get hands-on guidance from AWS experts deploying AI in production.",
+      url: "https://coursera.org/share/8f7f2759c003ca4a755c74b7c85feff3",
+      categories: ["Agentic AI"]
+    },
+    {
+      name: "MLOps with Vertex AI: Model Evaluation",
+      issuer: "Google",
+      date: "Credential ID: 20598469",
+      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
+      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469",
+      categories: ["Cloud & MLOps"]
+    },
+    // Tier 2: IBM Applied/Capstone (Complex, Real Projects)
+    {
+      name: "Applied Data Science Capstone",
+      issuer: "IBM",
+      date: "Credential ID: I8ATYQCMIF4C",
+      description: "Demonstrated data science and machine learning proficiency using real world datasets by performing data collection wrangling EDA visualization model development and evaluation and delivering stakeholder ready insights through Python based predictive modeling including SVM decision trees and k nearest neighbors while comparing model performance to identify the optimal approach.",
+      url: "https://www.coursera.org/account/accomplishments/records/I8ATYQCMIF4C",
+      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
+    },
+    {
+      name: "Machine Learning with Python",
+      issuer: "IBM",
+      date: "Credential ID: PTWGZCJVTSIY",
+      description: "Demonstrated proficiency in core machine learning concepts and workflows, including supervised and unsupervised methods; implemented regression, classification, clustering, and dimensionality reduction using Python and scikit-learn; evaluated and optimized models with appropriate metrics and validation strategies; and delivered end-to-end ML solutions on real-world datasets through hands-on projects and practical assessments.",
+      url: "https://www.coursera.org/account/accomplishments/records/PTWGZCJVTSIY",
+      categories: ["Data Science", "Python", "Machine Learning", "Intermediate"]
+    },
+    // Tier 3: Udemy Advanced Tracks (Agentic AI, MLOps)
     {
       name: "Complete Agentic AI Engineering Course (2025)",
       issuer: "Udemy",
@@ -474,22 +537,7 @@ const portfolioData = {
       url: "https://www.udemy.com/certificate/UC-fbb63285-1cbd-4aaa-a6b3-3cf5e77ed8e3/",
       categories: ["Agentic AI", "Cloud & MLOps"]
     },
-    {
-      name: "Generative AI with Large Language Models",
-      issuer: "Amazon Web Services (AWS)",
-      date: "Credential ID: 56TNN6IUU883",
-      description: "Build core GenAI skills, learn from real-world research, and get hands-on guidance from AWS experts deploying AI in production.",
-      url: "https://coursera.org/share/8f7f2759c003ca4a755c74b7c85feff3",
-      categories: ["Agentic AI"]
-    },
-    {
-      name: "MLOps with Vertex AI: Model Evaluation",
-      issuer: "Google",
-      date: "Credential ID: 20598469",
-      description: "Model evaluation techniques for generative and predictive AI using Google Cloud's Vertex AI platform. Covers evaluation metrics, methodologies, and continuous monitoring.",
-      url: "https://www.skills.google/public_profiles/e4d99ab4-05cf-4053-ade7-cd77f8e1ecc1/badges/20598469",
-      categories: ["Cloud & MLOps"]
-    },
+    // Tier 4: IBM Intermediate (Data Analysis, Visualization, SQL)
     {
       name: "Data Analysis with Python",
       issuer: "IBM",
@@ -514,14 +562,7 @@ const portfolioData = {
       url: "https://www.coursera.org/account/accomplishments/records/SSRDL58C2CD7",
       categories: ["Data Science", "Fundamentals"]
     },
-    {
-      name: "Python Project for Data Science",
-      issuer: "IBM",
-      date: "Credential ID: SOUP112W5LRV",
-      description: "Worked as a Data Scientist/Data Analyst on a real-world project, applying Python fundamentals and data structures to analyze data and build interactive dashboards using Pandas, BeautifulSoup, and Plotly in Jupyter Notebooks.",
-      url: "https://www.coursera.org/account/accomplishments/records/SOUP112W5LRV",
-      categories: ["Data Science", "Fundamentals"]
-    },
+    // Tier 5: IBM Fundamentals
     {
       name: "Python for Data Science, AI & Development",
       issuer: "IBM",
@@ -531,10 +572,18 @@ const portfolioData = {
       categories: ["Data Science", "Fundamentals"]
     },
     {
+      name: "Python Project for Data Science",
+      issuer: "IBM",
+      date: "Credential ID: SOUP112W5LRV",
+      description: "Worked as a Data Scientist/Data Analyst on a real-world project, applying Python fundamentals and data structures to analyze data and build interactive dashboards using Pandas, BeautifulSoup, and Plotly in Jupyter Notebooks.",
+      url: "https://www.coursera.org/account/accomplishments/records/SOUP112W5LRV",
+      categories: ["Data Science", "Fundamentals"]
+    },
+    {
       name: "Tools for Data Science",
       issuer: "IBM",
       date: "Credential ID: O46IVC8SUCD6",
-      description: "Describe the Data Scientist’s tool kit which includes: Libraries & Packages, Data sets, Machine learning models, and Big Data tools. Utilize languages commonly used by data scientists like Python, R, and SQL.",
+      description: "Describe the Data Scientist's tool kit which includes: Libraries & Packages, Data sets, Machine learning models, and Big Data tools. Utilize languages commonly used by data scientists like Python, R, and SQL.",
       url: "https://www.coursera.org/account/accomplishments/records/O46IVC8SUCD6",
       categories: ["Data Science", "Fundamentals"]
     },
@@ -545,6 +594,80 @@ const portfolioData = {
       description: "Comprehensive AI concepts including NLP, computer vision, deep learning, neural networks, and AI ethics. Practical experience with IBM Watson Studio.",
       url: "https://www.credly.com/badges/727eb3d7-8c1d-4f63-80b4-edb20ca832ee/public_url",
       categories: ["Fundamentals"]
+    }
+  ],
+  organizations: [
+    {
+      name: "Pembinaan Program Kreativitas Mahasiswa Baru",
+      position: "Staff of Event",
+      period: "Jul 2020 – Jul 2021"
+    },
+    {
+      name: "Keluarga Fisika Material Universitas Brawijaya",
+      position: "Staff of Event",
+      period: "Jan 2022 – Dec 2022"
+    },
+    {
+      name: "Sekolah Kebangsaan Brawijaya (EM UB)",
+      position: "Staff of Strategy and Justicia",
+      period: "Oct 2019 – Jul 2020"
+    }
+  ],
+  honors: [
+    {
+      title: "1st Place – FMIPA UB New Student Sports Week in Field Tennis",
+      issuer: "FMIPA UB",
+      year: "2020"
+    },
+    {
+      title: "1st Place – Faculty-Level Qualification, PKM-K (Entrepreneurship Student Creativity Program)",
+      issuer: "FMIPA UB",
+      year: "2020"
+    },
+    {
+      title: "3rd Place – Doubles Tennis, East Kalimantan Provincial Student Sports Week (POR)",
+      issuer: "East Kalimantan Province",
+      year: "2019"
+    },
+    {
+      title: "2nd Place – Regional Tennis Championship (Kejurda), East Kalimantan",
+      issuer: "PELTI East Kalimantan",
+      year: "2012"
+    },
+    {
+      title: "3rd Place – Team Category, Regional Tennis Championship (Kejurda), East Kalimantan",
+      issuer: "PELTI East Kalimantan",
+      year: "2015"
+    },
+    {
+      title: "1st Place – Bontang U-10 Tennis Championship",
+      issuer: "Bontang Tennis Association",
+      year: "2011"
+    },
+    {
+      title: "1st Place – Bontang U-12 Tennis Championship",
+      issuer: "Bontang Tennis Association",
+      year: "2013"
+    },
+    {
+      title: "3rd Place – Doubles Category, Regional Tennis Championship (Kejurda), East Kalimantan",
+      issuer: "PELTI East Kalimantan",
+      year: "2012"
+    },
+    {
+      title: "3rd Place – Doubles Category, Elementary School Sports Week (POR SD)",
+      issuer: "East Kalimantan Province",
+      year: "2012"
+    },
+    {
+      title: "3rd Place – Elementary School Sports Week (POR SD), East Kalimantan",
+      issuer: "East Kalimantan Province",
+      year: "2012"
+    },
+    {
+      title: "3rd Place – Doubles Category, Regional Tennis Championship (Kejurda), East Kalimantan",
+      issuer: "PELTI East Kalimantan",
+      year: "2015"
     }
   ],
   contactEmail: "career.iqbalizzulhaq@shiverion.com",
@@ -789,6 +912,7 @@ export default function App() {
       '/projects': 'Projects',
       '/articles': 'Articles',
       '/education': 'Education',
+      '/certifications': 'Certifications',
       '/contact': 'Contact'
     };
     return routeMap[path] || 'Hero';
@@ -797,7 +921,7 @@ export default function App() {
   const currentPage = getPageFromPath(location.pathname);
 
   // Page order for navigation
-  const pages = ['Hero', 'About', 'Experience', 'Projects', 'Articles', 'Education', 'Contact'];
+  const pages = ['Hero', 'About', 'Experience', 'Projects', 'Articles', 'Education', 'Certifications', 'Contact'];
 
   // Route-based navigation
   const navigateTo = (page) => {
@@ -808,6 +932,7 @@ export default function App() {
       'Projects': '/projects',
       'Articles': '/articles',
       'Education': '/education',
+      'Certifications': '/certifications',
       'Contact': '/contact'
     };
     navigate(routeMap[page] || '/');
@@ -916,9 +1041,20 @@ export default function App() {
                 openAgentModal={() => setIsAgentModalOpen(true)}
                 nextPage={getNextPage()}
                 seoTitle="Education"
-                seoDescription="My academic background, certifications, and continuous learning journey."
+                seoDescription="My academic background, organizations, and awards."
               >
                 <Education />
+              </PageWrapper>
+            } />
+            <Route path="/certifications" element={
+              <PageWrapper
+                navigateTo={navigateTo}
+                openAgentModal={() => setIsAgentModalOpen(true)}
+                nextPage={getNextPage()}
+                seoTitle="Certifications"
+                seoDescription="My professional certifications and verified badges from IBM, Google, AWS, and more."
+              >
+                <Certifications />
               </PageWrapper>
             } />
             <Route path="/contact" element={
@@ -1088,6 +1224,7 @@ const Header = ({ currentPage, navigateTo, pages }) => {
     'Projects': 'Projects',
     'Articles': 'Articles',
     'Education': 'Education',
+    'Certifications': 'Certifications',
     'Contact': 'Contact'
   };
 
@@ -1124,6 +1261,7 @@ const Header = ({ currentPage, navigateTo, pages }) => {
               <NavLink page="Projects">Projects</NavLink>
               <NavLink page="Articles">Articles</NavLink>
               <NavLink page="Education">Education</NavLink>
+              <NavLink page="Certifications">Certifications</NavLink>
               <NavLink page="Contact">Contact</NavLink>
             </div>
           </div>
@@ -1175,6 +1313,7 @@ const Header = ({ currentPage, navigateTo, pages }) => {
               <NavLink page="Projects" isMobile>Projects</NavLink>
               <NavLink page="Articles" isMobile>Articles</NavLink>
               <NavLink page="Education" isMobile>Education</NavLink>
+              <NavLink page="Certifications" isMobile>Certifications</NavLink>
               <NavLink page="Contact" isMobile>Contact</NavLink>
 
               {/* Mobile Resume Link */}
@@ -2026,6 +2165,8 @@ const Section = ({ title, icon, children }) => (
  * Bio with stats, organized skills, and LinkedIn badge.
  */
 const About = () => {
+  const [showAllSkills, setShowAllSkills] = useState(false);
+
   // Organized skill categories
   const skillCategories = [
     {
@@ -2043,6 +2184,22 @@ const About = () => {
     {
       title: "Cloud & DevOps",
       skills: ["AWS", "GCP", "Azure", "Docker", "Terraform"]
+    }
+  ];
+
+  // Extended skills for "Show More"
+  const extendedSkillCategories = [
+    {
+      title: "Advanced AI",
+      skills: ["Deep Learning", "Transformers", "LLMs", "Prompt Engineering", "Fine Tuning", "Reinforcement Learning"]
+    },
+    {
+      title: "Data Engineering",
+      skills: ["Pandas", "Scikit-learn", "Apache Spark", "Time Series Forecasting", "Statistical Analysis"]
+    },
+    {
+      title: "Tools & Frameworks",
+      skills: ["LangChain", "Git / GitHub", "R", "Recommender Systems", "Chatbot Development"]
     }
   ];
 
@@ -2105,6 +2262,66 @@ const About = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Extended Skills - Collapsible */}
+        <AnimatePresence>
+          {showAllSkills && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 overflow-hidden"
+            >
+              {extendedSkillCategories.map((category, catIndex) => (
+                <motion.div
+                  key={catIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: catIndex * 0.1 }}
+                  className="p-5 rounded-lg border border-neon-purple/20 bg-cyber-panel/20"
+                >
+                  <h3 className="text-base font-semibold text-neon-purple mb-3">{category.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill, skillIndex) => (
+                      <span
+                        key={skillIndex}
+                        className="px-2.5 py-1 text-xs rounded-full bg-gray-800/50 text-gray-400 border border-gray-700/50"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Show More/Less Button */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 text-center"
+        >
+          <button
+            onClick={() => setShowAllSkills(!showAllSkills)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-gray-800/50 text-gray-300 border border-gray-700 hover:border-neon-cyan hover:text-neon-cyan transition-all duration-300"
+          >
+            {showAllSkills ? (
+              <>
+                <ChevronUp className="w-4 h-4" />
+                Show Less
+              </>
+            ) : (
+              <>
+                <ChevronUp className="w-4 h-4 rotate-180" />
+                Show More Skills
+              </>
+            )}
+          </button>
+        </motion.div>
       </section>
 
       {/* LinkedIn Badge Section */}
@@ -2914,56 +3131,14 @@ const Articles = () => (
 
 /**
  * Education Page
- * Timeline with glowing markers.
+ * Timeline with glowing markers - Education only.
  */
 const Education = () => {
-  // Inject Credly script locally to ensure badges load on mount
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = "//cdn.credly.com/assets/utilities/embed.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      try { document.body.removeChild(script); } catch (e) { }
-    };
-  }, []);
-
-  const [currentPage, setCurrentPage] = useState(0);
-  const [activeCertFilter, setActiveCertFilter] = useState('All');
-  const itemsPerPage = 4;
-
-  const certFilterCategories = ['All', 'Agentic AI', 'Data Science', 'Fundamentals', 'Cloud & MLOps'];
-
-  const filteredCertificates = activeCertFilter === 'All'
-    ? portfolioData.certifications
-    : portfolioData.certifications.filter(cert => cert.categories && cert.categories.includes(activeCertFilter));
-
-  const totalPages = Math.ceil(filteredCertificates.length / itemsPerPage);
-
-  const currentCertificates = filteredCertificates.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
-
-  // Reset page when filter changes
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [activeCertFilter]);
-
   return (
-    <Section title="Education & Certifications" icon={<GraduationCap />}>
+    <Section title="Education" icon={<GraduationCap />}>
       <div className="space-y-12">
-        {/* Education */}
+        {/* Education Timeline */}
         <div>
-          <motion.h3
-            initial={{ x: -30, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl font-semibold text-neon-cyan mb-6"
-          >
-            Education
-          </motion.h3>
           <div className="space-y-6">
             {portfolioData.education.map((edu, index) => (
               <motion.div
@@ -2983,19 +3158,120 @@ const Education = () => {
           </div>
         </div>
 
-        {/* Certifications */}
-        <div>
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+        {/* Organizations Section */}
+        {portfolioData.organizations && portfolioData.organizations.length > 0 && (
+          <div>
             <motion.h3
               initial={{ x: -30, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-2xl font-semibold text-neon-cyan"
+              className="text-2xl font-semibold text-neon-cyan mb-6"
             >
-              Certifications
+              Organizations
             </motion.h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {portfolioData.organizations.map((org, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="glass p-4 rounded-lg border border-neon-blue/20 hover:border-neon-blue/50 transition-all"
+                >
+                  <h4 className="text-lg font-medium text-white mb-1">{org.name}</h4>
+                  <p className="text-sm text-neon-cyan">{org.position}</p>
+                  <p className="text-xs text-gray-500 mt-2">{org.period}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
 
+        {/* Honors Section */}
+        {portfolioData.honors && portfolioData.honors.length > 0 && (
+          <div>
+            <motion.h3
+              initial={{ x: -30, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-2xl font-semibold text-neon-cyan mb-6"
+            >
+              Awards & Honors
+            </motion.h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {portfolioData.honors.map((honor, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="glass p-4 rounded-lg border border-amber-500/20 hover:border-amber-500/50 transition-all flex items-start gap-3"
+                >
+                  <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                    <Award className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-medium text-white">{honor.title}</h4>
+                    <p className="text-xs text-gray-400 mt-1">{honor.issuer} • {honor.year}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </Section>
+  );
+};
+
+/**
+ * Certifications Page
+ * Separate page for all certifications and badges.
+ */
+const Certifications = () => {
+  // Inject Credly script locally to ensure badges load on mount
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "//cdn.credly.com/assets/utilities/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      try { document.body.removeChild(script); } catch (e) { }
+    };
+  }, []);
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [activeCertFilter, setActiveCertFilter] = useState('All');
+  const itemsPerPage = 6;
+
+  const certFilterCategories = ['All', 'Agentic AI', 'Data Science', 'Fundamentals', 'Cloud & MLOps', 'Intermediate'];
+
+  const filteredCertificates = activeCertFilter === 'All'
+    ? portfolioData.certifications
+    : portfolioData.certifications.filter(cert => cert.categories && cert.categories.includes(activeCertFilter));
+
+  const totalPages = Math.ceil(filteredCertificates.length / itemsPerPage);
+
+  const currentCertificates = filteredCertificates.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
+  // Reset page when filter changes
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [activeCertFilter]);
+
+  return (
+    <Section title="Certifications & Badges" icon={<Award />}>
+      <div className="space-y-12">
+        {/* Certifications */}
+        <div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-2">
               {certFilterCategories.map((category) => (
@@ -3047,11 +3323,11 @@ const Education = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {currentCertificates.map((cert, index) => (
                   <motion.a
-                    key={cert.date || index} // Use unique ID if available, otherwise date/index fallback
+                    key={cert.date || index}
                     href={cert.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -3071,7 +3347,7 @@ const Education = () => {
                           <p className="text-sm text-neon-purple font-medium">{cert.issuer}</p>
                           {cert.categories && (
                             <div className="flex flex-wrap gap-1">
-                              {cert.categories.map((cat, i) => (
+                              {cert.categories.slice(0, 2).map((cat, i) => (
                                 <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-gray-800 text-gray-300 border border-gray-700">
                                   {cat}
                                 </span>
@@ -3085,7 +3361,7 @@ const Education = () => {
 
                     <div className="flex-grow">
                       {cert.description && (
-                        <p className="text-sm text-gray-400 line-clamp-3 mb-3">{cert.description}</p>
+                        <p className="text-sm text-gray-400 line-clamp-2 mb-3">{cert.description}</p>
                       )}
                     </div>
 
@@ -3152,11 +3428,12 @@ const Education = () => {
             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8af2d978-2c8e-4bd7-b1ae-61727f36d9ad" data-share-badge-host="https://www.credly.com"></div>
             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="727eb3d7-8c1d-4f63-80b4-edb20ca832ee" data-share-badge-host="https://www.credly.com"></div>
             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8ad3ef41-c0a9-4045-9000-28e1032a6e01" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f09f86a5-b92d-4af7-b851-2a96f4d2f963" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="ae7d6b77-3626-4987-8b84-8fcefc0d7f0a" data-share-badge-host="https://www.credly.com"></div>
           </div>
         </motion.div>
       </div>
-
-    </Section >
+    </Section>
   );
 };
 
